@@ -1,7 +1,7 @@
 name: 🔨 Fix
 description: 변경한 설정이 있나요?
-title: "[🔨 Fix] "
-labels: ["🔨 Fix"]
+title: '[🔨 Fix] '
+labels: ['🔨 Fix']
 body:
   - type: textarea
     id: setting-description
