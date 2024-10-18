@@ -1,7 +1,7 @@
 name: ⚙ Setting
 description: 새로운 설정이 있나요?
-title: "[⚙ Setting] "
-labels: ["⚙ Setting"]
+title: '[⚙ Setting] '
+labels: ['⚙ Setting']
 body:
   - type: textarea
     id: setting-description
