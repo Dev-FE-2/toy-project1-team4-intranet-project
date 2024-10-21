@@ -1,0 +1,167 @@
+<svg
+        xmlns:dc="http://purl.org/dc/elements/1.1/"
+        xmlns:cc="http://creativecommons.org/ns#"
+        xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+        xmlns:svg="http://www.w3.org/2000/svg"
+        xmlns="http://www.w3.org/2000/svg"
+        xmlns:xlink="http://www.w3.org/1999/xlink"
+        id="svg735146"
+        viewBox="0 0 1024 768"
+        version="1.1"
+    >
+        <metadata id="metadata735152">
+            <rdf:rdf>
+                <cc:work rdf:about="">
+                    <dc:format>image/svg+xml</dc:format>
+                    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"></dc:type>
+                </cc:work>
+            </rdf:rdf>
+        </metadata>
+        <defs id="defs735150"></defs>
+        <linearGradient
+            spreadMethod="pad"
+            y2="30%"
+            x2="-10%"
+            y1="120%"
+            x1="30%"
+            id="3d_gradient2-logo-18f9b278-3ab7-46dc-8cf2-3f59324e95a2"
+        >
+            <stop id="stop735127" stop-opacity="1" stop-color="#ffffff" offset="0%"></stop>
+            <stop id="stop735129" stop-opacity="1" stop-color="#000000" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient
+            gradientTransform="rotate(-30)"
+            spreadMethod="pad"
+            y2="30%"
+            x2="-10%"
+            y1="120%"
+            x1="30%"
+            id="3d_gradient3-logo-18f9b278-3ab7-46dc-8cf2-3f59324e95a2"
+        >
+            <stop id="stop735132" stop-opacity="1" stop-color="#ffffff" offset="0%"></stop>
+            <stop id="stop735134" stop-opacity="1" stop-color="#cccccc" offset="50%"></stop>
+            <stop id="stop735136" stop-opacity="1" stop-color="#000000" offset="100%"></stop>
+        </linearGradient>
+        <g id="logo-group">
+            <image
+                xlink:href=""
+                id="container"
+                x="272"
+                y="144"
+                width="480"
+                height="480"
+                style="display: none"
+                transform="translate(0 0)"
+            ></image>
+            <g id="logo-center" transform="translate(0 0)">
+                <image xlink:href="" id="icon_container" style="display: none" x="0" y="0"></image>
+                <g
+                    id="slogan"
+                    style="
+                        font-style: normal;
+                        font-weight: 400;
+                        font-size: 32px;
+                        line-height: 1;
+                        font-family: Roboto;
+                        font-variant-ligatures: none;
+                        text-align: center;
+                        text-anchor: middle;
+                    "
+                    transform="translate(0 0)"
+                ></g>
+                <g
+                    id="title"
+                    style="
+                        font-style: normal;
+                        font-weight: normal;
+                        font-size: 72px;
+                        line-height: 1;
+                        font-family: 'Brandmark Sans 1 Color';
+                        font-variant-ligatures: normal;
+                        text-align: center;
+                        text-anchor: middle;
+                    "
+                    transform="translate(0 0)"
+                >
+                    <g
+                        id="path735155"
+                        aria-label="E"
+                        transform="translate(0 345.988) translate(283.8949999999999 -21.927999999999997) scale(2.5) translate(-421.82844 47.952)"
+                    >
+                        <path
+                            class="c1"
+                            d="M83.00684,124.00195h33.98633v-10.12891H83.00684V124.00195z M83.00684,105.28027h33.98633V95.15137 H83.00684V105.28027z M83.00684,75.99805v10.12891h33.98633V75.99805H83.00684z"
+                            transform="translate(338.8216 -123.95005)"
+                            stroke-width="0"
+                            stroke-linejoin="miter"
+                            stroke-miterlimit="2"
+                            fill="#000000"
+                            stroke="#000000"
+                        ></path>
+                    </g>
+                    <g
+                        id="path735157"
+                        aria-label="V"
+                        transform="translate(0 345.988) translate(386.90279999999996 -21.927999999999997) scale(2.5) translate(-463.03156 47.952)"
+                    >
+                        <path
+                            class="c1"
+                            d="M124.96216,75.9978l-18.5293,48.00439H93.61548L75.03784,75.9978h12.91357l12.09668,33.50635 l12.00098-33.50635H124.96216z"
+                            transform="translate(387.99372 -123.9498)"
+                            stroke-width="0"
+                            stroke-linejoin="miter"
+                            stroke-miterlimit="2"
+                            fill="#000000"
+                            stroke="#000000"
+                        ></path>
+                    </g>
+                    <g
+                        id="path735159"
+                        aria-label="E"
+                        transform="translate(0 345.988) translate(529.6371750000001 -21.927999999999997) scale(2.5) translate(-520.12531 47.952)"
+                    >
+                        <path
+                            class="c1"
+                            d="M83.00684,124.00195h33.98633v-10.12891H83.00684V124.00195z M83.00684,105.28027h33.98633V95.15137 H83.00684V105.28027z M83.00684,75.99805v10.12891h33.98633V75.99805H83.00684z"
+                            transform="translate(437.11847 -123.95005)"
+                            stroke-width="0"
+                            stroke-linejoin="miter"
+                            stroke-miterlimit="2"
+                            fill="#000000"
+                            stroke="#000000"
+                        ></path>
+                    </g>
+                    <g
+                        id="path735161"
+                        aria-label="^N"
+                        transform="translate(0 345.988) translate(632.645 -21.927999999999997) scale(2.5) translate(-561.32844 47.952)"
+                    >
+                        <polygon
+                            class="c1"
+                            points="121.50586,124.00195 110.22461,124.00195 89.87109,96.20752 89.87109,124.00195 78.49414,124.00195 78.49414,75.99805 89.00684,75.99805 121.50586,120.01758 "
+                            transform="translate(482.8343 -123.950047)"
+                            stroke-width="0"
+                            stroke-linejoin="miter"
+                            stroke-miterlimit="2"
+                            fill="#000000"
+                            stroke="#000000"
+                        ></polygon>
+                        <rect
+                            x="110.12891"
+                            y="75.99805"
+                            class="c3"
+                            width="11.37695"
+                            height="19.15332"
+                            transform="translate(482.8343 -123.950047)"
+                            stroke-width="0"
+                            stroke-linejoin="miter"
+                            stroke-miterlimit="2"
+                            fill="#007aff"
+                            stroke="#007aff"
+                        ></rect>
+                    </g>
+                </g>
+                <image xlink:href="" id="icon" style="display: none" x="0" y="0"></image>
+            </g>
+        </g></svg
+>
