@@ -1,5 +1,5 @@
 export default function SamplePage() {
-	return `<section>
+	return `<section class="contents">
                 <h1 class="page-title">페이지 타이틀</h1>
 
                 <form action="" class="form">

@@ -1,0 +1,27 @@
+.layout--mobile {
+	display: none;
+}
+
+.bottom-nav-bar {
+	border-top: var(--border);
+}
+
+@media (max-width: 1024px) {
+	.layout--mobile {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		height: 100vh;
+		min-width: 300px;
+	}
+
+	.logo {
+		width: 200px;
+	}
+
+	.page-container--mobile {
+		flex: 1;
+		height: 100%;
+		padding: var(--padding-md) var(--padding-md);
+	}
+}

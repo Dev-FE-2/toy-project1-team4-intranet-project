@@ -1,0 +1,99 @@
+.nav > ul {
+	width: 200px;
+	display: flex;
+	flex-direction: column;
+}
+
+.nav-item {
+	height: 58px;
+	display: flex;
+	gap: var(--padding-md);
+	align-items: center;
+	color: var(--color-nav);
+	line-height: 1;
+}
+
+.nav-item.active {
+	color: var(--color-primary);
+}
+
+.nav-item > i {
+	width: 32px;
+	height: 32px;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 100%;
+}
+
+.nav-item svg {
+	width: 100%;
+	fill: var(--color-nav);
+}
+
+.nav-item.active svg {
+	fill: var(--color-primary);
+}
+
+.nav-name--desktop {
+	display: inline-block;
+}
+
+.nav-name--mobile {
+	display: none;
+}
+
+@media (max-width: 1024px) {
+	.nav > ul {
+		width: 100%;
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+	}
+
+	.nav li {
+		flex: 1;
+	}
+
+	.nav-item {
+		flex-direction: column;
+		height: 64px;
+		gap: 0;
+		justify-content: space-around;
+		font-size: 0.9rem;
+	}
+
+	.nav-item > i {
+		width: 25px;
+		height: 25px;
+	}
+
+	.nav-name--desktop {
+		display: none;
+	}
+
+	.nav-name--mobile {
+		display: inline-block;
+	}
+}
+
+/* 아이콘 배경이미지 삭제 예정 */
+
+.icon--home {
+	background-image: url(/src/assets/icons/icon_home.svg);
+}
+
+.icon--profile {
+	background-image: url(/src/assets/icons/icon_profile.svg);
+}
+
+.icon--timetable {
+	background-image: url(/src/assets/icons/icon_timetable.svg);
+}
+
+.icon--notice {
+	background-image: url(/src/assets/icons/icon_notice.svg);
+}
+
+.icon--employee {
+	background-image: url(/src/assets/icons/icon_employee.svg);
+}
