@@ -6,8 +6,8 @@ import './style.css';
 export default function DeskTopLayout() {
 	return `<div class="layout--desktop">
 			<div class="layout__left">
-				<header class="gnb">
-					<a href="/"><img class="logo" src="${Logo}" alt="EVEN" /></a>
+				<header class="header--desktop">
+					<a href="/"><div class="header--desktop__logo"><img src="${Logo}" alt="EVEN" /></div></a>
 					${Navigation()}
 				</header>
 			</div>

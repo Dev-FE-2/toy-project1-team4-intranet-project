@@ -1,5 +1,4 @@
 .nav > ul {
-	width: calc((200 / var(--root-font-size)) * 1rem);
 	display: flex;
 	flex-direction: column;
 }

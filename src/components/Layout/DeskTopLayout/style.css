@@ -15,9 +15,6 @@
 	width: calc((266 / var(--root-font-size)) * 1rem);
 	height: 100vh;
 	border-right: var(--border);
-	display: flex;
-	flex-direction: column;
-	align-items: center;
 }
 
 .layout__right {
@@ -26,8 +23,20 @@
 	flex-direction: column;
 }
 
-.logo {
-	width: calc((200 / var(--root-font-size)) * 1rem);
+.header--desktop {
+	padding: var(--padding-xl);
+	display: flex;
+	gap: var(--padding-lg);
+	flex-direction: column;
+	align-items: center;
+}
+
+.header--desktop__logo {
+	width: calc((100 / var(--root-font-size)) * 1rem);
+}
+
+.header--desktop__logo img {
+	width: 100%;
 }
 
 .top-bar {
