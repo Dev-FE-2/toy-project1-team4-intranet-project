@@ -12,11 +12,11 @@
 		flex-direction: column;
 		justify-content: space-between;
 		height: 100vh;
-		min-width: 300px;
+		min-width: calc((300 / var(--root-font-size)) * 1rem);
 	}
 
 	.logo {
-		width: 200px;
+		width: calc((150 / var(--root-font-size)) * 1rem);
 	}
 
 	.page-container--mobile {
