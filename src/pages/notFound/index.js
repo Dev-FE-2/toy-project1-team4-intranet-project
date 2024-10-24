@@ -1,8 +1,9 @@
 import NotFound404Img from '../../assets/404.png';
 import './style.css';
 
-export default function NotFound404Page() {
-	return `<section class="contents">
+export default class NotFound404Page {
+	render() {
+		return `<section class="contents">
                 <div class="notfound-wrapper">
                     <img class="notfound-img" src="${NotFound404Img}" alt="404">
 
@@ -14,4 +15,5 @@ export default function NotFound404Page() {
                     </div>
                 </div>
             </section>`;
+	}
 }

@@ -1,6 +1,8 @@
 import DeskTopLayout from './DeskTopLayout';
 import MobileLayout from './MobileLayout';
 
-export default function Layout() {
-	return `${DeskTopLayout()} ${MobileLayout()}`;
+export default class Layout {
+	render() {
+		return `${DeskTopLayout()} ${MobileLayout()}`;
+	}
 }

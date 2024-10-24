@@ -3,7 +3,8 @@ import { setupCounter } from './counter.js';
 import Layout from './components/Layout';
 
 async function app() {
-	document.querySelector('#app').innerHTML = Layout();
+	const layout = new Layout();
+	document.querySelector('#app').innerHTML = layout.render();
 
 	setupCounter(document.querySelector('#counter'));
 }
