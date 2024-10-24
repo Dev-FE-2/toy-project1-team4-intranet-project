@@ -128,7 +128,7 @@ td {
 }
 
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .header {
     display: flex;
     flex-direction: column;
