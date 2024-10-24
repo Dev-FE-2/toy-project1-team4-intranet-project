@@ -1,5 +1,5 @@
-import SamplePage from '../pages/sample';
-import LoginPage from '../pages/login';
+import { URL_PATH } from '../constant/url';
+import { samplePage, loginPage } from './pages';
 import NotFound404Page from '../pages/notFound';
 
 const url = new URL(window.location.href);
@@ -7,13 +7,13 @@ const path = url.pathname;
 
 export const route = () => {
 	switch (path) {
-		case '/':
-			return new SamplePage().render();
+		case `${URL_PATH.home}`:
+			return samplePage.render();
 
-		case '/login':
-			return new LoginPage().render();
+		case `${URL_PATH.login}`:
+			return loginPage.render();
 
 		default:
-			return new NotFound404Page().render();
+			return NotFound404Page();
 	}
 };
