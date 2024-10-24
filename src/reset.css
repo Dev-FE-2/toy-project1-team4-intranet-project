@@ -139,6 +139,12 @@ button {
 	font: inherit;
 	appearance: none;
 }
+input,
+textarea,
+select,
+label {
+	font: inherit;
+}
 [class] {
 	box-sizing: border-box;
 }
