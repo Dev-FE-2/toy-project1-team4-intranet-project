@@ -3,7 +3,6 @@ import SamplePage from '../../../pages/sample';
 import './style.css';
 import Logo from '/public/logo.svg';
 import Avatar from '/public/avatar.svg';
-
 export default function MobileLayout() {
 	return `
 		<div class="layout--mobile">
