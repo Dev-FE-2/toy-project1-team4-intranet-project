@@ -29,6 +29,9 @@
 
 	--border-radius-xs: calc((4 / var(--root-font-size)) * 1rem);
 	--border-radius-lg: calc((34 / var(--root-font-size)) * 1rem);
+
+	--width-media-screen: 1024px;
+	--width-form-fix: 360;
 }
 
 html {
@@ -70,13 +73,14 @@ body {
 
 	.page-title {
 		font-size: calc((24 / var(--root-font-size)) * 1rem);
+		font-weight: 400;
 	}
 }
 
 .form {
 	margin: 0 auto;
 	width: 100%;
-	max-width: calc((360 / var(--root-font-size)) * 1rem);
+	max-width: calc((var(--width-form-fix) / var(--root-font-size)) * 1rem);
 	display: flex;
 	flex-direction: column;
 	gap: var(--padding-sm);
@@ -99,16 +103,28 @@ body {
 .btn-wrap {
 	display: flex;
 	gap: var(--padding-sm);
+	width: 100%;
+	max-width: calc((var(--width-form-fix) / var(--root-font-size)) * 1rem);
 }
 
 .btn-wrap > * {
 	flex: 1;
 }
 
+@media (max-width: 1024px) {
+	.form,
+	.btn-wrap {
+		max-width: 100%;
+	}
+}
+
 .btn {
 	height: calc((50 / var(--root-font-size)) * 1rem);
 	line-height: 1;
 	border-radius: var(--border-radius-xs);
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .btn--primary {
