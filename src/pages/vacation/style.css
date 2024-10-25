@@ -298,6 +298,7 @@
 .vacation__history-form-wrapper select {
 	padding-left: calc(100% - 68px);
 	appearance: none;
+	font-size: 14px;
 }
 
 .vacation__history-form-wrapper select[readonly] {
