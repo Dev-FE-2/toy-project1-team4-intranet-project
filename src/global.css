@@ -136,3 +136,8 @@ body {
 	background-color: var(--color-light);
 	color: var(--color-secondary);
 }
+
+.btn--danger {
+	background-color: var(--color-danger);
+	color: var(--color-light);
+}

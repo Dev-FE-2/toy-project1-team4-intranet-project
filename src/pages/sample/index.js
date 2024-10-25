@@ -13,8 +13,8 @@ export default class SamplePage {
                         <input type="text" class="form-item" placeholder="포지션" />
                     </fieldset>
                     <div class="btn-wrap">
-                        <button class="btn btn--secondary" type="button">취소</button>
-                        <button class="btn btn--primary" type="submit">확인</button>
+                        <button class="btn btn--danger" type="button">삭제</button>
+                        <button class="btn btn--primary" type="submit">등록</button>
                     </div>
                 </form>
 
