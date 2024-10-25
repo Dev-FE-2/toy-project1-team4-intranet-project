@@ -5,7 +5,7 @@ export default function NoticeDetail() {
 		<h1 class="notice-title">공지사항 제목입니다</h1>
 		<div class="notice-info">
 			<span class="notice-info__writer">김철수</span>
-			<span class="seperator">|</span>
+			<span class="separator">|</span>
 			<span class="notice-info__cdate">2024.10.10</span>
 		</div>
 		<div class="notice-detail__container">
