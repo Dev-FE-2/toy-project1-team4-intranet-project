@@ -1,3 +1,20 @@
+.mypage--desktop {
+	display: block;
+}
+
+.mypage--mobile {
+	display: none;
+}
+
+@media (max-width: 1024px) {
+	.mypage--desktop {
+		display: none;
+	}
+	.mypage--mobile {
+		display: block;
+	}
+}
+
 /* 첫번째 컨테이너 섹션 영역 */
 .contents-top {
 	padding: 20px;
@@ -487,7 +504,7 @@
 		flex-direction: column;
 		gap: 10px;
 	}
-	
+
 	/* 모바일 */
 	.attendance-item {
 		background: rgba(236, 233, 228, 0.3);
