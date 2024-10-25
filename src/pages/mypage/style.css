@@ -1,0 +1,692 @@
+/* 첫번째 컨테이너 섹션 영역 */
+.contents-top {
+	padding: 20px;
+	background-color: #f9f9f9; /* 배경색 */
+	border-radius: 8px; /* 테두리 둥글게 */
+}
+
+.contents-top > * {
+	margin-left: 35px; /* 제목 옆에 57px 마진 추가 */
+	font-weight: bold; /* 글씨 굵기 */
+}
+
+.title-first {
+	font-size: 54px; /* 제목 글씨 크기 */
+}
+
+.title-second {
+	font-size: 28px; /* 제목 글씨 크기 */
+}
+
+/* 두번째 컨테이너 섹션 시작 */
+.section-container__middle-bottom__wrap {
+	display: flex;
+	flex-direction: column;
+	gap: 50px;
+}
+
+.contents-middle {
+	background-color: var(--color-light);
+	height: 224px;
+	border-radius: var(--border-radius-lg);
+}
+
+/* 두번째 컨테이너 내부 세개의 요소 정렬 */
+.container-middle__wrap {
+	display: flex; /* 플렉스 컨테이너로 설정 */
+	justify-content: space-between; /* 좌우로 요소를 배치 */
+	align-items: center; /* 세로 축에서 요소를 가운데 정렬 */
+	padding-top: 40px;
+}
+
+/* 두번째 컨테이너의 첫번째 영역 */
+.middle_profile {
+	display: flex; /* 아이콘과 텍스트를 가로로 배치 */
+	align-items: center; /* 수직으로 가운데 정렬 */
+	gap: 20px; /* 아이콘과 텍스트 간격 */
+	background-color: var(--color-light);
+	border-radius: 8px; /* 모서리 둥글게 */
+	margin-left: 61px;
+	min-width: 200px;
+}
+
+/* 프로필 아이콘 영역 */
+.profile__icon {
+	display: flex;
+}
+
+/* 프로필 정보 영역 */
+.profile__info {
+	display: flex;
+	margin-left: 30px;
+	flex-direction: column; /* 텍스트를 세로로 배치 */
+	background-color: white; /* 배경색 */
+	gap: 12px;
+	margin-top: -17px;
+	min-width: 106px;
+}
+
+@media (max-width: 1400px) {
+	.middle_profile {
+		margin-left: 30px;
+	}
+	.profile__info {
+		margin-left: 10px;
+	}
+}
+
+/* 상태 표시 영역 근무중 바깥 박스 */
+.profile__status {
+	display: flex;
+	align-items: center;
+	margin-bottom: 5px;
+	margin-left: 9px;
+	border: 1px solid #f2f3f6;
+	border-radius: 4px;
+}
+
+/* 상태 원: 기본적으로 파란색 */
+.status-circle {
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	margin-right: 8px;
+}
+
+.work-status {
+	background-color: blue; /* 근무중: 파란색 원 */
+}
+
+.absent-status {
+	background-color: red; /* 부재중: 빨간색 원 */
+}
+
+/* 텍스트 스타일 */
+.status-text {
+	font-weight: bold;
+}
+
+.profile__info__child {
+	display: flex; /* 플렉스 컨테이너로 설정 */
+	flex-direction: column;
+	gap: 8px; /* 두 요소 간의 간격 설정 */
+}
+
+.profile-name {
+	font-size: 18px;
+	font-weight: bold;
+}
+
+.profile-position {
+	font-size: 14px;
+	color: #333;
+}
+
+/* 미들 컨테이너의 가운데와 오른쪽 div 정렬을 위한 속성 */
+.container-middle__center-right__wrap {
+	display: flex;
+	gap: 20px;
+}
+
+/* 두번째 컨테이너의 두번째 영역 */
+
+/* 근무시간 영역 */
+/* 감싸는 div 하나 추가해서 근무종료 버튼과 붙어있게 */
+.weekly-work-timer {
+	display: flex;
+	justify-content: space-between; /* 두 개의 영역을 양쪽으로 배치 */
+	align-items: center; /* 세로 축으로 중앙 정렬 */
+	width: 330px;
+	height: 120px;
+	padding-left: 20px;
+	padding-right: 20px;
+	border: 1px solid var(--color-border);
+	border-radius: 8px;
+	margin-left: 200px;
+}
+
+@media (max-width: 1400px) {
+	.weekly-work-timer {
+		display: flex;
+		justify-content: space-between; /* 두 개의 영역을 양쪽으로 배치 */
+		align-items: center; /* 세로 축으로 중앙 정렬 */
+		width: 250px;
+		height: 100px;
+		padding-left: 10px;
+		padding-right: 10px;
+		border: 1px solid var(--color-border);
+		border-radius: 8px;
+		margin-left: 15px;
+	}
+}
+
+.weekly-work-time {
+	display: flex;
+	flex-direction: column; /* 세로 방향으로 나열 */
+	justify-content: space-between;
+	gap: 10px;
+}
+
+.weekly-work-time {
+	font-size: 24px;
+}
+
+.clock-icon {
+	font-size: 20px; /* 이모지 크기를 50px로 설정 */
+	margin-top: -10px;
+	align-self: flex-start; /* 첫번째 이모지를 위쪽에 배치 */
+}
+
+.weekly-work-time .description {
+	font-size: 18px;
+	color: #333;
+}
+
+.weekly-work-time .hours {
+	font-size: 24px;
+	font-weight: bold;
+	color: #000;
+}
+
+.description,
+.hours {
+	margin-top: auto; /* 이번주 근무시간, x시간 */
+}
+
+/* 두 번째 영역: 원형 진행 바 */
+.work-progress {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+/* 블록차트 그리기 conic-gradient 속성을 블랙, 화이트 두개로 두고 
+   이번주 근무시간/주간 최대 근무시간으로 적용하기
+*/
+.work-time__chart {
+	display: inline-block;
+	position: relative;
+	width: 50px;
+	height: 50px;
+	background: conic-gradient(black 0% 60%, #ffc33b 60% 80%, #e3e5eb 56% 100%);
+	border-radius: 50%;
+}
+
+/* 도넛차트를 만드려면 바깥 원 width - 안쪽원 width / 2 */
+.work-time__chart .center {
+	position: absolute;
+	width: 30px;
+	height: 30px;
+	background: #fff;
+	border-radius: 50%;
+	top: 10px;
+	left: 10px;
+}
+
+.progress-text {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	font-size: 16px;
+	font-weight: bold;
+	color: black;
+}
+
+/* 2-3번째 영역 */
+.contents-middle__third {
+	display: flex; /* 플렉스 컨테이너로 설정 */
+	gap: 28px; /* 두 요소 간의 간격 설정 */
+}
+
+.work-time-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center; /* 가로 중앙 정렬 */
+	align-items: center; /* 세로 중앙 정렬 */
+	height: 120px;
+	width: 100%;
+	margin-right: 51px;
+	border: 1px solid var(--color-border);
+	border-radius: 8px;
+}
+
+.mypage-work-times {
+	display: flex;
+	flex-direction: row; /* 근무 시작/종료를 세로로 배치 */
+	align-items: flex-start; /* 왼쪽 정렬 */
+	margin-right: 20px; /* 버튼과의 간격 */
+	width: 100%;
+	height: 70px;
+	margin-top: 15px;
+}
+
+@media (max-width: 1024px) {
+	.mypage-work-times {
+		padding-left: 50px;
+		padding-right: 50px;
+		margin-right: 0px; /* 버튼과의 간격 */
+	}
+}
+
+.modal__work .btn-wrap {
+	text-align: center; /* 버튼 내부 정렬 */
+	padding-right: 20px;
+	padding-left: 20px;
+	padding-bottom: 20px;
+}
+
+/* 기존 .btn btn-primary 클래스 이름을 사용하였는데 width가 적용되지 않아서 글로벌 속성 복사하여 붙여넣었음
+   글로벌 속성을 사용하면서 클래스 속성을 지정하기 위해 html과 css를 어떻게 바꿔야하는지 질문
+*/
+.work-status-btn {
+	height: 50px;
+	line-height: 1;
+	border-radius: var(--border-radius-xs);
+	width: 330px;
+	background-color: var(--color-dark);
+	color: var(--color-light);
+}
+
+.btn btn--primary {
+	height: 40px;
+	padding: 10px 20px; /* 버튼 내부 여백 */
+}
+
+/* 두 요소 텍스트 세로로 2줄 만들기 */
+.work-time-start,
+.work-time-end {
+	display: flex;
+	flex-direction: column;
+	text-align: center;
+	/* flex: 1; */
+}
+
+.work-time-start {
+	margin-left: 48px;
+	float: left;
+	margin-right: auto;
+}
+
+.work-time-end {
+	margin-right: 48px;
+	float: right;
+	margin-left: auto;
+}
+
+@media (max-width: 1400px) {
+	.work-status-btn {
+		width: 250px;
+	}
+	.work-time-start {
+		margin-left: 25px;
+		float: left;
+		margin-right: auto;
+	}
+
+	.work-time-end {
+		margin-right: 25px;
+		float: right;
+		margin-left: auto;
+	}
+}
+
+.mypage-work-timer,
+.mypage-work-status-btn {
+	border-radius: 5px; /* 둥글기 추가 */
+	text-align: center; /* 텍스트를 가운데 정렬 */
+}
+
+.mypage-work-status-btn {
+	display: flex;
+	align-items: center;
+}
+
+/* 근무 시작 밑에 시간 텍스트 */
+.work-time {
+	color: #121212;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 18px;
+	line-height: 21px;
+}
+
+/* 근무시작 근무 종료 텍스트 */
+.work-status-text {
+	font-size: 12px;
+}
+
+/* 3번째 컨테이너 */
+.contents-bottom {
+	background-color: var(--color-light);
+	min-height: 250px;
+	height: 100%;
+	border-radius: var(--border-radius-lg);
+	padding: var(--padding-xl) var(--padding-xl);
+	gap: 20px;
+	display: flex;
+	flex-direction: column;
+}
+
+/* 안에 내용이 없을 시 다른 텍스트 혹은 영역 만들어서 적용하기 */
+.attendance__title {
+	display: flex;
+	justify-content: space-between; /* 좌우로 요소를 배치 */
+	align-items: center; /* 세로 축에서 요소를 가운데 정렬 */
+}
+
+.attendance__title .page-title {
+	font-size: 28px; /* 제목 글씨 크기 */
+	font-weight: bold;
+}
+
+@media (max-width: 1024px) {
+	.attendance__title .page-title {
+		font-size: 28px; /* 제목 글씨 크기 */
+		font-weight: bold;
+		margin-bottom: 30px;
+	}
+}
+
+.attendance__title .view-all {
+	border: 1px solid var(--color-border);
+	border-radius: 8px;
+	padding: 10px;
+	padding-left: 15px;
+	padding-right: 15px;
+	font-size: 18px;
+}
+
+.attendance-item {
+	background: rgba(236, 233, 228, 0.3);
+	height: 100%;
+	border-radius: var(--border-radius-lg);
+	padding: 16px var(--padding-xl);
+	margin-bottom: 20px;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.attendance-item__to-third {
+	display: flex;
+}
+
+.date-time {
+	display: flex;
+	flex-direction: column;
+	margin-right: 50px;
+	margin-left: 30px;
+	margin-top: 20px;
+	font-size: 15px;
+}
+
+.date {
+	margin-top: 4px;
+	font-weight: bold;
+}
+
+.attendance-text {
+	font-size: 24px;
+	align-self: center;
+	margin-bottom: 40px;
+}
+
+/* 모바일 영역 레이아웃 css */
+
+/* 마이페이지 모바일 영역 컨테이너 간격 및 flex col */
+.page-container--mobile .contents {
+	display: flex;
+	flex-direction: column;
+	gap: 30px;
+}
+
+.contents-top__mobile {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	gap: 0px;
+}
+
+/* 모바일만 있음 */
+.profile__icon__wrap {
+	display: flex;
+	justify-content: center;
+	height: 120px;
+}
+
+.profile__icon__wrap .profile__icon {
+	width: 120px;
+}
+
+/* 모바일만 있음 */
+.profile-work-time__wrap {
+	display: flex;
+	justify-content: space-between; /* 좌우로 요소를 배치 */
+	align-items: center; /* 세로 축에서 요소를 가운데 정렬 */
+}
+
+@media (max-width: 1024px) {
+	.profile__info {
+		height: 150px;
+		justify-content: center;
+		margin-right: 50px;
+		padding-left: 0px;
+	}
+
+	.mypage-work-status-btn,
+	.btn-wrap {
+		width: 100%;
+	}
+}
+
+@media (max-width: 1024px) {
+	.attendance-list__wrap {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+	}
+	
+	/* 모바일 */
+	.attendance-item {
+		background: rgba(236, 233, 228, 0.3);
+		height: 100%;
+		border-radius: var(--border-radius-lg);
+		padding-top: 15px;
+		padding-bottom: 15px;
+		margin-bottom: 20px;
+		min-height: 60px;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between;
+	}
+
+	/* 모바일 */
+	.attendance-item__to-third {
+		align-items: center;
+		justify-content: center;
+	}
+
+	.attendance-text {
+		margin: auto;
+	}
+}
+
+/* todo transition, hover 속성 추가하기 */
+
+.see-more__btn {
+	display: flex;
+	background: rgba(236, 233, 228, 0.3);
+	height: 60px;
+	border-radius: var(--border-radius-xs);
+	min-height: 60px;
+}
+
+.see-more__text {
+	margin: auto;
+	font-size: 18px;
+}
+
+.notice__title {
+	display: flex;
+	justify-content: space-between; /* 좌우로 요소를 배치 */
+	align-items: center; /* 세로 축에서 요소를 가운데 정렬 */
+}
+
+.notice__title .page-title {
+	font-size: 28px;
+	font-weight: bold;
+}
+
+.notice__title .view-all {
+	border: 1px solid var(--color-border);
+	border-radius: 8px;
+	padding: 10px;
+	padding-left: 15px;
+	padding-right: 15px;
+	font-size: 18px;
+	color: var(--color-highlight);
+}
+
+.notice-list__wrap {
+	display: flex;
+	flex-direction: column;
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+.notice-item__mobile {
+	display: flex;
+	flex-direction: column;
+	height: 120px;
+	width: 100%;
+	border: 1px solid var(--color-border);
+	border-radius: 8px;
+	margin-top: 10px;
+	padding-top: 10px;
+	padding-left: 15px;
+}
+
+.notice-item__title {
+	font-weight: bold;
+	font-size: 25px;
+	margin-bottom: 10px;
+}
+
+.notice-item__contents {
+	font-size: 18px;
+	line-height: 23px;
+	opacity: 0.5;
+}
+
+.modal-box {
+	display: flex;
+	flex-direction: column;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	z-index: 100;
+	background-color: rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 1024px) {
+	.modal-box {
+		display: flex;
+		flex-direction: column;
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		width: 100vw;
+		height: 100%;
+		z-index: 100;
+		background-color: rgba(0, 0, 0, 0.3);
+	}
+}
+
+.work-shift__modal {
+	width: 330px;
+	height: 220px;
+}
+
+.modal__work {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+	gap: 10px;
+	height: 100%;
+	padding-top: 30px;
+}
+
+@media (max-width: 1024px) {
+	.modal__work {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		align-items: center;
+		gap: 10px;
+		height: 100%;
+	}
+}
+
+.current-time__modal {
+	height: 30px;
+	padding-top: 15px;
+	color: var(--color-dark);
+	font-weight: bold;
+	font-size: 14px;
+}
+
+@media (max-width: 1024px) {
+	.current-time {
+		color: var(--color-highlight);
+	}
+}
+
+.work-underscore__modal {
+	border-bottom: 1px solid #121212;
+	border-style: solid;
+	border-collapse: collapse;
+	width: 100%;
+}
+
+.modal-dialog {
+	padding-left: 0px;
+	padding-right: 0px;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	border-style: none;
+	border-radius: 8px;
+	margin-top: 400px;
+}
+
+@media (max-width: 1024px) {
+	.modal-dialog {
+		margin-top: 500px;
+	}
+}
+
+.work_message {
+	height: 50px;
+	margin-top: 30px;
+}
+
+.work-status-btn__modal {
+	height: 45px;
+	line-height: 1;
+	border-radius: var(--border-radius-xs);
+	width: 200px;
+	background-color: var(--color-dark);
+	color: var(--color-light);
+}
+
+/* 모달 display 옵션 */
+.modal-box {
+	display: none;
+}
