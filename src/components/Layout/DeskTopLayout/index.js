@@ -18,7 +18,7 @@ export default function DeskTopLayout() {
 					<div class="avatar"></div>
 				</aside>
 				<main class="page-container--desktop">
-					<div id="contents" class="contents">${route()}</div>
+					<div id="contents">${route()}</div>
 				</main>
 			</div>
 		</div>`;
