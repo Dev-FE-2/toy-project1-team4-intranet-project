@@ -1,6 +1,5 @@
 import { url } from './url';
-import NotFound404Page from '../pages/notFound';
-import { samplePage, loginPage } from './pages';
+import { notFound404Page, samplePage, loginPage } from './pages';
 
 export const route = () => {
 	const path = window.location.pathname;
@@ -18,7 +17,7 @@ export const route = () => {
 			break;
 
 		case `${url.vacation}`:
-			contentsElements.innerHTML = samplePage.render();
+			contentsElements.innerHTML = loginPage.render();
 			break;
 
 		case `${url.notice}`:
@@ -46,6 +45,6 @@ export const route = () => {
 			break;
 
 		default:
-			contentsElements.innerHTML = NotFound404Page();
+			contentsElements.innerHTML = notFound404Page.render();
 	}
 };
