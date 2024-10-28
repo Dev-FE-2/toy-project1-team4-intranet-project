@@ -3,7 +3,7 @@ import { ProfileImage } from '../../components/pages/Profile/ProfileImage';
 import { ProfileForm } from '../../components/pages/Profile/ProfileForm';
 
 export default function EmployeeAdd() {
-	const buttons = `<button type="submit" id="submitBtn">등록하기</button>`;
+	const buttons = `<div class="btn-wrap"><button class="btn btn--primary" type="submit">등록하기</button></div>`;
 	const emptyUserData = {
 		name: '',
 		job: '',
