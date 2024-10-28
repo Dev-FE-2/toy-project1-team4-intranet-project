@@ -1,14 +1,17 @@
-import Logo from '/public/logo.svg';
-import Navigation from '../Navigation/index.js';
-import SamplePage from '../../../pages/sample/index.js';
+import Navigation from '../Navigation';
+import SamplePage from '../../../pages/sample';
 import './style.css';
+import Logo from '/public/logo.svg';
 
 export default function DeskTopLayout() {
+	const navigation = new Navigation();
+	const mainPage = new SamplePage().render();
+
 	return `<div class="layout--desktop">
 			<div class="layout__left">
 				<header class="header--desktop">
 					<a href="/"><div class="header--desktop__logo"><img src="${Logo}" alt="EVEN" /></div></a>
-					${Navigation()}
+					${navigation.render()}
 				</header>
 			</div>
 			<div class="layout__right">
@@ -16,7 +19,7 @@ export default function DeskTopLayout() {
 					<div class="avatar"></div>
 				</aside>
 				<main class="page-container--desktop">
-					<div id="contents" class="contents">${SamplePage()}</div>
+					<div id="contents">${mainPage}</div>
 				</main>
 			</div>
 		</div>`;

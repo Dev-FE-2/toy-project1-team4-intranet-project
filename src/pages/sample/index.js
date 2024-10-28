@@ -1,5 +1,6 @@
-export default function SamplePage() {
-	return `<section class="contents">
+export default class SamplePage {
+	render() {
+		return `<section class="contents">
                 <h1 class="page-title">페이지 타이틀</h1>
 
                 <form action="" class="form">
@@ -12,11 +13,12 @@ export default function SamplePage() {
                         <input type="text" class="form-item" placeholder="포지션" />
                     </fieldset>
                     <div class="btn-wrap">
-                        <button class="btn btn--secondary" type="button">취소</button>
-                        <button class="btn btn--primary" type="submit">확인</button>
+                        <button class="btn btn--danger" type="button">삭제</button>
+                        <button class="btn btn--primary" type="submit">등록</button>
                     </div>
                 </form>
 
                 <div id="counter"></div>
             </section>`;
+	}
 }
