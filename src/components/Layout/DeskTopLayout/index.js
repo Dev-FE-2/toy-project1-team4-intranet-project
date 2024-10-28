@@ -1,11 +1,9 @@
 import Navigation from '../Navigation';
-import SamplePage from '../../../pages/sample';
 import './style.css';
 import Logo from '/public/logo.svg';
 
 export default function DeskTopLayout() {
 	const navigation = new Navigation();
-	const mainPage = new SamplePage().render();
 
 	return `<div class="layout--desktop">
 			<div class="layout__left">
@@ -19,7 +17,7 @@ export default function DeskTopLayout() {
 					<div class="avatar"></div>
 				</aside>
 				<main class="page-container--desktop">
-					<div id="pageContents" class="contents-wrap">${mainPage}</div>
+					<div id="pageContents" class="contents-wrap"></div>
 				</main>
 			</div>
 		</div>`;
