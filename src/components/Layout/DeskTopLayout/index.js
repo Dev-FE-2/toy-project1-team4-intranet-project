@@ -19,7 +19,7 @@ export default function DeskTopLayout() {
 					<div class="avatar"></div>
 				</aside>
 				<main class="page-container--desktop">
-					<div id="contents">${mainPage}</div>
+					<div id="pageContents" class="contents-wrap">${mainPage}</div>
 				</main>
 			</div>
 		</div>`;

@@ -14,7 +14,7 @@ export default function MobileLayout() {
 				<a href="/profile/:user"><img class="header--mobile__avatar-img" src="${Avatar}" alt="프로필 사진" /></a>
 			</header>
 			<main class="page-container--mobile">
-				<div id="contents">${mainPage}</div>
+				<div id="pageContents" class="contents-wrap">${mainPage}</div>
 			</main>
 			<div class="bottom-nav-bar">${navigation.render()}</div>
 		</div>`;

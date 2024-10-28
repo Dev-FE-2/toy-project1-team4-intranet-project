@@ -74,25 +74,3 @@
 		display: inline-block;
 	}
 }
-
-/* 아이콘 배경이미지 삭제 예정 */
-
-.icon--home {
-	background-image: url(/src/assets/icons/icon_home.svg);
-}
-
-.icon--profile {
-	background-image: url(/src/assets/icons/icon_profile.svg);
-}
-
-.icon--timetable {
-	background-image: url(/src/assets/icons/icon_timetable.svg);
-}
-
-.icon--notice {
-	background-image: url(/src/assets/icons/icon_notice.svg);
-}
-
-.icon--employee {
-	background-image: url(/src/assets/icons/icon_employee.svg);
-}
