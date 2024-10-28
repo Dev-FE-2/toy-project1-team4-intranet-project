@@ -1,12 +1,12 @@
 import { url } from './url';
-import NotFound404Page from '../pages/NotFound';
+import NotFound404Page from '../pages/notFound';
 import { samplePage, loginPage } from './pages';
 
 export const route = () => {
 	const path = window.location.pathname;
 	let pathParma;
 
-	const contentsElements = document.querySelector('#contents');
+	const contentsElements = document.querySelector('#pageContents');
 
 	switch (path) {
 		case `${url.home}`:

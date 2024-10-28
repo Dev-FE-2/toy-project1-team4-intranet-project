@@ -51,6 +51,10 @@ body {
 	font-size: var(--font-size-paragraph);
 }
 
+.contents-wrap {
+	height: 100%;
+}
+
 .contents {
 	background-color: var(--color-light);
 	height: 100%;
