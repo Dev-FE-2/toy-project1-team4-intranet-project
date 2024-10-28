@@ -12,19 +12,13 @@ html, body {
   justify-content: flex-start;
 }
 
-.page-title {
-  font-size: var(--font-size-heading);  
-  line-height: 1;                        
-  font-weight: var(--font-weight-heading);
-}
-
 .header {
   display: flex;
   justify-content: space-between;
   margin-bottom: 10px;
 }
 
-.header h2 {
+.subtitle {
   font-size: 18px;
 }
 
@@ -38,7 +32,7 @@ html, body {
   gap: 10px;
 }
 
-#search {
+.search {
   padding: 8px;
   border-radius: 5px;
   border: 1px solid #ccc;
@@ -46,7 +40,7 @@ html, body {
   margin: 0;
 }
 
-#register-btn {
+.register-btn {
   padding: 8px 30px;
   background-color: var(--color-highlight);
   color: var(--color-light);
@@ -57,6 +51,7 @@ html, body {
 table {
   width: 100%;
   border-collapse: collapse;
+  
 }
 
 thead {
@@ -83,7 +78,7 @@ td {
 }
 
 .table-container {
-  height: 400px; 
+  height: 350px; 
   overflow-y: auto; 
 }
 
@@ -94,12 +89,12 @@ td {
   margin-right: 10px;
 }
 
-.employee-row .details {
+.row-details {
   display: flex;
   align-items: center;
 }
 
-.employee-row .arrow {
+.arrow {
   font-size: 14px; 
   color: #999;
   cursor: pointer;
@@ -134,7 +129,7 @@ td {
     flex-direction: column;
   }
 
-  .header h2 {
+  .subtitle {
     font-size: 15px;
     white-space: nowrap;
     margin-bottom: 20px; 
@@ -146,11 +141,11 @@ td {
     gap: 10px;
   }
 
-  #search {
+  .search {
     width: 100%;
   }
 
-  #register-btn {
+  .register-btn {
     width: 70%;
     white-space: nowrap; 
   }

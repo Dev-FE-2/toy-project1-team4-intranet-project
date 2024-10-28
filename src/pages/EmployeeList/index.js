@@ -13,7 +13,7 @@ export default function EmployeeList(currentPage = 1) {
 			(employee) => `
         <tr class="employee-row">
             <td>
-                <div class="details">
+                <div class="row-details">
                     <img src="/public/avatar.svg" alt="Employee Image">
                     <span>${employee.name}</span>
                 </div>
@@ -42,10 +42,10 @@ export default function EmployeeList(currentPage = 1) {
         <div class="container">
             <h1 class="page-title">직원 구성원</h1>
             <div class="header">
-                <h2>총 <span class="blue-text">${employeesData.length}</span>명</h2>
+                <h2 class="subtitle">총 <span class="blue-text">${employeesData.length}</span>명</h2>
                 <div class="search-container">
-                    <input type="text" placeholder="이름을 검색하세요" id="search" />
-                    <button id="register-btn">직원 등록</button>
+                    <input type="text" placeholder="이름을 검색하세요" class="search" />
+                    <button class="register-btn">직원 등록</button>
                 </div>
             </div>
             
