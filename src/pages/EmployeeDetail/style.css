@@ -79,7 +79,12 @@
 	width: 100%;
 	box-sizing: border-box;
 }
-
+.btn--primary:hover {
+	background-color: var(--color-secondary);
+}
+.btn--danger:hover {
+	background-color: darkred;
+}
 @media (max-width: 1024px) {
 	.container {
 		padding: var(--padding-md);

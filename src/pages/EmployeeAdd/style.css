@@ -77,7 +77,9 @@
 	width: 100%;
 	box-sizing: border-box;
 }
-
+.btn--primary:hover {
+	background-color: var(--color-secondary);
+}
 @media (max-width: 1024px) {
 	.container {
 		padding: var(--padding-md);
