@@ -1,7 +1,11 @@
 export default class SamplePage {
+	constructor(id) {
+		this.id = id;
+	}
+
 	render() {
 		return `<section class="contents">
-                <h1 class="page-title">페이지 타이틀</h1>
+                <h1 class="page-title">${this.id ? this.id : '페이지'} 타이틀</h1>
 
                 <form action="" class="form">
                     <fieldset>
