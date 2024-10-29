@@ -2,6 +2,7 @@
 
 // 근무 상태 토글 핸들러
 // 메인 근무 시작-종료 버튼과 모달 근무 시작-종료 버튼이 같은 클래스를 참조하며 상태값으로 구분
+// 취소 버튼에 대한 기능은 addModalWorkStatusButtonListener 이벤트 리스너로 위임함
 export function handleWorkStatusToggle(isWorking, isFromModal) {
 	const workStartTimeElement = document.querySelector('.work-time-start .work-time');
 	const workEndTimeElement = document.querySelector('.work-time-end .work-time');
@@ -84,6 +85,7 @@ export function addWorkStatusButtonListener(getIsWorking) {
 // 모달 레이아웃 근무 상태 버튼 클릭 이벤트 리스너 추가
 export function addModalWorkStatusButtonListener(getIsWorking, toggleWorkStatusCallback) {
 	const modalWorkStatusButton = document.querySelector('.work-status-btn__modal');
+	const modalWorkCancleButton = document.querySelector('.work-cancle-btn__modal');
 
 	modalWorkStatusButton.addEventListener('click', () => {
 		const currentIsWorking = getIsWorking();
@@ -91,5 +93,10 @@ export function addModalWorkStatusButtonListener(getIsWorking, toggleWorkStatusC
 		// 버튼 클릭시마다 isWorking 상태를 true, false로 전환하여 근무상태를 구분함
 		toggleWorkStatusCallback(); // 상태 전환 함수 호출
 		handleWorkStatusToggle(currentIsWorking, true); // 상태 토글 핸들러 호출
+	});
+
+	// 취소 버튼 클릭시 모달 display none
+	modalWorkCancleButton.addEventListener('click', () => {
+		document.querySelector('.modal-box').style.display = 'none';
 	});
 }
