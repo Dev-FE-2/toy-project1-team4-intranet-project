@@ -4,6 +4,7 @@ export default class MyPage {
 	constructor() {
 		// Bind the update time method to the instance
 		this.updateCurrentTime = this.updateCurrentTime.bind(this);
+		this.intervalId = null; // setInterval ID 저장할 변수
 	}
 
 	render() {
@@ -131,13 +132,15 @@ export default class MyPage {
 		document.querySelector('#pageContents').innerHTML = content;
 
 		this.startClock();
+		this.checkUrlChange(); // URL 변경 감지 시작
 
 		return content;
 	}
 
+	// 기존 인터벌Id를 저장하고 컨트롤 할 수 있게 변경
 	startClock() {
 		this.updateCurrentTime();
-		setInterval(this.updateCurrentTime, 1000);
+		this.intervalId = setInterval(this.updateCurrentTime, 1000); // Interval ID 저장
 	}
 
 	updateCurrentTime() {
@@ -162,10 +165,20 @@ export default class MyPage {
 
 		currentTimeElement.textContent = `${formattedDate} | ${formattedTime}`;
 	}
-}
 
-// 페이지 로드 후 MyPage 초기화
-window.onload = () => {
-	const myPage = new MyPage();
-	myPage.render();
-};
+	// URL 변경을 감지하고, 변경 시 clearClock을 호출
+	checkUrlChange() {
+		const checkInterval = setInterval(() => {
+			if (this.currentUrl !== window.location.href) {
+				this.stopIntevalTimer(); // URL이 변경되면 clearClock 호출
+				clearInterval(checkInterval); // Interval 해제
+			}
+		}, 1000); // 0.5초마다 URL 변경 체크
+	}
+
+	stopIntevalTimer() {
+		if (this.intervalId) {
+			clearInterval(this.intervalId);
+		}
+	}
+}
