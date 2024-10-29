@@ -26,10 +26,13 @@
 
 .nav-item svg {
 	width: 100%;
+}
+
+.nav-item svg *{
 	fill: var(--color-nav);
 }
 
-.nav-item.active svg {
+.nav-item.active svg *{
 	fill: var(--color-primary);
 }
 
