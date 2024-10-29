@@ -1,5 +1,5 @@
 import { url } from './url';
-import { notFound404Page, samplePage, loginPage } from './pages';
+import { notFound404Page, samplePage, loginPage, myPage } from './pages';
 
 export const route = () => {
 	const path = window.location.pathname;
@@ -9,7 +9,7 @@ export const route = () => {
 
 	switch (path) {
 		case `${url.home}`:
-			contentsElements.innerHTML = samplePage.render();
+			myPage.render();
 			break;
 
 		case `${url.userProfile(pathParma)}`:
