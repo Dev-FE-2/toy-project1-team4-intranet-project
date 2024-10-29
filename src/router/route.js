@@ -36,45 +36,53 @@ export const route = () => {
 			const userId = path.match(urlPattern.userProfile)[1];
 			console.log('userId', userId);
 
-			pushContents(new SamplePage(userId).render());
+			pushContents(new ProfilePage(userId).render());
 			break;
 		}
 
 		case path === url.vacation:
-			pushContents(new SamplePage().render());
+			pushContents(new VacationPage().render());
 			break;
 
 		case path === url.notice:
-			pushContents(new SamplePage().render());
+			pushContents(new NoticePage().render());
 			break;
 
 		case urlPattern.noticeDetail.test(path): {
 			const noticeId = path.match(urlPattern.noticeDetail)[1];
 			console.log('noticeId', noticeId);
 
-			pushContents(new SamplePage(noticeId).render());
+			pushContents(new NoticeDetailPage(noticeId).render());
 			break;
 		}
 
 		case path === url.employeeList:
-			pushContents(new SamplePage().render());
+			pushContents(new EmployeeListPage().render());
 			break;
 
 		case path === url.employeeAdd:
-			pushContents(new SamplePage().render());
+			pushContents(new EmployeeAddPage().render());
 			break;
 
 		case urlPattern.employeeDetail.test(path): {
 			const employeeId = path.match(urlPattern.employeeDetail)[1];
 			console.log('employee userId', employeeId);
 
-			pushContents(new SamplePage(employeeId).render());
+			pushContents(new EmployeeDetailPage(employeeId).render());
 			break;
 		}
 
 		case path === url.login:
 			pushContents(new LoginPage().render());
 			break;
+
+		case urlPattern.sample.test(path): {
+			const id = path.match(urlPattern.sample)[1];
+			console.log('saple id', id);
+
+			pushContents(new SamplePage(id).render());
+			break;
+		}
 
 		default:
 			pushContents(new NotFound404Page().render());
