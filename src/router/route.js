@@ -1,4 +1,5 @@
 import { url, urlPattern } from './url';
+import Navigation from '../components/Layout/Navigation';
 import {
 	NotFound404Page,
 	SamplePage,
@@ -15,6 +16,10 @@ import {
 
 export const route = () => {
 	const path = window.location.pathname;
+
+	const navigation = new Navigation();
+	navigation.updateActiveMenu();
+
 	const contentsElements = document.querySelector('#pageContents');
 
 	switch (true) {
