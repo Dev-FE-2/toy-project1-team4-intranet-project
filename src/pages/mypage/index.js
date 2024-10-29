@@ -21,7 +21,7 @@ export default class MyPage {
 								<div class="modal__underscore"></div>
 								<div class="work_message">근무를 시작하시겠습니까?</div>
 								<div class="btn-wrap">
-									<button class="btn btn--secondary" type="button">취소</button>
+									<button class="work-cancle-btn__modal" type="button">취소</button>
 									<button class="work-status-btn__modal" type="submit">근무 시작</button>
 								</div>
 							</div>
