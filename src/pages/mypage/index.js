@@ -1,5 +1,5 @@
 import './style.css';
-import { addWorkStatusButtonListener } from './modal.js';
+import { addWorkStatusButtonListener, addModalWorkStatusButtonListener } from './modal.js';
 
 export default class MyPage {
 	constructor() {
@@ -144,12 +144,18 @@ export default class MyPage {
 		// addWorkStatusButtonListener에 최신 상태를 참조할 수 있는 함수와 콜백 전달
 		addWorkStatusButtonListener(
 			() => this.isWorking, // 최신 상태 참조
+			// () => {
+			// 	this.isWorking = !this.isWorking; // 상태 전환 true <-> false
+			// },
+		);
+
+		addModalWorkStatusButtonListener(
+			() => this.isWorking,
 			() => {
 				this.isWorking = !this.isWorking; // 상태 전환 true <-> false
 			},
 		);
 	}
-
 	// 현재 시간을 가져오는 헬퍼 메서드
 	getCurrentTime() {
 		const now = new Date();
@@ -203,7 +209,9 @@ export default class MyPage {
 
 		const formattedTime = now.toLocaleTimeString('ko-KR', options);
 
+		// 현재 시각을 메인 페이지와 모달에 동시에 업데이트
 		currentTimeElement.textContent = `${formattedDate} | ${formattedTime}`;
+
 		return formattedTime;
 	}
 
