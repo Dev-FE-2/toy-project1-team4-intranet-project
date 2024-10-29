@@ -36,10 +36,15 @@ class EmployeeDetail {
 		this.updateProfileImage();
 	}
 
+	handleDeleteConfirmation() {
+		alert('직원을 삭제하시겠습니까?');
+	}
+
 	updateProfileImage() {
 		const imageElement = document.querySelector('.profile-image img');
 		const fileNameElement = document.querySelector('.file-name');
 		const deleteButton = document.querySelector('.delete-btn');
+
 		if (imageElement) {
 			imageElement.src = this.profileImageSrc;
 		}
@@ -54,25 +59,31 @@ class EmployeeDetail {
 	render() {
 		const fileNameSection = `
 			<div class="file-info">
-				<span class="file-name"></span>
-				<button class="delete-btn" onclick="window.employeeDetailInstance.handleImageRemove()" style="display: none;">x</button>
-			</div>
-		`;
-		this.buttons = `
-			<div class="btn-wrap">
-				<button type="button" class="btn btn--danger">직원삭제</button>
-				<button type="submit" class="btn btn--primary">수정하기</button>
+				<span class="file-name">${this.isImageUploaded ? this.fileName : ''}</span>
+				<button class="delete-btn" style="display: ${this.isImageUploaded ? 'inline-block' : 'none'};">x</button>
 			</div>
 		`;
 
 		const profileImageSection = `
 			<div class="profile-image-wrapper">
-				<div class="profile-image" onclick="window.employeeDetailInstance.profileImageInput.click()">
+				<div class="profile-image">
 					<img src="${this.profileImageSrc}" alt="Profile Image" />
 				</div>
 				${fileNameSection}
 			</div>
 		`;
+
+		setTimeout(() => {
+			document.querySelector('.profile-image').addEventListener('click', () => {
+				this.profileImageInput.click();
+			});
+			document
+				.querySelector('.delete-btn')
+				.addEventListener('click', this.handleImageRemove.bind(this));
+			document
+				.querySelector('.btn--danger')
+				.addEventListener('click', this.handleDeleteConfirmation.bind(this));
+		}, 0);
 
 		document.body.appendChild(this.profileImageInput);
 
@@ -83,7 +94,15 @@ class EmployeeDetail {
 					<div class="profile-container">
 						<div class="profile">
 							${profileImageSection}
-							${ProfileForm(this.userData, this.buttons)}
+							${ProfileForm(
+								this.userData,
+								`
+								<div class="btn-wrap">
+									<button type="button" class="btn btn--danger">직원삭제</button>
+									<button type="submit" class="btn btn--primary">수정하기</button>
+								</div>
+							`,
+							)}
 						</div>
 					</div>
 				</div>
@@ -91,8 +110,5 @@ class EmployeeDetail {
 		`;
 	}
 }
-
-window.employeeDetailInstance = new EmployeeDetail();
-document.querySelector('#app').innerHTML = window.employeeDetailInstance.render();
 
 export default EmployeeDetail;

@@ -1,11 +1,19 @@
 import './style.css';
-import userData from '../../../server/data/user';
 import { ProfileForm } from '../../components/pages/Profile/ProfileForm';
 
-class UserProfile {
+class EmployeeAdd {
 	constructor() {
-		this.userData = userData;
-		this.profileImageSrc = this.userData.profileImage || '../../../public/avatar.svg';
+		this.emptyUserData = {
+			name: '',
+			job: '',
+			team: '',
+			phone: '',
+			email: '',
+			bio: '',
+			profileImage: '../../../public/avatar.svg',
+		};
+
+		this.profileImageSrc = this.emptyUserData.profileImage;
 		this.isImageUploaded = false;
 
 		this.profileImageInput = document.createElement('input');
@@ -30,7 +38,7 @@ class UserProfile {
 	}
 
 	handleImageRemove() {
-		this.profileImageSrc = '../../../public/avatar.svg';
+		this.profileImageSrc = this.emptyUserData.profileImage;
 		this.isImageUploaded = false;
 		this.fileName = '';
 		this.updateProfileImage();
@@ -40,6 +48,7 @@ class UserProfile {
 		const imageElement = document.querySelector('.profile-image img');
 		const fileNameElement = document.querySelector('.file-name');
 		const deleteButton = document.querySelector('.delete-btn');
+
 		if (imageElement) {
 			imageElement.src = this.profileImageSrc;
 		}
@@ -54,24 +63,28 @@ class UserProfile {
 	render() {
 		const fileNameSection = `
 			<div class="file-info">
-				<span class="file-name"></span>
-				<button class="delete-btn" onclick="window.userProfileInstance.handleImageRemove()" style="display: none;">x</button>
-			</div>
-		`;
-		this.buttons = `
-			<div class="btn-wrap">
-				<button class="btn btn--primary" type="submit">수정하기</button>
+				<span class="file-name">${this.isImageUploaded ? this.fileName : ''}</span>
+				<button class="delete-btn" style="display: ${this.isImageUploaded ? 'inline-block' : 'none'};">x</button>
 			</div>
 		`;
 
 		const profileImageSection = `
 			<div class="profile-image-wrapper">
-				<div class="profile-image" onclick="window.userProfileInstance.profileImageInput.click()">
+				<div class="profile-image">
 					<img src="${this.profileImageSrc}" alt="Profile Image" />
 				</div>
 				${fileNameSection}
 			</div>
 		`;
+
+		setTimeout(() => {
+			document.querySelector('.profile-image').addEventListener('click', () => {
+				this.profileImageInput.click();
+			});
+			document
+				.querySelector('.delete-btn')
+				.addEventListener('click', this.handleImageRemove.bind(this));
+		}, 0);
 
 		document.body.appendChild(this.profileImageInput);
 
@@ -82,7 +95,14 @@ class UserProfile {
 					<div class="profile-container">
 						<div class="profile">
 							${profileImageSection}
-							${ProfileForm(this.userData, this.buttons)}
+							${ProfileForm(
+								this.emptyUserData,
+								`
+								<div class="btn-wrap">
+									<button class="btn btn--primary" type="submit">수정하기</button>
+								</div>
+							`,
+							)}
 						</div>
 					</div>
 				</div>
@@ -91,7 +111,4 @@ class UserProfile {
 	}
 }
 
-window.userProfileInstance = new UserProfile();
-document.querySelector('#app').innerHTML = window.userProfileInstance.render();
-
-export default UserProfile;
+export default EmployeeAdd;

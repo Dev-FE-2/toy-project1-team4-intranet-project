@@ -11,9 +11,9 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	width: 50%; 
+	width: 50%;
 	max-width: 300px;
-	padding: calc(var(--padding-md) / 2); 
+	padding: calc(var(--padding-md) / 2);
 }
 .profile-image-wrapper {
 	position: relative;
@@ -45,14 +45,14 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	margin:0 0 ;
+	margin: 0 0;
 }
 
 .file-name {
 	margin-right: 8px;
 	font-size: 14px;
 	white-space: nowrap;
-	overflow: hidden; 
+	overflow: hidden;
 	text-overflow: ellipsis;
 	max-width: 150px;
 	height: 20px;
@@ -71,11 +71,11 @@
 	margin-bottom: 12px;
 }
 .profile-form__textarea {
-    padding: 10px; 
-    font-size: 16px;
-    resize: vertical; 
-    width: 100%;
-    box-sizing: border-box;
+	padding: 10px;
+	font-size: 16px;
+	resize: vertical;
+	width: 100%;
+	box-sizing: border-box;
 }
 
 @media (max-width: 1024px) {
@@ -97,5 +97,4 @@
 		margin-top: var(--padding-lg);
 		margin-bottom: var(--padding-lg);
 	}
-
 }

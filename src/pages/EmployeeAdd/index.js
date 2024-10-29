@@ -48,6 +48,7 @@ class EmployeeAdd {
 		const imageElement = document.querySelector('.profile-image img');
 		const fileNameElement = document.querySelector('.file-name');
 		const deleteButton = document.querySelector('.delete-btn');
+
 		if (imageElement) {
 			imageElement.src = this.profileImageSrc;
 		}
@@ -62,25 +63,28 @@ class EmployeeAdd {
 	render() {
 		const fileNameSection = `
 			<div class="file-info">
-				<span class="file-name"></span>
-				<button class="delete-btn" onclick="window.employeeAddInstance.handleImageRemove()" style="display: none;">x</button>
-			</div>
-		`;
-
-		this.buttons = `
-			<div class="btn-wrap">
-				<button class="btn btn--primary" type="submit">등록하기</button>
+				<span class="file-name">${this.isImageUploaded ? this.fileName : ''}</span>
+				<button class="delete-btn" style="display: ${this.isImageUploaded ? 'inline-block' : 'none'};">x</button>
 			</div>
 		`;
 
 		const profileImageSection = `
 			<div class="profile-image-wrapper">
-				<div class="profile-image" onclick="window.employeeAddInstance.profileImageInput.click()">
+				<div class="profile-image">
 					<img src="${this.profileImageSrc}" alt="Profile Image" />
 				</div>
 				${fileNameSection}
 			</div>
 		`;
+
+		setTimeout(() => {
+			document.querySelector('.profile-image').addEventListener('click', () => {
+				this.profileImageInput.click();
+			});
+			document
+				.querySelector('.delete-btn')
+				.addEventListener('click', this.handleImageRemove.bind(this));
+		}, 0);
 
 		document.body.appendChild(this.profileImageInput);
 
@@ -91,7 +95,14 @@ class EmployeeAdd {
 					<div class="profile-container">
 						<div class="profile">
 							${profileImageSection}
-							${ProfileForm(this.emptyUserData, this.buttons)}
+							${ProfileForm(
+								this.emptyUserData,
+								`
+								<div class="btn-wrap">
+									<button class="btn btn--primary" type="submit">등록하기</button>
+								</div>
+							`,
+							)}
 						</div>
 					</div>
 				</div>
@@ -99,8 +110,5 @@ class EmployeeAdd {
 		`;
 	}
 }
-
-window.employeeAddInstance = new EmployeeAdd();
-document.querySelector('#app').innerHTML = window.employeeAddInstance.render();
 
 export default EmployeeAdd;
