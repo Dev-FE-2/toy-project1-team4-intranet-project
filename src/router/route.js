@@ -1,6 +1,17 @@
 import { url, urlPattern } from './url';
-import { notFound404Page, samplePage, loginPage } from './pages';
-import { SamplePage } from '../pages';
+import {
+	NotFound404Page,
+	SamplePage,
+	LoginPage,
+	MyPage,
+	ProfilePage,
+	VacationPage,
+	NoticePage,
+	NoticeDetailPage,
+	EmployeeListPage,
+	EmployeeDetailPage,
+	EmployeeAddPage,
+} from '../pages';
 
 export const route = () => {
 	const path = window.location.pathname;
@@ -8,7 +19,7 @@ export const route = () => {
 
 	switch (true) {
 		case path === url.home:
-			contentsElements.innerHTML = samplePage.render();
+			new MyPage().render();
 			break;
 
 		case urlPattern.userProfile.test(path): {
@@ -20,11 +31,11 @@ export const route = () => {
 		}
 
 		case path === url.vacation:
-			contentsElements.innerHTML = loginPage.render();
+			contentsElements.innerHTML = new SamplePage().render();
 			break;
 
 		case path === url.notice:
-			contentsElements.innerHTML = samplePage.render();
+			contentsElements.innerHTML = new SamplePage().render();
 			break;
 
 		case urlPattern.noticeDetail.test(path): {
@@ -36,11 +47,11 @@ export const route = () => {
 		}
 
 		case path === url.employeeList:
-			contentsElements.innerHTML = samplePage.render();
+			contentsElements.innerHTML = new SamplePage().render();
 			break;
 
 		case path === url.employeeAdd:
-			contentsElements.innerHTML = samplePage.render();
+			contentsElements.innerHTML = new SamplePage().render();
 			break;
 
 		case urlPattern.employeeDetail.test(path): {
@@ -52,10 +63,11 @@ export const route = () => {
 		}
 
 		case path === url.login:
-			contentsElements.innerHTML = loginPage.render();
+			contentsElements.innerHTML = new LoginPage().render();
 			break;
 
 		default:
-			contentsElements.innerHTML = notFound404Page.render();
+			contentsElements.innerHTML = new NotFound404Page().render();
+			break;
 	}
 };
