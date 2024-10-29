@@ -13,7 +13,7 @@ export default class Navigation {
                 </a>
             </li>
             <li>
-                <a href="/profile/:user" class="nav-item"><i>${IconProfile()}</i> 프로필</a>
+                <a href="/profile/user123" class="nav-item"><i>${IconProfile()}</i> 프로필</a>
             </li>
             <li>
                 <a href="/vacation" class="nav-item"><i>${IconTimetable()}</i> 근태 신청</a>

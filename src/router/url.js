@@ -1,11 +1,17 @@
 export const url = {
 	home: '/',
 	login: '/login',
-	employeeList: `/admin/employees`,
-	employeeDetail: (userId) => `/admin/employee/${userId}`,
-	employeeAdd: `/admin/employee/add`,
-	userProfile: (userId) => `/user/${userId}`,
+	userProfile: (userId) => `/profile/${userId}`,
 	vacation: `/vacation`,
 	notice: `/notice`,
 	noticeDetail: (noticeId) => `/notice/${noticeId}`,
+	employeeList: `/admin/employees`,
+	employeeDetail: (employeeId) => `/admin/employees/${employeeId}`,
+	employeeAdd: `/admin/employees/add`,
+};
+
+export const urlPattern = {
+	userProfile: /^\/profile\/(\w+)$/,
+	noticeDetail: /^\/notice\/(\w+)$/,
+	employeeDetail: /^\/admin\/employees\/(\w+)$/,
 };
