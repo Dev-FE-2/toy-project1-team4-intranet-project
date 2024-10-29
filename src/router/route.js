@@ -14,13 +14,18 @@ import {
 	EmployeeAddPage,
 } from '../pages';
 
+export const pushContents = (page) => {
+	const contentsElements = document.querySelectorAll('#pageContents');
+	contentsElements.forEach((element) => {
+		element.innerHTML = page;
+	});
+};
+
 export const route = () => {
 	const path = window.location.pathname;
 
 	const navigation = new Navigation();
 	navigation.updateActiveMenu();
-
-	const contentsElements = document.querySelector('#pageContents');
 
 	switch (true) {
 		case path === url.home:
@@ -31,48 +36,48 @@ export const route = () => {
 			const userId = path.match(urlPattern.userProfile)[1];
 			console.log('userId', userId);
 
-			contentsElements.innerHTML = new SamplePage(userId).render();
+			pushContents(new SamplePage(userId).render());
 			break;
 		}
 
 		case path === url.vacation:
-			contentsElements.innerHTML = new SamplePage().render();
+			pushContents(new SamplePage().render());
 			break;
 
 		case path === url.notice:
-			contentsElements.innerHTML = new SamplePage().render();
+			pushContents(new SamplePage().render());
 			break;
 
 		case urlPattern.noticeDetail.test(path): {
 			const noticeId = path.match(urlPattern.noticeDetail)[1];
 			console.log('noticeId', noticeId);
 
-			contentsElements.innerHTML = new SamplePage(noticeId).render();
+			pushContents(new SamplePage(noticeId).render());
 			break;
 		}
 
 		case path === url.employeeList:
-			contentsElements.innerHTML = new SamplePage().render();
+			pushContents(new SamplePage().render());
 			break;
 
 		case path === url.employeeAdd:
-			contentsElements.innerHTML = new SamplePage().render();
+			pushContents(new SamplePage().render());
 			break;
 
 		case urlPattern.employeeDetail.test(path): {
 			const employeeId = path.match(urlPattern.employeeDetail)[1];
 			console.log('employee userId', employeeId);
 
-			contentsElements.innerHTML = new SamplePage(employeeId).render();
+			pushContents(new SamplePage(employeeId).render());
 			break;
 		}
 
 		case path === url.login:
-			contentsElements.innerHTML = new LoginPage().render();
+			pushContents(new LoginPage().render());
 			break;
 
 		default:
-			contentsElements.innerHTML = new NotFound404Page().render();
+			pushContents(new NotFound404Page().render());
 			break;
 	}
 };
