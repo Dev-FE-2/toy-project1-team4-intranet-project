@@ -163,26 +163,6 @@ export default class MyPage {
 		return now.toLocaleTimeString('ko-KR', options);
 	}
 
-	handleWorkStatusToggle() {
-		// 현재 근무 상태에 따라 근무 시작 또는 종료 상태를 전환
-		const workStartTimeElement = document.querySelector('.work-time-start .work-time');
-		const workEndTimeElement = document.querySelector('.work-time-end .work-time');
-		const workStatusButton = document.querySelector('.work-status-btn');
-
-		if (this.isWorking) {
-			// 근무 종료 상태로 전환
-			workEndTimeElement.textContent = this.updateCurrentTime(); // 현재 시간 표시
-			workStatusButton.textContent = '근무 시작'; // 버튼 텍스트 변경
-			this.isWorking = false;
-		} else {
-			// 근무 시작 상태로 전환
-			workStartTimeElement.textContent = this.updateCurrentTime(); // 현재 시간 표시
-			workEndTimeElement.textContent = '-'; // 종료 시간을 초기화
-			workStatusButton.textContent = '근무 종료'; // 버튼 텍스트 변경
-			this.isWorking = true;
-		}
-	}
-
 	// 기존 인터벌Id를 저장하고 컨트롤 할 수 있게 변경
 	startClock() {
 		this.updateCurrentTime();
@@ -210,7 +190,9 @@ export default class MyPage {
 		const formattedTime = now.toLocaleTimeString('ko-KR', options);
 
 		// 현재 시각을 메인 페이지와 모달에 동시에 업데이트
-		currentTimeElement.textContent = `${formattedDate} | ${formattedTime}`;
+		if (!currentTimeElement.textContent) {
+			currentTimeElement.textContent = `${formattedDate} | ${formattedTime}`;
+		}
 
 		return formattedTime;
 	}
