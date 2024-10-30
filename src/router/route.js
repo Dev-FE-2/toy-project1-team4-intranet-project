@@ -31,7 +31,7 @@ export const route = () => {
 			const userId = path.match(urlPattern.userProfile)[1];
 			console.log('userId', userId);
 
-			contentsElements.innerHTML = new SamplePage(userId).render();
+			contentsElements.innerHTML = new ProfilePage(userId).render();
 			break;
 		}
 
@@ -52,18 +52,18 @@ export const route = () => {
 		}
 
 		case path === url.employeeList:
-			contentsElements.innerHTML = new SamplePage().render();
+			contentsElements.innerHTML = new EmployeeListPage().render();
 			break;
 
 		case path === url.employeeAdd:
-			contentsElements.innerHTML = new SamplePage().render();
+			contentsElements.innerHTML = new EmployeeAddPage().render();
 			break;
 
 		case urlPattern.employeeDetail.test(path): {
 			const employeeId = path.match(urlPattern.employeeDetail)[1];
 			console.log('employee userId', employeeId);
 
-			contentsElements.innerHTML = new SamplePage(employeeId).render();
+			contentsElements.innerHTML = new EmployeeDetailPage(employeeId).render();
 			break;
 		}
 
