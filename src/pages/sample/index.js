@@ -8,7 +8,7 @@ export default class SamplePage {
 
 	async fetchSampleData() {
 		const response = await fetch(`http://localhost:5173/api/sample/${this.id}`);
-		console.log('sampleData', sampleData);
+		console.log('sampleData', response);
 
 		const sampleData = await response.json();
 		console.log('sampleData', sampleData);
