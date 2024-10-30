@@ -10,12 +10,6 @@ function getUserProfile(userId) {
 export function renderUserProfile(userId, isWorking) {
 	const user = getUserProfile(userId);
 
-	if (isWorking) {
-		console.log('일하는중');
-	} else {
-		console.log('일 X');
-	}
-
 	if (user) {
 		// HTML 요소 선택
 		//const profileIcon = document.querySelector('.profile__icon img');

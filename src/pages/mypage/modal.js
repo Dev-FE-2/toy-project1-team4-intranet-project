@@ -22,7 +22,6 @@ export function handleWorkStatusToggle(isWorking, isFromModal) {
 
 	// addWorkStatusButtonListener에서 메인의 근무 시작 or 근무 종료 버튼 클릭시 동작
 	if (!isWorking && !isFromModal) {
-		console.log('case 1');
 		workEndTimeElement.textContent = '-'; // 종료 시간 초기화
 		// 근무 시작 버튼 클릭 시 모달창 생성
 		document.querySelector('.modal-box').style.display = 'flex';
@@ -30,7 +29,6 @@ export function handleWorkStatusToggle(isWorking, isFromModal) {
 
 	// addModalWorkStatusButtonListener에서 모달의 근무 시작 버튼 클릭시 동작
 	else if (!isWorking && isFromModal) {
-		console.log('case 2');
 		// 근무 시작 버튼 클릭 -> 근무 시작 상태로 전환
 		workStartTimeElement.textContent = getCurrentTime(); // 시작 시간 표시
 
@@ -44,13 +42,11 @@ export function handleWorkStatusToggle(isWorking, isFromModal) {
 
 	// 메인의 근무 종료 클릭 -> 근무 종료 모달 호출
 	else if (isWorking && !isFromModal) {
-		console.log('case 3');
 		document.querySelector('.modal-box').style.display = 'flex';
 	}
 
 	// 모달의 근무 종료 클릭 -> 근무 종료 상태로 전환
 	else if (isWorking && isFromModal) {
-		console.log('case 4');
 		// 모달 근무 종료 버튼 클릭 후 메인 근무 상태 버튼 비활성화
 		workStatusButton.disabled = true;
 		workEndTimeElement.textContent = getCurrentTime(); // 종료 시간 표시
