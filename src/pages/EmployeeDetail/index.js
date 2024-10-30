@@ -1,8 +1,9 @@
 import './style.css';
 import userData from '../../../server/data/user';
 import { ProfileForm } from '../../components/pages/Profile/ProfileForm';
+import { url } from '../../router/url';
 
-class EmployeeDetail {
+export default class EmployeeDetail {
 	constructor() {
 		this.userData = userData;
 		this.profileImageSrc = this.userData.profileImage || '../../../public/avatar.svg';
@@ -38,6 +39,12 @@ class EmployeeDetail {
 
 	handleDeleteConfirmation() {
 		alert('직원을 삭제하시겠습니까?');
+		window.location.href = url.employeeList;
+	}
+	handleUpdate() {
+		console.log('수정하기');
+		event.preventDefault();
+		window.location.href = url.employeeList;
 	}
 
 	updateProfileImage() {
@@ -83,6 +90,9 @@ class EmployeeDetail {
 			document
 				.querySelector('.btn--danger')
 				.addEventListener('click', this.handleDeleteConfirmation.bind(this));
+			document
+				.querySelector('.btn--primary')
+				.addEventListener('click', this.handleUpdate.bind(this));
 		}, 0);
 
 		document.body.appendChild(this.profileImageInput);
@@ -110,5 +120,3 @@ class EmployeeDetail {
 		`;
 	}
 }
-
-export default EmployeeDetail;

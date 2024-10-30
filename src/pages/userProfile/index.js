@@ -3,7 +3,7 @@ import { ProfileForm } from '../../components/pages/Profile/ProfileForm';
 import { url } from '../../router/url';
 import userData from '../../../server/data/user';
 
-class UserProfile {
+export default class UserProfile {
 	constructor() {
 		this.userData = userData;
 		this.profileImageSrc = this.userData.profileImage || '../../../public/avatar.svg';
@@ -111,5 +111,3 @@ class UserProfile {
 		`;
 	}
 }
-
-export default UserProfile;

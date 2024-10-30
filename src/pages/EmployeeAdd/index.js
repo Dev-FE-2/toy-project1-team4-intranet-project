@@ -1,7 +1,7 @@
 import './style.css';
 import { ProfileForm } from '../../components/pages/Profile/ProfileForm';
 
-class EmployeeAdd {
+export default class EmployeeAdd {
 	constructor() {
 		this.emptyUserData = {
 			name: '',
@@ -110,5 +110,3 @@ class EmployeeAdd {
 		`;
 	}
 }
-
-export default EmployeeAdd;
