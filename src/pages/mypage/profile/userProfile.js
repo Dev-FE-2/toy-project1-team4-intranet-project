@@ -7,7 +7,7 @@ function getUserProfile(userId) {
 }
 
 // 유저 정보를 받아 DOM에 업데이트하는 함수
-export function renderUserProfile(userId, isWorking) {
+export function renderUserProfile(userId) {
 	const user = getUserProfile(userId);
 
 	if (user) {
