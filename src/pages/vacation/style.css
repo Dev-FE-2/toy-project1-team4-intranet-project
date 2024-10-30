@@ -84,7 +84,7 @@
 .vacation__main-item--date {
 	display: flex;
 	flex-direction: column;
-	margin-right: 48px;
+	margin-right: 32px;
 }
 
 .vacation__main-item--date .day,
@@ -118,7 +118,7 @@
 
 .vacation__main-item--during {
 	font-size: 14px;
-	margin-right: 80px;
+	margin-right: 48px;
 }
 
 .vacation__main-item--author {
@@ -336,6 +336,11 @@
 	height: 180px;
 	resize: none;
 	font-family: var(--font-family);
+}
+
+.vacation__apply-btn-wrapper,
+.vacation__history-btn-wrapper {
+	display: flex;
 }
 
 .vacation__apply-btn-wrapper button,
