@@ -108,14 +108,11 @@
 	height: 10px;
 	border-radius: 50%;
 	margin-right: 8px;
+	background-color: red; /* 근무 X: 빨간색 원 */
 }
 
-.work-status {
-	background-color: blue; /* 근무중: 파란색 원 */
-}
-
-.absent-status {
-	background-color: red; /* 부재중: 빨간색 원 */
+.status-circle.active {
+	background-color: blue; /* 근무 중: 파란색 원 */
 }
 
 /* 텍스트 스타일 */
