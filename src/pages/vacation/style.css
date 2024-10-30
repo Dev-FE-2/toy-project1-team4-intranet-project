@@ -176,6 +176,7 @@
 /* APPLY */
 .vacation__apply-wrapper,
 .vacation__history-wrapper {
+	display: none;
 	position: fixed;
 	top: 0;
 	left: 0;
@@ -183,12 +184,12 @@
 	right: 0;
 }
 
-.vacation__apply-wrapper {
-	display: none;
+.vacation__apply-wrapper.active {
+	display: block;
 }
 
-.vacation__history-wrapper {
-	display: none;
+.vacation__history-wrapper.active {
+	display: block;
 }
 
 .vacation__apply-background,
