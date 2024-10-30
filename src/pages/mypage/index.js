@@ -1,5 +1,6 @@
 import './style.css';
 import { addWorkStatusButtonListener, addModalWorkStatusButtonListener } from './modal.js';
+import { renderUserProfile } from './profile/userProfile.js';
 
 export default class MyPage {
 	constructor() {
@@ -43,8 +44,8 @@ export default class MyPage {
 							</div>
 							<div class="profile__info">
 								<div class="profile__status">
-									<span class="status-circle work-status"></span>
-									<span class="status-text">근무중</span>
+									<span class="status-circle"></span>
+									<span class="status-text">근무 중 아님</span>
 								</div>
 								<div class="profile__info__child">
 									<div class="profile-name">김직원</div>
@@ -117,8 +118,14 @@ export default class MyPage {
 		this.startClock();
 		this.checkUrlChange(); // URL 변경 감지 시작
 		this.addModalEventListener();
-
+		this.getUserProfile();
 		return content;
+	}
+
+	// userProfile.js에 renderUserProfile를 호출 -> 유저 정보 가져오기
+	getUserProfile() {
+		const user_id = 1;
+		renderUserProfile(user_id, this.isWorking);
 	}
 
 	addModalEventListener() {
