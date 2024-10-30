@@ -6,12 +6,10 @@ export default class MyPage {
 		// Bind the update time method to the instance
 		this.updateCurrentTime = this.updateCurrentTime.bind(this);
 		this.intervalId = null; // setInterval ID 저장할 변수
-		this.isWorking = false;
 	}
 
 	render() {
 		const content = `<div id="contents">
-			<!-- START : 개별 페이지 작업 PC -->
 			<section class="section">
 				<div class="modal-box">
 					<dialog open class="modal-dialog">
@@ -37,23 +35,16 @@ export default class MyPage {
 				<br /><br />
 			</section>
 			<div class="section-container__middle-bottom__wrap">
-				<!-- 마이페이지 두번째 컨테이너 프로필 및 근무시간 -->
 				<section class="contents-middle">
 					<div class="container-middle__wrap">
 						<div class="middle_profile">
-							<!-- SVG 아이콘 영역 -->
 							<div class="profile__icon">
 								<img src="../../../public/avatar.svg" alt="Profile Icon" />
 							</div>
-
-							<!-- 텍스트와 상태 영역 -->
 							<div class="profile__info">
-								<!-- 상태 표시 -->
 								<div class="profile__status">
 									<span class="status-circle work-status"></span>
-									<!-- 파란색/빨간색 원 -->
 									<span class="status-text">근무중</span>
-									<!-- 근무중 또는 부재중 -->
 								</div>
 								<div class="profile__info__child">
 									<div class="profile-name">김직원</div>
@@ -61,9 +52,7 @@ export default class MyPage {
 								</div>
 							</div>
 						</div>
-						<!-- 미들 컨텐츠 left 프로필 영역 종료  -->
 						<div class="container-middle__center-right__wrap">
-							<!-- 이번주 근무시간 타이머 영역-->
 							<div class="weekly-work-timer">
 								<div class="weekly-work-time">
 									<div class="clock-icon">🕓</div>
@@ -71,15 +60,12 @@ export default class MyPage {
 									<div class="hours">32시간</div>
 								</div>
 								<div class="work-progress">
-									<!-- 원 그리기 -->
 									<div class="work-time__chart">
 										<span class="center"></span>
 									</div>
 								</div>
 							</div>
-							<!-- 근무 시작 종료 버튼 영역 -->
 							<div class="contents-middle__third">
-								<!-- 마지막 근무 종료 버튼 영역 -->
 								<div class="work-time-container">
 									<div class="mypage-work-times">
 										<div class="work-time-start">
@@ -99,11 +85,8 @@ export default class MyPage {
 								</div>
 							</div>
 						</div>
-
-						<!-- 마이페이지 미들 컨테이너 내부 div 종료 -->
 					</div>
 				</section>
-				<!-- 마이페이지 마지막 컨테이너 근태신청 목록 -->
 				<section class="contents-bottom">
 					<div class="attendance__title">
 						<h2 class="page-title">Attendance State</h2>
@@ -127,9 +110,7 @@ export default class MyPage {
 						</ul>
 					</div>
 				</section>
-				<!-- END -->
 			</div>
-			<!-- END -->
 		</div>`;
 		document.querySelector('#pageContents').innerHTML = content;
 
