@@ -8,10 +8,12 @@ export const url = {
 	employeeList: `/admin/employees`,
 	employeeDetail: (employeeId) => `/admin/employees/${employeeId}`,
 	employeeAdd: `/admin/employees/add`,
+	sample: (noticeId) => `/sample/${noticeId}`,
 };
 
 export const urlPattern = {
 	userProfile: /^\/profile\/(\w+)$/,
 	noticeDetail: /^\/notice\/(\w+)$/,
 	employeeDetail: /^\/admin\/employees\/(\w+)$/,
+	sample: /^\/sample\/(\w+)$/,
 };

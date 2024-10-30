@@ -20,7 +20,7 @@ export const route = () => {
 	const navigation = new Navigation();
 	navigation.updateActiveMenu();
 
-	const contentsElements = document.querySelector('#pageContents');
+	const contentsElement = document.querySelector('#pageContents');
 
 	switch (true) {
 		case path === url.home:
@@ -31,48 +31,56 @@ export const route = () => {
 			const userId = path.match(urlPattern.userProfile)[1];
 			console.log('userId', userId);
 
-			contentsElements.innerHTML = new ProfilePage(userId).render();
+			contentsElement.innerHTML = new ProfilePage(userId).render();
 			break;
 		}
 
 		case path === url.vacation:
-			contentsElements.innerHTML = new SamplePage().render();
+			contentsElement.innerHTML = new VacationPage().render();
 			break;
 
 		case path === url.notice:
-			contentsElements.innerHTML = new SamplePage().render();
+			contentsElement.innerHTML = new NoticePage().render();
 			break;
 
 		case urlPattern.noticeDetail.test(path): {
 			const noticeId = path.match(urlPattern.noticeDetail)[1];
 			console.log('noticeId', noticeId);
 
-			contentsElements.innerHTML = new SamplePage(noticeId).render();
+			contentsElement.innerHTML = new NoticeDetailPage(noticeId).render();
 			break;
 		}
 
 		case path === url.employeeList:
-			contentsElements.innerHTML = new EmployeeListPage().render();
+			contentsElement.innerHTML = new EmployeeListPage().render();
 			break;
 
 		case path === url.employeeAdd:
-			contentsElements.innerHTML = new EmployeeAddPage().render();
+			contentsElement.innerHTML = new EmployeeAddPage().render();
 			break;
 
 		case urlPattern.employeeDetail.test(path): {
 			const employeeId = path.match(urlPattern.employeeDetail)[1];
 			console.log('employee userId', employeeId);
 
-			contentsElements.innerHTML = new EmployeeDetailPage(employeeId).render();
+			contentsElement.innerHTML = new EmployeeDetailPage(employeeId).render();
 			break;
 		}
 
 		case path === url.login:
-			contentsElements.innerHTML = new LoginPage().render();
+			contentsElement.innerHTML = new LoginPage().render();
 			break;
 
+		case urlPattern.sample.test(path): {
+			const id = path.match(urlPattern.sample)[1];
+			console.log('saple id', id);
+
+			contentsElement.innerHTML = new SamplePage(id).render();
+			break;
+		}
+
 		default:
-			contentsElements.innerHTML = new NotFound404Page().render();
+			contentsElement.innerHTML = new NotFound404Page().render();
 			break;
 	}
 };
