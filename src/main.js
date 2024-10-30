@@ -1,6 +1,7 @@
-import './global.css';
-import Layout from './components/Layout';
+import { worker } from './mocks/browser';
 import { route } from './router/route';
+import Layout from './components/Layout';
+import './global.css';
 
 async function app() {
 	init();
@@ -23,7 +24,6 @@ const navigate = (event) => {
 	event.preventDefault();
 
 	// const path = event.target.getAttribute('href');
-
 	const anchor = event.target.closest('a');
 
 	history.pushState(null, null, anchor.href);
@@ -33,4 +33,21 @@ const navigate = (event) => {
 	}
 };
 
-document.addEventListener('DOMContentLoaded', app);
+const enableMocking = async () => {
+	if (process.env.NODE_ENV !== 'development') {
+		return;
+	}
+
+	// `worker.start()` returns a Promise that resolves
+	// once the Service Worker is up and ready to intercept requests.
+	return worker.start({
+		onUnhandledRequest: 'bypass', // 핸들링되지 않은 요청 무시
+	});
+};
+
+document.addEventListener(
+	'DOMContentLoaded',
+	enableMocking().then(() => {
+		app();
+	}),
+);
