@@ -4,10 +4,10 @@ import VacationApplyModal from './VacationApplyModal';
 export default class VacationPage {
 	constructor() {
 		this.modalEl = new VacationApplyModal();
-		this.applyModalBtn = document.getElementById('ApplyModal');
 	}
 
 	showModal() {
+		this.applyModalBtn = document.getElementById('ApplyModal');
 		this.applyModalBtn.addEventListener('click', () => {
 			// this.modalEl.classList.contain('active')
 			// 	? this.modalEl.classList.remove('active')
@@ -104,7 +104,7 @@ export default class VacationPage {
                     </div>
                 </div>
                 <div class="vacation-btn-wrapper--mobile">
-                    <button class="btn btn--primary">휴가 신청하기</button>
+                    <button class="btn btn--primary">근태 신청</button>
                 </div>
             </section>
 

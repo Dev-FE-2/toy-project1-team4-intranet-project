@@ -60,7 +60,7 @@
 }
 
 .vacation__content-wrapper {
-	height: 440px;
+	max-height: 440px;
 	overflow-y: scroll;
 }
 
@@ -354,6 +354,10 @@
 .vacation__apply-btn-wrapper button:first-child,
 .vacation__history-btn-wrapper button:first-child {
 	margin-right: 16px;
+}
+
+.vacation-btn-wrapper--mobile {
+	display: none;
 }
 
 @media (max-width: 1024px) {
