@@ -1,3 +1,4 @@
+import VacationListItem from './components/VacationListItem';
 import './style.css';
 import VacationApplyModal from './VacationApplyModal';
 import VacationHistoryModal from './VacationHistoryModal';
