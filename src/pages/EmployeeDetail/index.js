@@ -48,7 +48,7 @@ export default class EmployeeDetail {
 	}
 
 	updateProfileImage() {
-		const imageElement = document.querySelector('.profile-image img');
+		const imageElement = document.querySelector('.profileDetail-image img');
 		const fileNameElement = document.querySelector('.file-name');
 		const deleteButton = document.querySelector('.delete-btn');
 
@@ -72,8 +72,8 @@ export default class EmployeeDetail {
 		`;
 
 		const profileImageSection = `
-			<div class="profile-image-wrapper">
-				<div class="profile-image">
+			<div class="profileDetail-image-wrapper">
+				<div class="profileDetail-image">
 					<img src="${this.profileImageSrc}" alt="Profile Image" />
 				</div>
 				${fileNameSection}
@@ -81,7 +81,7 @@ export default class EmployeeDetail {
 		`;
 
 		setTimeout(() => {
-			document.querySelector('.profile-image').addEventListener('click', () => {
+			document.querySelector('.profileDetail-image').addEventListener('click', () => {
 				this.profileImageInput.click();
 			});
 			document

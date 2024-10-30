@@ -118,8 +118,6 @@ td {
   background-color: var(--color-primary);
   color: white;
 }
-
-
 @media (max-width: 1024px) {
   .header {
     display: flex;
@@ -143,7 +141,8 @@ td {
   }
 
   .register-btn {
-    width: 70%;
+    width: 50%; 
+    padding: 6px 20px; 
     white-space: nowrap; 
   }
 
@@ -168,4 +167,9 @@ td {
   .pagination {
     padding: 5px 0;
   }
-}
+  
+   .row-details span,
+   td:nth-last-child(2) { 
+     white-space: nowrap;
+   }
+ }

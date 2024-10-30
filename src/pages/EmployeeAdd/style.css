@@ -15,14 +15,14 @@
 	max-width: 300px;
 	padding: calc(var(--padding-md) / 2);
 }
-.profile-image-wrapper {
+.profileAdd-image-wrapper {
 	position: relative;
 	width: 120px;
 	height: auto;
 	text-align: center;
 }
 
-.profile-image {
+.profileAdd-image {
 	width: 120px;
 	height: 120px;
 	border-radius: 50%;
@@ -34,7 +34,7 @@
 	cursor: pointer;
 }
 
-.profile-image img {
+.profileAdd-image img {
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
@@ -91,12 +91,5 @@
 		width: 100%;
 		max-width: 100%;
 		padding: var(--padding-md);
-	}
-
-	.profile-image {
-		width: 80px;
-		height: 80px;
-		margin-top: var(--padding-lg);
-		margin-bottom: var(--padding-lg);
 	}
 }

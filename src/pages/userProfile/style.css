@@ -91,12 +91,15 @@
 		width: 100%;
 		max-width: 100%;
 		padding: var(--padding-md);
+		text-align: center; 
 	}
-
-	.profile-image {
-		width: 80px;
-		height: 80px;
-		margin-top: var(--padding-lg);
-		margin-bottom: var(--padding-lg);
+	.profile-form__textarea {
+		height: 100px; 
+		padding: 10px; 
+		font-size: 16px;
+		resize: vertical; 
+		width: 100%;
+		box-sizing: border-box;
 	}
+	
 }
