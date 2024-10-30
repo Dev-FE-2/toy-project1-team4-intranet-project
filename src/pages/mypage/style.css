@@ -703,6 +703,11 @@
 	color: var(--color-light);
 }
 
+.btn .work-cancle-btn__modal {
+	background-color: var(--color-light);
+	color: var(--color-secondary);
+}
+
 /* 모달 display 옵션 */
 .modal-box {
 	display: none;
