@@ -16,7 +16,7 @@ const vacationData = [
 	{
 		requestId: 'request-2',
 		requestType: '휴가',
-		userId: 'sad123',
+		userId: 'sad123456',
 		username: '김브이',
 		job: '보조',
 		team: '요리연구소',
@@ -30,7 +30,7 @@ const vacationData = [
 	{
 		requestId: 'request-3',
 		requestType: '조퇴',
-		userId: 'sasdasf123',
+		userId: 'sasdasf456',
 		username: '이브이',
 		job: '서빙',
 		team: '요리연구소',
@@ -44,7 +44,7 @@ const vacationData = [
 	{
 		requestId: 'request-4',
 		requestType: '조퇴',
-		userId: 'dsfsgfdsf123',
+		userId: 'dsfsgfdsf001',
 		username: '홍길동',
 		job: '셰프',
 		team: '요리연구소',
@@ -58,7 +58,7 @@ const vacationData = [
 	{
 		requestId: 'request-5',
 		requestType: '반차',
-		userId: 'dsfsgfdsf123',
+		userId: 'dsfsgfdsf002',
 		username: '홍길동',
 		job: '셰프',
 		team: '요리연구소',
@@ -72,7 +72,7 @@ const vacationData = [
 	{
 		requestId: 'request-6',
 		requestType: '반차',
-		userId: 'dsfsgfdsf123',
+		userId: 'dsfsgfdsf003',
 		username: '홍길동',
 		job: '셰프',
 		team: '요리연구소',
@@ -86,7 +86,7 @@ const vacationData = [
 	{
 		requestId: 'request-7',
 		requestType: '휴가',
-		userId: 'dsfsgfdsf123',
+		userId: 'dsfsgfdsf004',
 		username: '홍길동',
 		job: '셰프',
 		team: '요리연구소',
@@ -100,7 +100,7 @@ const vacationData = [
 	{
 		requestId: 'request-8',
 		requestType: '기타',
-		userId: 'dsfsgfdsf123',
+		userId: 'dsfsgfdsf005',
 		username: '홍길동',
 		job: '셰프',
 		team: '요리연구소',
@@ -114,7 +114,7 @@ const vacationData = [
 	{
 		requestId: 'request-9',
 		requestType: '조퇴',
-		userId: 'dsfsgfdsf123',
+		userId: 'dsfsgfdsf006',
 		username: '홍길동',
 		job: '셰프',
 		team: '요리연구소',
@@ -128,7 +128,7 @@ const vacationData = [
 	{
 		requestId: 'request-10',
 		requestType: '기타',
-		userId: 'dsfsgfdsf123',
+		userId: 'dsfsgfdsf007',
 		username: '홍길동',
 		job: '셰프',
 		team: '요리연구소',
@@ -142,7 +142,7 @@ const vacationData = [
 	{
 		requestId: 'request-11',
 		requestType: '반차',
-		userId: 'dsfsgfdsf123',
+		userId: 'dsfsgfdsf008',
 		username: '홍길동',
 		job: '셰프',
 		team: '요리연구소',
@@ -156,7 +156,7 @@ const vacationData = [
 	{
 		requestId: 'request-12',
 		requestType: '휴가',
-		userId: 'dsfsgfdsf123',
+		userId: 'dsfsgfdsf009',
 		username: '홍길동',
 		job: '셰프',
 		team: '요리연구소',
@@ -170,7 +170,7 @@ const vacationData = [
 	{
 		requestId: 'request-13',
 		requestType: '휴가',
-		userId: 'dsfsgfdsf123',
+		userId: 'dsfsgfdsf010',
 		username: '홍길동',
 		job: '셰프',
 		team: '요리연구소',
@@ -184,7 +184,7 @@ const vacationData = [
 	{
 		requestId: 'request-14',
 		requestType: '휴가',
-		userId: 'dsfsgfdsf123',
+		userId: 'dsfsgfdsf011',
 		username: '홍길동',
 		job: '셰프',
 		team: '요리연구소',
@@ -198,7 +198,7 @@ const vacationData = [
 	{
 		requestId: 'request-15',
 		requestType: '휴가',
-		userId: 'dsfsgfdsf123',
+		userId: 'dsfsgfdsf012',
 		username: '홍길동',
 		job: '셰프',
 		team: '요리연구소',
@@ -212,7 +212,7 @@ const vacationData = [
 	{
 		requestId: 'request-16',
 		requestType: '휴가',
-		userId: 'dsfsgfdsf123',
+		userId: 'dsfsgfdsf013',
 		username: '홍길동',
 		job: '셰프',
 		team: '요리연구소',
@@ -226,7 +226,7 @@ const vacationData = [
 	{
 		requestId: 'request-17',
 		requestType: '휴가',
-		userId: 'dsfsgfdsf123',
+		userId: 'dsfsgfdsf014',
 		username: '홍길동',
 		job: '셰프',
 		team: '요리연구소',
