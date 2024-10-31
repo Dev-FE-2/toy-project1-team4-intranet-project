@@ -15,15 +15,19 @@ export default class VacationListItem {
 	getTemplate(userRequestInfo) {
 		console.log(userRequestInfo);
 
-		const { image, username, title, startDate, endDate } = userRequestInfo;
+		const { image, username, title, createdDate, startDate, endDate } = userRequestInfo;
+		const createdDateRow = new Date(createdDate);
+		const month = Intl.DateTimeFormat('ko-KR', { month: 'numeric' }).format(createdDateRow);
+		const day = Intl.DateTimeFormat('ko-KR', { day: 'numeric' }).format(createdDateRow);
+		const weekday = Intl.DateTimeFormat('en-US', { weekday: 'short' }).format(createdDateRow);
 
 		return `<li class="vacation__main-item">
                 <div class="vacation__main-item--profile">
                      <img src="${image ?? AvatarImg}" alt="${username} 님의 프로필 사진">
                 </div>
                 <div class="vacation__main-item--date">
-                    <span class="day">Friday</span>
-                    <span class="date">27</span>
+                    <span class="day">${weekday}</span>
+                    <span class="date">${month} ${day}</span>
                 </div>
                 <div class="vacation__main-item--desc">
                     <span>${title}</span>
