@@ -15,7 +15,7 @@ export default class VacationPage {
 
                 <div class="vacation__btn-wrapper">
                     <button id="openHistoryModalBtn" class="btn btn--highlight">나의 근태</button>
-                    <button id="openApplyModalBtn" class="btn btn--primary">근태 신청</button>
+                    <button data-button="register" class="btn btn--primary">근태 신청</button>
                 </div>
 
                 <div class="vacation__list-wrapper">
@@ -94,7 +94,7 @@ export default class VacationPage {
                     </div>
                 </div>
                 <div class="vacation-btn-wrapper--mobile">
-                    <button class="btn btn--primary">근태 신청</button>
+                    <button data-button="register" class="btn btn--primary">근태 신청</button>
                 </div>
             </section>
             <div id="modalWrapper">
@@ -104,16 +104,10 @@ export default class VacationPage {
 	}
 
 	showModal(event) {
-		const id = event.currentTarget.id;
-		if (id === 'openApplyModalBtn') {
-			const applyModal = document.getElementById('applyModal');
-			applyModal.classList.add('active');
-			return;
-		} else if (id === 'openHistoryModalBtn') {
-			const historyModal = document.getElementById('historyModal');
+		console.log(event.target);
 
-			historyModal.classList.add('active');
-		}
+		const applyModal = document.getElementById('applyModal');
+		applyModal.classList.add('active');
 	}
 
 	closeModal(event) {
@@ -134,15 +128,16 @@ export default class VacationPage {
 		new VacationApplyModal(el).render();
 		new VacationHistoryModal(el).render();
 
-		const openApplyModalBtn = document.getElementById('openApplyModalBtn');
-		const openHistoryModalBtn = document.getElementById('openHistoryModalBtn');
 		const applyModalBtnWrapper = document.getElementById('applyModalBtnWrapper');
 		const applyModalCancelBtn = applyModalBtnWrapper.querySelector('button:first-child');
 		const historyModalBtnWrapper = document.getElementById('historyModalBtnWrapper');
 		const historyModalCancelBtn = historyModalBtnWrapper.querySelector('button:first-child');
 
-		openApplyModalBtn.addEventListener('click', this.showModal); // 실행 컨텍스트 문제로 this.showModal 내부의 this는 실행 주체인 openApplyModalBtn이 됨
-		openHistoryModalBtn.addEventListener('click', this.showModal);
+		const openApplyModalBtns = document.querySelectorAll('[data-button="register"]');
+		openApplyModalBtns.forEach((btn) => {
+			btn.addEventListener('click', this.showModal); // 실행 컨텍스트 문제로 this.showModal 내부의 this는 실행 주체인 openApplyModalBtn이 됨
+		});
+
 		applyModalCancelBtn.addEventListener('click', this.closeModal);
 		historyModalCancelBtn.addEventListener('click', this.closeModal);
 	}
