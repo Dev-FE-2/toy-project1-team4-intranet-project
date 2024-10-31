@@ -1,13 +1,10 @@
 import VacationListItem from './components/VacationListItem';
 import './style.css';
 import VacationApplyModal from './VacationApplyModal';
-import VacationHistoryModal from './VacationHistoryModal';
 
 export default class VacationPage {
 	constructor(contents) {
 		this.contentsElement = contents;
-		this.applyModalEl = new VacationApplyModal();
-		this.historyModalEl = new VacationHistoryModal();
 		this.template = `
             <section class="contents vacation">
                 <div class="vacation__page-title-wrapper">
@@ -62,7 +59,7 @@ export default class VacationPage {
             `;
 	}
 
-	showModal(event) {
+	showModal() {
 		const applyModal = document.getElementById('applyModal');
 		applyModal.classList.add('active');
 	}
@@ -92,25 +89,23 @@ export default class VacationPage {
 
 		// 리스트 렌더링
 		this.vacationListEl = document.querySelector('#vacationList');
+		this.modalWrapper = document.querySelector('#modalWrapper');
 		this.fetchVacationList();
 
-		const el = document.querySelector('#modalWrapper');
-
-		new VacationApplyModal(el).render();
-		new VacationHistoryModal(el).render();
+		// 근태 신청 모달 렌더링
+		new VacationApplyModal(this.modalWrapper).render();
 
 		const applyModalBtnWrapper = document.getElementById('applyModalBtnWrapper');
 		const applyModalCancelBtn = applyModalBtnWrapper.querySelector('button:first-child');
-		const historyModalBtnWrapper = document.getElementById('historyModalBtnWrapper');
-		const historyModalCancelBtn = historyModalBtnWrapper.querySelector('button:first-child');
 
+		// 근태 신청 모달 팝업
 		const openApplyModalBtns = document.querySelectorAll('[data-button="register"]');
 		openApplyModalBtns.forEach((btn) => {
 			btn.addEventListener('click', this.showModal); // 실행 컨텍스트 문제로 this.showModal 내부의 this는 실행 주체인 openApplyModalBtn이 됨
 		});
 
+		// 근태 신청 모달 닫기
 		applyModalCancelBtn.addEventListener('click', this.closeModal);
-		historyModalCancelBtn.addEventListener('click', this.closeModal);
 
 		// 나의 근태 목록 필터링
 		const myVacationBtn = document.querySelector('#myVacationBtn');

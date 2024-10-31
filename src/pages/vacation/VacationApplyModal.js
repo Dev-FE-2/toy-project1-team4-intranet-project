@@ -42,6 +42,7 @@ export default class VacationApplyModal {
 
 	async handleVacationSubmit(event) {
 		event.preventDefault();
+		const vacationApplyModal = document.getElementById('applyModal');
 		const submitArray = [];
 		const submitObject = {};
 		const formData = new FormData(this);
@@ -60,6 +61,8 @@ export default class VacationApplyModal {
 			},
 			body: toJSON,
 		});
+
+		vacationApplyModal.classList.remove('active');
 	}
 
 	async render() {
