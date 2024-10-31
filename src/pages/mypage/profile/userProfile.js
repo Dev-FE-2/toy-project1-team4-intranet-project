@@ -1,5 +1,5 @@
 // profile.js
-import userProfile from './userProfile.json';
+import userProfile from './userProfileData.json';
 
 // 특정 user_id에 맞는 유저 정보를 반환하는 함수
 function getUserProfile(userId) {
