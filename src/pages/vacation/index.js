@@ -84,9 +84,6 @@ export default class VacationPage {
 		applyModalCancelBtn.addEventListener('click', this.closeModal);
 
 		// 리스트 렌더링
-		this.fetchVacationList(this.listParentEl, this.modalParentEl);
-
-		// 리스트 렌더링
 		const vacationListItem = new VacationListItem(
 			listParentEl,
 			modalParentEl,
