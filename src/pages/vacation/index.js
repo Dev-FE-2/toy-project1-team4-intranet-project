@@ -1,4 +1,5 @@
 import VacationListItem from './components/VacationListItem';
+import VacationTypeTabMenu from './components/VacationTypeTabMenu';
 import VacationApplyModal from './VacationApplyModal';
 import VacationHistoryModal from './VacationHistoryModal';
 import './style.css';
@@ -100,6 +101,9 @@ export default class VacationPage {
 		// 리스트 렌더링
 		const vacationListItem = new VacationListItem(listParentEl, modalParentEl);
 		vacationListItem.render();
+
+		// 휴가 종류 메뉴 탭 렌더링
+		new VacationTypeTabMenu(menuEl, vacationListItem).render();
 
 		// 나의 근태 목록 필터링
 		myVacationBtn.addEventListener('click', () => {
