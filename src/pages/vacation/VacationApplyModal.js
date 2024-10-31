@@ -1,5 +1,3 @@
-import { http } from 'msw';
-
 export default class VacationApplyModal {
 	constructor(modalWrapper) {
 		this.modalWrapper = modalWrapper;
@@ -53,14 +51,6 @@ export default class VacationApplyModal {
 
 		submitArray.push(submitObject);
 		const toJSON = JSON.stringify(submitArray);
-		// console.log(toJSON);
-
-		// const res = await fetch('http://localhost:5173/api/vacation', {
-		// 	method: 'POST',
-		// 	headers: { 'Content-type': 'application/json' },
-		// 	body: data,
-		// });
-		// console.log(s);
 
 		const res = await fetch('http://localhost:5173/api/vacation', {
 			method: 'POST',
@@ -70,8 +60,6 @@ export default class VacationApplyModal {
 			},
 			body: toJSON,
 		});
-
-		// console.log(res);
 	}
 
 	async render() {

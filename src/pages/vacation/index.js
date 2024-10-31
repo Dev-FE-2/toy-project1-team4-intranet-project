@@ -104,8 +104,6 @@ export default class VacationPage {
 	}
 
 	showModal(event) {
-		console.log(event.target);
-
 		const applyModal = document.getElementById('applyModal');
 		applyModal.classList.add('active');
 	}
