@@ -30,9 +30,6 @@ export const handlers = [
 			{ status: 200 },
 		);
 
-		// vacationData.push(data[0]);
-
 		return response;
-		// return HttpResponse.json(request);
 	}),
 ];
