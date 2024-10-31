@@ -1,3 +1,5 @@
+import { http } from 'msw';
+
 export default class VacationApplyModal {
 	constructor(modalWrapper) {
 		this.modalWrapper = modalWrapper;
@@ -40,7 +42,42 @@ export default class VacationApplyModal {
     `;
 	}
 
-	render() {
+	async handleVacationSubmit(event) {
+		event.preventDefault();
+		const submitArray = [];
+		const submitObject = {};
+		const formData = new FormData(this);
+		for (let [key, value] of formData.entries()) {
+			submitObject[key] = value;
+		}
+
+		submitArray.push(submitObject);
+		const toJSON = JSON.stringify(submitArray);
+		// console.log(toJSON);
+
+		// const res = await fetch('http://localhost:5173/api/vacation', {
+		// 	method: 'POST',
+		// 	headers: { 'Content-type': 'application/json' },
+		// 	body: data,
+		// });
+		// console.log(s);
+
+		const res = await fetch('http://localhost:5173/api/vacation', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				Accept: 'application.json',
+			},
+			body: toJSON,
+		});
+
+		// console.log(res);
+	}
+
+	async render() {
 		this.modalWrapper.insertAdjacentHTML('beforeend', this.template);
+		const vacationApplyForm = document.getElementById('vacationApplyForm');
+
+		vacationApplyForm.addEventListener('submit', this.handleVacationSubmit);
 	}
 }
