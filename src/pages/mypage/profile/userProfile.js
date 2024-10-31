@@ -1,16 +1,15 @@
-// profile.js
-import userProfile from './userProfileData.json';
+import employeesData from '/server/data/employees';
 
 // 특정 user_id에 맞는 유저 정보를 반환하는 함수
 function getUserProfile(userId) {
-	return userProfile.find((user) => user.user_id === userId);
+	return employeesData.filter((data) => data.userId == userId);
 }
 
 // 유저 정보를 받아 DOM에 업데이트하는 함수
 export function renderUserProfile(userId) {
-	const user = getUserProfile(userId);
+	const userData = getUserProfile(userId);
 
-	if (user) {
+	if (userData) {
 		// HTML 요소 선택
 		//const profileIcon = document.querySelector('.profile__icon img');
 		const profileName = document.querySelector('.profile-name');
@@ -20,8 +19,11 @@ export function renderUserProfile(userId) {
 		// 요소 업데이트
 		// profileIcon.src = `../../../public/${user['profile-image']}`;
 		// profileIcon.alt = `${user['profile-name']}의 프로필 이미지`;
-		profileName.textContent = user['profile-name'];
-		profilePosition.textContent = user['profile-position'];
+		userData.forEach((item) => {
+			profileName.textContent = item.username;
+			profilePosition.textContent = item.job;
+			//profileIcon.src = item.profileImage;
+		});
 	} else {
 		console.error('해당 user_id의 유저 정보를 찾을 수 없습니다.');
 	}

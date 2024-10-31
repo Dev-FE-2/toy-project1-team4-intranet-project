@@ -1,12 +1,15 @@
 import './style.css';
 import { addWorkStatusButtonListener, addModalWorkStatusButtonListener } from './modal.js';
 import { renderUserProfile } from './profile/userProfile.js';
+import vacationData from '/server/data/vacation.js';
+import { createLiAttendanceList } from './previewAttendance.js';
 
 export default class MyPage {
 	constructor() {
 		// Bind the update time method to the instance
 		this.updateCurrentTime = this.updateCurrentTime.bind(this);
 		this.intervalId = null; // setInterval ID 저장할 변수
+		this.user_id = 'g-dragon123';
 	}
 
 	render() {
@@ -45,7 +48,7 @@ export default class MyPage {
 							<div class="profile__info">
 								<div class="profile__status">
 									<span class="status-circle"></span>
-									<span class="status-text">근무 중 아님</span>
+									<span class="status-text">근무 전</span>
 								</div>
 								<div class="profile__info__child">
 									<div class="profile-name">김직원</div>
@@ -58,7 +61,7 @@ export default class MyPage {
 								<div class="weekly-work-time">
 									<div class="clock-icon">🕓</div>
 									<div class="description">이번 주 근무 시간</div>
-									<div class="hours">32시간</div>
+									<div class="hours">-</div>
 								</div>
 								<div class="work-progress">
 									<div class="work-time__chart">
@@ -95,19 +98,6 @@ export default class MyPage {
 					</div>
 					<div class="attendance-list__wrap">
 						<ul class="attendance-list-container">
-							<li class="attendance-item">
-								<div class="attendance-item__to-third">
-									<div class="attendance-img">
-										<img src="../../../public/avatar.svg" alt="Icon" />
-									</div>
-									<div class="date-time">
-										<div class="day">Friday</div>
-										<div class="date">27</div>
-									</div>
-									<div class="attendance-text">휴가 신청합니다.</div>
-								</div>
-								<div class="author">박수빈</div>
-							</li>
 						</ul>
 					</div>
 				</section>
@@ -119,13 +109,15 @@ export default class MyPage {
 		this.checkUrlChange(); // URL 변경 감지 시작
 		this.addModalEventListener();
 		this.getUserProfile();
+		this.getVacationDataPreview(vacationData);
 		return content;
 	}
 
 	// userProfile.js에 renderUserProfile를 호출 -> 유저 정보 가져오기
 	getUserProfile() {
-		const user_id = 1;
-		renderUserProfile(user_id, this.isWorking);
+		// const user_id = 1;
+		console.log(this.user_id);
+		renderUserProfile(this.user_id, this.isWorking);
 	}
 
 	addModalEventListener() {
@@ -199,5 +191,11 @@ export default class MyPage {
 		if (this.intervalId) {
 			clearInterval(this.intervalId);
 		}
+	}
+
+	getVacationDataPreview(vacationData) {
+		// ul 영역을 찾고 내부에 li 요소를 동적으로 채우기 위해 선언
+		const attendanceListContainer = document.querySelector('.attendance-list-container');
+		createLiAttendanceList(this.user_id, vacationData, attendanceListContainer);
 	}
 }
