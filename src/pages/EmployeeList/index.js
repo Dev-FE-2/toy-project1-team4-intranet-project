@@ -32,11 +32,11 @@ export default class EmployeeList {
                         <td>
                             <div class="row-details">
                                 <img src="/public/avatar.svg" alt="Employee Image">
-                                <span>${employee.name}</span>
+                                <span>${employee.username}</span>
                             </div>
                         </td>
                         <td>${employee.job}</td>
-                        <td>${employee.org}</td>
+                        <td>${employee.team}</td>
                         <td>${employee.email}</td>
                         <td>${employee.phone}</td>
                         <td>
@@ -109,7 +109,7 @@ export default class EmployeeList {
 
 	onEmployeeRowClick(event) {
 		const employeeId = event.currentTarget.getAttribute('userid');
-		window.location.href = `/admin/employees/${employeeId}`;
+		window.location.href = `/admin/employees/detail?userId=${employeeId}`;
 	}
 
 	addPaginationEventListeners() {

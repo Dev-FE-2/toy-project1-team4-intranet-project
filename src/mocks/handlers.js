@@ -21,4 +21,15 @@ export const handlers = [
 	http.get('http://localhost:5173/api/vacation', () => {
 		return HttpResponse.json(vacationData);
 	}),
+	http.get('http://localhost:5173/api/employee/:id', ({ params }) => {
+		const { id } = params;
+		console.log('요청된 employee ID:', id);
+		const employeeData = employeesData.find((employee) => employee.userId === id);
+
+		if (employeeData) {
+			return HttpResponse.json(employeeData, { status: 200 });
+		} else {
+			return HttpResponse.json({ error: 'Employee not found' }, { status: 404 });
+		}
+	}),
 ];

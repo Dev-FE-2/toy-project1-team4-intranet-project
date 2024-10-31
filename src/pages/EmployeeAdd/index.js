@@ -4,7 +4,7 @@ import { ProfileForm } from '../../components/pages/Profile/ProfileForm';
 export default class EmployeeAdd {
 	constructor() {
 		this.emptyUserData = {
-			name: '',
+			username: '',
 			job: '',
 			team: '',
 			phone: '',
