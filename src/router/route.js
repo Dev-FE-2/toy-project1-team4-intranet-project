@@ -36,7 +36,7 @@ export const route = () => {
 		}
 
 		case path === url.vacation:
-			contentsElement.innerHTML = new VacationPage().render();
+			new VacationPage(contentsElement).render();
 			break;
 
 		case path === url.notice:
@@ -73,9 +73,7 @@ export const route = () => {
 
 		case urlPattern.sample.test(path): {
 			const id = path.match(urlPattern.sample)[1];
-			console.log('saple id', id);
-
-			contentsElement.innerHTML = new SamplePage(id).render();
+			new SamplePage(contentsElement, id).render();
 			break;
 		}
 
