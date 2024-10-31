@@ -1,15 +1,21 @@
 import './style.css';
+import VacationApplyModal from './VacationApplyModal';
+import VacationHistoryModal from './VacationHistoryModal';
 
 export default class VacationPage {
-	render() {
-		return `<section class="contents vacation">
+	constructor(contents) {
+		this.contentsElement = contents;
+		this.applyModalEl = new VacationApplyModal();
+		this.historyModalEl = new VacationHistoryModal();
+		this.template = `
+            <section class="contents vacation">
                 <div class="vacation__page-title-wrapper">
                     <h1 class="page-title">근태 신청</h1>
                 </div>
 
                 <div class="vacation__btn-wrapper">
-                    <button class="btn btn--highlight">나의 근태</button>
-                    <button class="btn btn--primary">근태신청</button>
+                    <button id="openHistoryModalBtn" class="btn btn--highlight">나의 근태</button>
+                    <button id="openApplyModalBtn" class="btn btn--primary">근태 신청</button>
                 </div>
 
                 <div class="vacation__list-wrapper">
@@ -88,85 +94,56 @@ export default class VacationPage {
                     </div>
                 </div>
                 <div class="vacation-btn-wrapper--mobile">
-                    <button class="btn btn--primary">휴가 신청하기</button>
+                    <button class="btn btn--primary">근태 신청</button>
                 </div>
             </section>
-
-            <div class="vacation__apply-wrapper">
-                <div class="vacation__apply-background"></div>
-                <div class="vacation__apply-popup">
-                    <div class="vacation__apply-title-wrapper">
-                        <div class="vacation__apply-title">휴가 신청</div>
-                    </div>
-                    <div class="vacation__apply-form-wrapper">
-                        <form action="" class="form">
-                            <fieldset class="vacation__apply-select">
-                                <legend>신청가능한 근태</legend>
-                                <label for="apply">휴가 종류</label>
-                                <select name="apply" id="apply">
-                                    <option value="연차">🏖️ 연차</option>
-                                    <option value="반차">🌇 반차</option>
-                                    <option value="병가">🚑 병가</option>
-                                    <option value="기타">💬 기타</option>
-                                </select>
-                            </fieldset>
-                            <fieldset class="vacation__apply-select">
-                                <legend>시작일</legend>
-                                <input type="date" data-placeholder="시작일" placeholder="시작일" required>
-                            </fieldset>
-                            <fieldset class="vacation__apply-select">
-                                <legend>종료일</legend>
-                                <input type="date" data-placeholder="종료일" placeholder="종료일" required>
-                            </fieldset>
-                            <textarea name="" id="" placeholder="휴가 사유를 입력해주세요."></textarea>
-                        </form>
-                    </div>
-                    <div class="vacation__apply-btn-wrapper">
-                        <button class="btn">취소</button>
-                        <button class="btn btn--primary">휴가 신청하기</button>
-                    </div>
-                </div>
+            <div id="modalWrapper">
+            
             </div>
+            `;
+	}
 
-            <div class="vacation__history-wrapper">
-                <div class="vacation__history-background"></div>
-                <div class="vacation__history-popup">
-                    <div class="vacation__history-title-wrapper">
-                        <div class="vacation__history-title">휴가 신청 내역</div>
-                    </div>
-                    <div class="vacation__history-author-wrapper">
-                        <hr>
-                        <h3 class="vacation__history-author">박수빈</h3>
-                    </div>
-                    <div class="vacation__history-form-wrapper">
-                        <form action="" class="form">
-                            <fieldset class="vacation__apply-select">
-                                <legend>신청가능한 근태</legend>
-                                <label for="apply">휴가 종류</label>
-                                <select name="apply" id="apply" readonly>
-                                    <option value="연차">🏖️ 연차</option>
-                                    <option value="반차">🌇 반차</option>
-                                    <option value="병가">🚑 병가</option>
-                                    <option value="기타">💬 기타</option>
-                                </select>
-                            </fieldset>
-                            <fieldset>
-                                <legend>시작일</legend>
-                                <input type="date" data-placeholder="시작일" placeholder="시작일" required readonly>
-                            </fieldset>
-                            <fieldset>
-                                <legend>종료일</legend>
-                                <input type="date" data-placeholder="종료일" placeholder="종료일" required readonly>
-                            </fieldset>
-                            <input type="text" readonly>
-                            <textarea name="" id="" readonly>이런 이런 이런 이유로 ~~~ 휴가 신청합니다 ~</textarea>
-                        </form>
-                    </div>
-                    <div class="vacation__history-btn-wrapper">
-                        <button class="btn">취소</button>
-                        <button class="btn btn--primary">확인</button>
-                    </div>
-                </div>
-            </div>`;
+	showModal(event) {
+		const id = event.currentTarget.id;
+		if (id === 'openApplyModalBtn') {
+			const applyModal = document.getElementById('applyModal');
+			applyModal.classList.add('active');
+			return;
+		} else if (id === 'openHistoryModalBtn') {
+			const historyModal = document.getElementById('historyModal');
+
+			historyModal.classList.add('active');
+		}
+	}
+
+	closeModal(event) {
+		const id = event.currentTarget.parentElement.id;
+		const applyModal = document.getElementById('applyModal');
+		const historyModal = document.getElementById('historyModal');
+		if (id === 'applyModalBtnWrapper') {
+			applyModal.classList.remove('active');
+		} else if (id === 'historyModalBtnWrapper') {
+			historyModal.classList.remove('active');
+		}
+	}
+
+	render() {
+		this.contentsElement.innerHTML = this.template;
+		const el = document.querySelector('#modalWrapper');
+
+		new VacationApplyModal(el).render();
+		new VacationHistoryModal(el).render();
+
+		const openApplyModalBtn = document.getElementById('openApplyModalBtn');
+		const openHistoryModalBtn = document.getElementById('openHistoryModalBtn');
+		const applyModalBtnWrapper = document.getElementById('applyModalBtnWrapper');
+		const applyModalCancelBtn = applyModalBtnWrapper.querySelector('button:first-child');
+		const historyModalBtnWrapper = document.getElementById('historyModalBtnWrapper');
+		const historyModalCancelBtn = historyModalBtnWrapper.querySelector('button:first-child');
+
+		openApplyModalBtn.addEventListener('click', this.showModal); // 실행 컨텍스트 문제로 this.showModal 내부의 this는 실행 주체인 openApplyModalBtn이 됨
+		openHistoryModalBtn.addEventListener('click', this.showModal);
+		applyModalCancelBtn.addEventListener('click', this.closeModal);
+		historyModalCancelBtn.addEventListener('click', this.closeModal);
 	}
 }
