@@ -21,15 +21,16 @@ export const handlers = [
 	http.get('http://localhost:5173/api/vacation', () => {
 		return HttpResponse.json(vacationData);
 	}),
-	http.get('http://localhost:5173/api/employee/:id', ({ params }) => {
-		const { id } = params;
-		console.log('요청된 employee ID:', id);
-		const employeeData = employeesData.find((employee) => employee.userId === id);
+	http.post('http://localhost:5173/api/vacation', async ({ request }) => {
+		const data = await request.json();
+		console.log(data);
 
-		if (employeeData) {
-			return HttpResponse.json(employeeData, { status: 200 });
-		} else {
-			return HttpResponse.json({ error: 'Employee not found' }, { status: 404 });
-		}
+		const response = HttpResponse.json(
+			{ message: 'Form submmitted successfully' },
+			{ status: 200 },
+		);
+
+		return response;
+
 	}),
 ];

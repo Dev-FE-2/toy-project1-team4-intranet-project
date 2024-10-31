@@ -10,6 +10,9 @@ export function handleWorkStatusToggle(isWorking, isFromModal) {
 	const modalCurrentTime = document.querySelector('.modal__work .current-time');
 	const modalWorkMessage = document.querySelector('.modal__work .work_message');
 	const modalWorkStatusButton = document.querySelector('.modal__work .work-status-btn__modal');
+	const workStatusCircle = document.querySelector('.status-circle');
+	const workStatusText = document.querySelector('.profile__status .status-text');
+	console.log(workStatusCircle);
 
 	// css상태를 불러오는 함수 / 그러나 값 지정은 어려움
 	// const modalStatus = getComputedStyle(document.querySelector('.modal-box')).display;
@@ -19,15 +22,13 @@ export function handleWorkStatusToggle(isWorking, isFromModal) {
 
 	// addWorkStatusButtonListener에서 메인의 근무 시작 or 근무 종료 버튼 클릭시 동작
 	if (!isWorking && !isFromModal) {
-		console.log('case 1');
 		workEndTimeElement.textContent = '-'; // 종료 시간 초기화
 		// 근무 시작 버튼 클릭 시 모달창 생성
 		document.querySelector('.modal-box').style.display = 'flex';
 	}
 
-	// addModalWorkStatusButtonListener에서 모달의 근무 시작 or 근무 종료 버튼 클릭시 동작
+	// addModalWorkStatusButtonListener에서 모달의 근무 시작 버튼 클릭시 동작
 	else if (!isWorking && isFromModal) {
-		console.log('case 2');
 		// 근무 시작 버튼 클릭 -> 근무 시작 상태로 전환
 		workStartTimeElement.textContent = getCurrentTime(); // 시작 시간 표시
 
@@ -35,21 +36,23 @@ export function handleWorkStatusToggle(isWorking, isFromModal) {
 		workStatusButton.textContent = '근무 종료';
 		modalWorkMessage.textContent = '근무를 종료하시겠습니까?';
 		modalWorkStatusButton.textContent = '근무 종료';
+		workStatusCircle.classList.add('active');
+		workStatusText.textContent = '근무중';
 	}
 
 	// 메인의 근무 종료 클릭 -> 근무 종료 모달 호출
 	else if (isWorking && !isFromModal) {
-		console.log('case 3');
 		document.querySelector('.modal-box').style.display = 'flex';
 	}
 
 	// 모달의 근무 종료 클릭 -> 근무 종료 상태로 전환
 	else if (isWorking && isFromModal) {
-		console.log('case 4');
 		// 모달 근무 종료 버튼 클릭 후 메인 근무 상태 버튼 비활성화
 		workStatusButton.disabled = true;
 		workEndTimeElement.textContent = getCurrentTime(); // 종료 시간 표시
 		document.querySelector('.modal-box').style.display = 'none';
+		workStatusCircle.classList.remove('active');
+		workStatusText.textContent = '근무 종료';
 		/**
 		 * todo -> 날짜 기준을 잡고 특정 시간이 넘어가면 자동 근무종료 및 초기화
 		 * 왼쪽 이번주 근무 시간에 반영

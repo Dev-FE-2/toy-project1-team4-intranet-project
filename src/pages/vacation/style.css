@@ -36,6 +36,9 @@
 	display: flex;
 	flex-direction: column;
 	gap: 12px;
+	flex: 1;
+    height: 100%;
+    overflow-y: scroll;
 }
 
 .vacation__list-nav {
@@ -60,7 +63,6 @@
 }
 
 .vacation__content-wrapper {
-	max-height: 440px;
 	overflow-y: scroll;
 }
 
@@ -79,6 +81,11 @@
 
 .vacation__main-item--profile {
 	margin-right: 20px;
+}
+
+.vacation__main-item--profile img{
+	width: 60px;
+	height: 60px;
 }
 
 .vacation__main-item--date {
@@ -102,6 +109,10 @@
 }
 
 .vacation__main-item--desc {
+	white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-right: var(--padding-sm);
 	line-height: 18px;
 	flex-grow: 1;
 }
@@ -121,8 +132,10 @@
 	margin-right: 48px;
 }
 
+
 .vacation__main-item--author {
 	color: var(--color-secondary);
+	word-break: keep-all;
 }
 
 .vacation__list-btn {
@@ -380,6 +393,11 @@
 
 	.vacation__main-item {
 		padding: 12px;
+	}
+
+	.vacation__main-item--profile img{
+		width: 45px;
+		height: 45px;
 	}
 
 	.vacation__main-item--date {
