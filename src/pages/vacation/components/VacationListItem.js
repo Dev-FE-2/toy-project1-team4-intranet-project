@@ -1,11 +1,18 @@
 import AvatarImg from '/public/avatar.svg';
 
 export default class VacationListItem {
-	constructor(listParentEl, modalParentEl, isMyType, filterType) {
+	constructor(listParentEl, modalParentEl) {
 		this.listParentEl = listParentEl;
 		this.modalParentEl = modalParentEl;
-		this.isMyType = isMyType;
-		this.filterType = filterType;
+		this.states = {
+			isMyVacation: false,
+			filterType: '전체',
+		};
+	}
+
+	setState(newStates) {
+		this.states = { ...this.states, ...newStates };
+		this.render();
 	}
 
 	async fetchVacationData() {
@@ -27,6 +34,16 @@ export default class VacationListItem {
 		const [vacationDatas, userData] = fetchedDatas;
 
 		return vacationDatas.filter((vacationData) => vacationData.userId === userData.userId);
+	}
+
+	async filterTypeData() {
+		const data = this.states.isMyVacation
+			? await this.filterMyData()
+			: await this.fetchVacationData();
+
+		return this.states.filterType === '전체'
+			? data
+			: data.filter((vacationData) => vacationData.requestType === this.states.filterType);
 	}
 
 	getTemplate(userRequestData) {
@@ -69,11 +86,7 @@ export default class VacationListItem {
 	}
 
 	async render() {
-		const data = this.isMyType ? await this.filterMyData() : await this.fetchVacationData();
-		// console.log('this.listParentEl', this.listParentEl);
-		// console.log('this.modalParentEl', this.modalParentEl);
-		// console.log('this.isMyType', this.isMyType);
-		// console.log('this.filterType', this.filterType);
-		this.listParentEl.innerHTML = this.getVacationList(data);
+		const filteredData = await this.filterTypeData();
+		this.listParentEl.innerHTML = this.getVacationList(filteredData);
 	}
 }

@@ -1,17 +1,11 @@
 import VacationListItem from './components/VacationListItem';
-import VacationTypeTabMenu from './components/VacationTypeTabMenu';
 import VacationApplyModal from './VacationApplyModal';
 import VacationHistoryModal from './VacationHistoryModal';
 import './style.css';
 
 export default class VacationPage {
-	constructor(contents) {
-		this.contentsElement = contents;
-		this.listParentEl = null;
-		this.modalParentEl = null;
-		this.isMyType = false;
-		this.filterType = '';
-		this.vacationListInstance = null;
+	constructor(contentsElement) {
+		this.contentsElement = contentsElement;
 		this.applyModalEl = new VacationApplyModal();
 		this.historyModalEl = new VacationHistoryModal();
 		this.template = `
@@ -79,41 +73,16 @@ export default class VacationPage {
 		}
 	}
 
-	fetchVacationList(listParentEl, modalParentEl) {
-		new VacationListItem(
-			listParentEl,
-			modalParentEl,
-			(this.isMyType = false),
-			(this.filterType = false),
-		).render();
-	}
-
-	fetchMyVacationList(listParentEl, modalParentEl) {
-		// new VacationListItem(
-		// 	this.listParentEl,
-		// 	this.modalParentEl,
-		// 	(this.isMyType = true),
-		// 	this.filterType,
-		// ).render(); // this가 인스턴스 객체가 아니라 버튼 요소이다.
-
-		new VacationListItem(
-			listParentEl,
-			modalParentEl,
-			(this.isMyType = true),
-			(this.filterType = false),
-		).render();
-	}
-
 	render() {
 		this.contentsElement.innerHTML = this.template;
 
-		this.modalParentEl = document.querySelector('#modalWrapper');
-		this.listParentEl = document.querySelector('#vacationList');
+		const modalParentEl = document.querySelector('#modalWrapper');
+		const listParentEl = document.querySelector('#vacationList');
 		const menuEl = document.querySelector('#typeTabMenu');
 		const myVacationBtn = document.querySelector('#myVacationBtn');
 
-		new VacationApplyModal(this.modalParentEl).render();
-		new VacationHistoryModal(this.modalParentEl).render();
+		new VacationApplyModal(modalParentEl).render();
+		new VacationHistoryModal(modalParentEl).render();
 
 		const applyModalBtnWrapper = document.getElementById('applyModalBtnWrapper');
 		const applyModalCancelBtn = applyModalBtnWrapper.querySelector('button:first-child');
@@ -128,21 +97,19 @@ export default class VacationPage {
 		applyModalCancelBtn.addEventListener('click', this.closeModal);
 		historyModalCancelBtn.addEventListener('click', this.closeModal);
 
-		// 휴가 종류 메뉴 탭
-		new VacationTypeTabMenu(menuEl).render();
-
 		// 리스트 렌더링
-		this.fetchVacationList(this.listParentEl, this.modalParentEl);
+		const vacationListItem = new VacationListItem(listParentEl, modalParentEl);
+		vacationListItem.render();
 
 		// 나의 근태 목록 필터링
 		myVacationBtn.addEventListener('click', () => {
 			if (myVacationBtn.dataset.type === 'myVacation') {
-				this.fetchMyVacationList(this.listParentEl, this.modalParentEl);
+				vacationListItem.setState({ isMyVacation: true });
 
 				myVacationBtn.innerHTML = '모든 근태';
 				myVacationBtn.dataset.type = 'allEmployeeVacation';
 			} else {
-				this.fetchVacationList(this.listParentEl, this.modalParentEl);
+				vacationListItem.setState({ isMyVacation: false });
 
 				myVacationBtn.innerHTML = '나의 근태';
 				myVacationBtn.dataset.type = 'myVacation';
