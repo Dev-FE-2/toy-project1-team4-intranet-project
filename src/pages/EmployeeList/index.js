@@ -7,12 +7,21 @@ export default class EmployeeList {
 	constructor(currentPage = 1) {
 		this.currentPage = currentPage;
 		this.itemsPerPage = ITEMS_PER_PAGE;
+		this.searchQuery = ''; // 검색어 상태 추가
+	}
+
+	// 검색어를 기준으로 직원 데이터를 필터링하는 함수
+	get filteredEmployees() {
+		if (!this.searchQuery) return employeesData; // 검색어가 없으면 전체 데이터를 반환
+		return employeesData.filter((employee) =>
+			employee.name.toLowerCase().includes(this.searchQuery.toLowerCase()),
+		);
 	}
 
 	get currentEmployees() {
 		const startIndex = (this.currentPage - 1) * this.itemsPerPage;
 		const endIndex = startIndex + this.itemsPerPage;
-		return employeesData.slice(startIndex, endIndex);
+		return this.filteredEmployees.slice(startIndex, endIndex);
 	}
 
 	get employeeRows() {
@@ -44,7 +53,7 @@ export default class EmployeeList {
 	}
 
 	get totalPages() {
-		return Math.ceil(employeesData.length / this.itemsPerPage);
+		return Math.ceil(this.filteredEmployees.length / this.itemsPerPage);
 	}
 
 	get paginationButtons() {
@@ -89,6 +98,7 @@ export default class EmployeeList {
 			this.addPaginationEventListeners();
 		}
 	}
+
 	addEmployeeRowEventListeners() {
 		const employeeRows = document.querySelectorAll('.employee-row');
 		employeeRows.forEach((row) => {
@@ -132,10 +142,23 @@ export default class EmployeeList {
 		}
 	}
 
+	addSearchEventListener() {
+		const searchInput = document.querySelector('.search');
+		if (searchInput) {
+			searchInput.addEventListener('input', (event) => {
+				this.searchQuery = event.target.value;
+				this.currentPage = 1;
+				this.updateEmployeeList();
+				this.updatePaginationButtons();
+			});
+		}
+	}
+
 	render() {
 		setTimeout(() => {
 			this.updateEmployeeList();
 			this.updatePaginationButtons();
+			this.addSearchEventListener();
 
 			const registerButton = document.querySelector('.register-btn');
 			if (registerButton) {
@@ -144,13 +167,6 @@ export default class EmployeeList {
 					window.location.href = url.employeeAdd;
 				});
 			}
-			const employeeRows = document.querySelectorAll('.employee-row');
-			employeeRows.forEach((row) => {
-				row.addEventListener('click', () => {
-					const employeeId = row.getAttribute('userid');
-					window.location.href = `/admin/employees/${employeeId}`;
-				});
-			});
 		}, 0);
 
 		return `
