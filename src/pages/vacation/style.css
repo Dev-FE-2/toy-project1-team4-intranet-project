@@ -60,7 +60,7 @@
 }
 
 .vacation__content-wrapper {
-	height: 440px;
+	max-height: 440px;
 	overflow-y: scroll;
 }
 
@@ -84,7 +84,7 @@
 .vacation__main-item--date {
 	display: flex;
 	flex-direction: column;
-	margin-right: 48px;
+	margin-right: 32px;
 }
 
 .vacation__main-item--date .day,
@@ -118,7 +118,7 @@
 
 .vacation__main-item--during {
 	font-size: 14px;
-	margin-right: 80px;
+	margin-right: 48px;
 }
 
 .vacation__main-item--author {
@@ -176,6 +176,7 @@
 /* APPLY */
 .vacation__apply-wrapper,
 .vacation__history-wrapper {
+	display: none;
 	position: fixed;
 	top: 0;
 	left: 0;
@@ -183,12 +184,12 @@
 	right: 0;
 }
 
-.vacation__apply-wrapper {
-	display: none;
+.vacation__apply-wrapper.active {
+	display: block;
 }
 
-.vacation__history-wrapper {
-	display: none;
+.vacation__history-wrapper.active {
+	display: block;
 }
 
 .vacation__apply-background,
@@ -337,6 +338,11 @@
 	font-family: var(--font-family);
 }
 
+.vacation__apply-btn-wrapper,
+.vacation__history-btn-wrapper {
+	display: flex;
+}
+
 .vacation__apply-btn-wrapper button,
 .vacation__history-btn-wrapper button {
 	cursor: pointer;
@@ -353,6 +359,10 @@
 .vacation__apply-btn-wrapper button:first-child,
 .vacation__history-btn-wrapper button:first-child {
 	margin-right: 16px;
+}
+
+.vacation-btn-wrapper--mobile {
+	display: none;
 }
 
 @media (max-width: 1024px) {

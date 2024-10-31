@@ -192,4 +192,5 @@ const employeesData = [
 		phone: '010-1234-5675',
 	},
 ];
+
 export default employeesData;
