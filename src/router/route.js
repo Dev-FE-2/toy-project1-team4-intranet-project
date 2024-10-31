@@ -37,7 +37,6 @@ export const route = () => {
 
 		case path === url.vacation:
 			new VacationPage(contentsElement).render();
-			// contentsElement.innerHTML = new VacationPage().render();
 			break;
 
 		case path === url.notice:
