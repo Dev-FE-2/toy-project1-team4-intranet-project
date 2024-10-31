@@ -1,9 +1,8 @@
-// profile.js
-import userProfileData from './userProfileData.js';
+import employeesData from '/server/data/employees';
 
 // 특정 user_id에 맞는 유저 정보를 반환하는 함수
 function getUserProfile(userId) {
-	return userProfileData.filter((data) => data.userId == userId);
+	return employeesData.filter((data) => data.userId == userId);
 }
 
 // 유저 정보를 받아 DOM에 업데이트하는 함수
@@ -23,6 +22,7 @@ export function renderUserProfile(userId) {
 		userData.forEach((item) => {
 			profileName.textContent = item.username;
 			profilePosition.textContent = item.job;
+			//profileIcon.src = item.profileImage;
 		});
 	} else {
 		console.error('해당 user_id의 유저 정보를 찾을 수 없습니다.');
