@@ -107,6 +107,10 @@
 }
 
 .vacation__main-item--desc {
+	white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-right: var(--padding-sm);
 	line-height: 18px;
 	flex-grow: 1;
 }
@@ -126,8 +130,10 @@
 	margin-right: 48px;
 }
 
+
 .vacation__main-item--author {
 	color: var(--color-secondary);
+	word-break: keep-all;
 }
 
 .vacation__list-btn {
