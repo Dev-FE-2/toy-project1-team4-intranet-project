@@ -3,60 +3,60 @@
     "user_id": 1,
     "profile-image": "image1.jpg",
     "profile-name": "홍길동",
-    "profile-position": "백엔드 개발자"
+    "profile-position": "품질 관리 담당"
   },
   {
     "user_id": 2,
     "profile-image": "image2.jpg",
     "profile-name": "김직원",
-    "profile-position": "프론트엔드 개발자"
+    "profile-position": "매장 관리자"
   },
   {
     "user_id": 3,
     "profile-image": "image3.jpg",
     "profile-name": "이준석",
-    "profile-position": "풀스택 개발자"
+    "profile-position": "매장식음료 관리자"
   },
   {
     "user_id": 4,
     "profile-image": "image4.jpg",
     "profile-name": "최은지",
-    "profile-position": "UI/UX 디자이너"
+    "profile-position": "고객 서비스 담당"
   },
   {
     "user_id": 5,
     "profile-image": "image5.jpg",
     "profile-name": "박수빈",
-    "profile-position": "프로젝트 매니저"
+    "profile-position": "프랜차이즈 개발자"
   },
   {
     "user_id": 6,
     "profile-image": "image6.jpg",
     "profile-name": "정영수",
-    "profile-position": "데이터 엔지니어"
+    "profile-position": "품질 관리 담당"
   },
   {
     "user_id": 7,
     "profile-image": "image7.jpg",
     "profile-name": "김민주",
-    "profile-position": "기획자"
+    "profile-position": "영업 담당"
   },
   {
     "user_id": 8,
     "profile-image": "image8.jpg",
     "profile-name": "강지원",
-    "profile-position": "모바일 개발자"
+    "profile-position": "레시피 개발자"
   },
   {
     "user_id": 9,
     "profile-image": "image9.jpg",
     "profile-name": "송하나",
-    "profile-position": "QA 엔지니어"
+    "profile-position": "프랜차이즈 운영 담당"
   },
   {
     "user_id": 10,
     "profile-image": "image10.jpg",
     "profile-name": "이지훈",
-    "profile-position": "DevOps 엔지니어"
+    "profile-position": "마케팅 담당"
   }
 ]
