@@ -40,7 +40,7 @@ export const route = () => {
 			break;
 
 		case path === url.notice:
-			contentsElement.innerHTML = new NoticePage().render();
+			new NoticePage(contentsElement).render();
 			break;
 
 		case urlPattern.noticeDetail.test(path): {
