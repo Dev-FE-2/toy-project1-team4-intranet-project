@@ -21,4 +21,15 @@ export const handlers = [
 	http.get('http://localhost:5173/api/vacation', () => {
 		return HttpResponse.json(vacationData);
 	}),
+	http.post('http://localhost:5173/api/vacation', async ({ request }) => {
+		const data = await request.json();
+		console.log(data);
+
+		const response = HttpResponse.json(
+			{ message: 'Form submmitted successfully' },
+			{ status: 200 },
+		);
+
+		return response;
+	}),
 ];

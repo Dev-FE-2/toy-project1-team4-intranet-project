@@ -40,7 +40,32 @@ export default class VacationApplyModal {
     `;
 	}
 
-	render() {
+	async handleVacationSubmit(event) {
+		event.preventDefault();
+		const submitArray = [];
+		const submitObject = {};
+		const formData = new FormData(this);
+		for (let [key, value] of formData.entries()) {
+			submitObject[key] = value;
+		}
+
+		submitArray.push(submitObject);
+		const toJSON = JSON.stringify(submitArray);
+
+		const res = await fetch('http://localhost:5173/api/vacation', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				Accept: 'application.json',
+			},
+			body: toJSON,
+		});
+	}
+
+	async render() {
 		this.modalWrapper.insertAdjacentHTML('beforeend', this.template);
+		const vacationApplyForm = document.getElementById('vacationApplyForm');
+
+		vacationApplyForm.addEventListener('submit', this.handleVacationSubmit);
 	}
 }
