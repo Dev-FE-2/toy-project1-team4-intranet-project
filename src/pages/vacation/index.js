@@ -1,3 +1,4 @@
+import VacationListItem from './components/VacationListItem';
 import './style.css';
 import VacationApplyModal from './VacationApplyModal';
 import VacationHistoryModal from './VacationHistoryModal';
@@ -14,8 +15,8 @@ export default class VacationPage {
                 </div>
 
                 <div class="vacation__btn-wrapper">
-                    <button id="openHistoryModalBtn" class="btn btn--highlight">나의 근태</button>
-                    <button data-button="register" class="btn btn--primary">근태 신청</button>
+                    <button data-type="myVacation" id="myVacationBtn" class="btn btn--highlight" type="button">나의 근태</button>
+                    <button data-button="register" class="btn btn--primary" type="button">근태 신청</button>
                 </div>
 
                 <div class="vacation__list-wrapper">
@@ -27,49 +28,7 @@ export default class VacationPage {
                     </ul>
 
                     <div class="vacation__content-wrapper">
-                        <ul class="vacation__list-main">
-                            <li class="vacation__main-item">
-                                <div class="vacation__main-item--profile">
-                                    <svg
-                                        width="40"
-                                        height="40"
-                                        viewBox="0 0 122 121"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                    >
-                                        <g clip-path="url(#clip0_98_11527)">
-                                            <ellipse cx="61" cy="60.5" rx="61" ry="60.5" fill="#DAE3EA" />
-                                            <path
-                                                fill-rule="evenodd"
-                                                clip-rule="evenodd"
-                                                d="M72.6189 48.9762C72.6189 55.3431 67.4193 60.5 60.9998 60.5C54.5803 60.5 49.3808 55.3431 49.3808 48.9762C49.3808 42.6093 54.5803 37.4524 60.9998 37.4524C67.4193 37.4524 72.6189 42.6093 72.6189 48.9762ZM37.7617 77.7857C37.7617 70.1224 53.2441 66.2619 60.9998 66.2619C68.7555 66.2619 84.2379 70.1224 84.2379 77.7857V80.6667C84.2379 82.2512 82.9308 83.5476 81.3331 83.5476H40.6665C39.0689 83.5476 37.7617 82.2512 37.7617 80.6667V77.7857Z"
-                                                fill="#94A3B1"
-                                            />
-                                        </g>
-                                        <defs>
-                                            <clipPath id="clip0_98_11527">
-                                                <rect width="122" height="121" fill="white" />
-                                            </clipPath>
-                                        </defs>
-                                    </svg>
-                                </div>
-                                <div class="vacation__main-item--date">
-                                    <span class="day">Friday</span>
-                                    <span class="date">27</span>
-                                </div>
-                                <div class="vacation__main-item--desc">
-                                    <span>휴가 신청합니다</span>
-                                </div>
-                                <div class="vacation__main-item--during">
-                                    <span class="during--start">2024-02-09</span>
-                                    <span> ~ </span>
-                                    <span class="during--end">2024-02-29</span>
-                                </div>
-                                <div class="vacation__main-item--author">
-                                    <span>패스트</span>
-                                </div>
-                            </li>
-                        </ul>
+                        <ul id="vacationList" class="vacation__list-main"></ul>
 
                         <div class="vacation__list-btn">
                             <div class="vacation__btn--before-wrapper">
@@ -112,6 +71,7 @@ export default class VacationPage {
 		const id = event.currentTarget.parentElement.id;
 		const applyModal = document.getElementById('applyModal');
 		const historyModal = document.getElementById('historyModal');
+
 		if (id === 'applyModalBtnWrapper') {
 			applyModal.classList.remove('active');
 		} else if (id === 'historyModalBtnWrapper') {
@@ -119,8 +79,21 @@ export default class VacationPage {
 		}
 	}
 
+	fetchVacationList() {
+		new VacationListItem(this.vacationListEl, false, null).render();
+	}
+
+	fetchMyVacationList(event) {
+		new VacationListItem(this.vacationListEl, true, null).render();
+	}
+
 	render() {
 		this.contentsElement.innerHTML = this.template;
+
+		// 리스트 렌더링
+		this.vacationListEl = document.querySelector('#vacationList');
+		this.fetchVacationList();
+
 		const el = document.querySelector('#modalWrapper');
 
 		new VacationApplyModal(el).render();
@@ -138,5 +111,9 @@ export default class VacationPage {
 
 		applyModalCancelBtn.addEventListener('click', this.closeModal);
 		historyModalCancelBtn.addEventListener('click', this.closeModal);
+
+		// 나의 근태 목록 필터링
+		const myVacationBtn = document.querySelector('#myVacationBtn');
+		myVacationBtn.addEventListener('click', this.fetchMyVacationList);
 	}
 }
