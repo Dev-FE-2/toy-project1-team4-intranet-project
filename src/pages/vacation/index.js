@@ -2,6 +2,7 @@ import VacationListItem from './components/VacationListItem';
 import VacationTypeTabMenu from './components/VacationTypeTabMenu';
 import Pagination from './components/Pagination';
 import VacationApplyModal from './components/VacationApplyModal';
+import './style.css';
 
 export default class VacationPage {
 	constructor(contentsElement) {
@@ -65,14 +66,10 @@ export default class VacationPage {
 	render() {
 		this.contentsElement.innerHTML = this.template;
 
-		// 리스트 렌더링
-		this.vacationListEl = document.querySelector('#vacationList');
-		this.fetchVacationList();
-
 		const modalParentEl = document.querySelector('#modalWrapper');
 		const listParentEl = document.querySelector('#vacationList');
 
-		new VacationApplyModal(modalParentEl).render();
+		new VacationApplyModal(this.modalParentEl).render();
 
 		const applyModalBtnWrapper = document.getElementById('applyModalBtnWrapper');
 		const applyModalCancelBtn = applyModalBtnWrapper.querySelector('button:first-child');
@@ -85,6 +82,9 @@ export default class VacationPage {
 
 		// 근태 신청 모달 닫기
 		applyModalCancelBtn.addEventListener('click', this.closeModal);
+
+		// 리스트 렌더링
+		this.fetchVacationList(this.listParentEl, this.modalParentEl);
 
 		// 리스트 렌더링
 		const vacationListItem = new VacationListItem(
