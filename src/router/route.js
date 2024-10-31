@@ -73,7 +73,7 @@ export const route = () => {
 
 		case urlPattern.sample.test(path): {
 			const id = path.match(urlPattern.sample)[1];
-			contentsElement.innerHTML = new SamplePage(contentsElement, id).render();
+			new SamplePage(contentsElement, id).render();
 			break;
 		}
 
