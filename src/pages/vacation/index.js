@@ -15,8 +15,8 @@ export default class VacationPage {
                 </div>
 
                 <div class="vacation__btn-wrapper">
-                    <button id="openHistoryModalBtn" class="btn btn--highlight">나의 근태</button>
-                    <button data-button="register" class="btn btn--primary">근태 신청</button>
+                    <button data-type="myVacation" id="myVacationBtn" class="btn btn--highlight" type="button">나의 근태</button>
+                    <button data-button="register" class="btn btn--primary" type="button">근태 신청</button>
                 </div>
 
                 <div class="vacation__list-wrapper">
@@ -71,6 +71,7 @@ export default class VacationPage {
 		const id = event.currentTarget.parentElement.id;
 		const applyModal = document.getElementById('applyModal');
 		const historyModal = document.getElementById('historyModal');
+
 		if (id === 'applyModalBtnWrapper') {
 			applyModal.classList.remove('active');
 		} else if (id === 'historyModalBtnWrapper') {
@@ -78,15 +79,21 @@ export default class VacationPage {
 		}
 	}
 
-	fetchEmployeeVacationList() {
-		const vacationListEl = document.querySelector('#vacationList');
-		new VacationListItem(vacationListEl).render();
+	fetchVacationList() {
+		new VacationListItem(this.vacationListEl, false, null).render();
+	}
+
+	fetchMyVacationList(event) {
+		new VacationListItem(this.vacationListEl, true, null).render();
 	}
 
 	render() {
 		this.contentsElement.innerHTML = this.template;
-        this.fetchEmployeeVacationList();
-        
+
+		// 리스트 렌더링
+		this.vacationListEl = document.querySelector('#vacationList');
+		this.fetchVacationList();
+
 		const el = document.querySelector('#modalWrapper');
 
 		new VacationApplyModal(el).render();
@@ -104,5 +111,9 @@ export default class VacationPage {
 
 		applyModalCancelBtn.addEventListener('click', this.closeModal);
 		historyModalCancelBtn.addEventListener('click', this.closeModal);
+
+		// 나의 근태 목록 필터링
+		const myVacationBtn = document.querySelector('#myVacationBtn');
+		myVacationBtn.addEventListener('click', this.fetchMyVacationList);
 	}
 }
