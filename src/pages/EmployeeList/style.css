@@ -13,6 +13,7 @@
 
 .subtitle {
   font-size: 18px;
+  white-space: nowrap;
 }
 
 .blue-text {
@@ -23,6 +24,7 @@
 .search-container {
   display: flex;
   gap: 10px;
+  margin-top: 10px;
 }
 
 .search {
@@ -44,7 +46,7 @@
 table {
   width: 100%;
   border-collapse: collapse;
-  
+  table-layout: fixed; 
 }
 
 thead {
@@ -71,7 +73,7 @@ td {
 }
 
 .table-container {
-  height: 350px; 
+  height: 380px; 
   overflow-y: auto; 
 }
 
@@ -101,21 +103,21 @@ td {
   padding: 10px 0;
 }
 
-.pagination .page-number,
-.pagination .prev-page,
-.pagination .next-page {
+.pagination .page-number{
   padding: 6px 10px; 
   border: 1px solid #ddd;
   border-radius: 5px;
   cursor: pointer;
 }
-
+.pagination .prev-page,
+.pagination .next-page {
+  font-size: larger;
+  padding: 10px;
+}
 .pagination .active {
   background-color: var(--color-primary);
   color: white;
 }
-
-
 @media (max-width: 1024px) {
   .header {
     display: flex;
@@ -139,7 +141,8 @@ td {
   }
 
   .register-btn {
-    width: 70%;
+    width: 50%; 
+    padding: 6px 20px; 
     white-space: nowrap; 
   }
 
@@ -164,4 +167,9 @@ td {
   .pagination {
     padding: 5px 0;
   }
-}
+  
+   .row-details span,
+   td:nth-last-child(2) { 
+     white-space: nowrap;
+   }
+ }

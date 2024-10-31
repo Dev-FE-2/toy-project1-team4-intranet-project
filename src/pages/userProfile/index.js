@@ -1,19 +1,12 @@
 import './style.css';
 import { ProfileForm } from '../../components/pages/Profile/ProfileForm';
+import { url } from '../../router/url';
+import userData from '../../../server/data/user';
 
-class EmployeeAdd {
+export default class UserProfile {
 	constructor() {
-		this.emptyUserData = {
-			name: '',
-			job: '',
-			team: '',
-			phone: '',
-			email: '',
-			bio: '',
-			profileImage: '../../../public/avatar.svg',
-		};
-
-		this.profileImageSrc = this.emptyUserData.profileImage;
+		this.userData = userData;
+		this.profileImageSrc = this.userData.profileImage || '../../../public/avatar.svg';
 		this.isImageUploaded = false;
 
 		this.profileImageInput = document.createElement('input');
@@ -36,12 +29,17 @@ class EmployeeAdd {
 			reader.readAsDataURL(file);
 		}
 	}
-
 	handleImageRemove() {
-		this.profileImageSrc = this.emptyUserData.profileImage;
+		this.profileImageSrc = '../../../public/avatar.svg';
 		this.isImageUploaded = false;
 		this.fileName = '';
 		this.updateProfileImage();
+	}
+	handleUpdate() {
+		console.log('수정하기');
+		alert('프로필 수정되었습니다');
+		event.preventDefault();
+		window.location.href = url.home;
 	}
 
 	updateProfileImage() {
@@ -84,6 +82,9 @@ class EmployeeAdd {
 			document
 				.querySelector('.delete-btn')
 				.addEventListener('click', this.handleImageRemove.bind(this));
+			document
+				.querySelector('.btn--primary')
+				.addEventListener('click', this.handleUpdate.bind(this));
 		}, 0);
 
 		document.body.appendChild(this.profileImageInput);
@@ -96,7 +97,7 @@ class EmployeeAdd {
 						<div class="profile">
 							${profileImageSection}
 							${ProfileForm(
-								this.emptyUserData,
+								this.userData,
 								`
 								<div class="btn-wrap">
 									<button class="btn btn--primary" type="submit">수정하기</button>
@@ -110,5 +111,3 @@ class EmployeeAdd {
 		`;
 	}
 }
-
-export default EmployeeAdd;

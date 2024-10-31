@@ -1,10 +1,10 @@
 import './style.css';
 import { ProfileForm } from '../../components/pages/Profile/ProfileForm';
 
-class EmployeeAdd {
+export default class EmployeeAdd {
 	constructor() {
 		this.emptyUserData = {
-			name: '',
+			username: '',
 			job: '',
 			team: '',
 			phone: '',
@@ -45,7 +45,7 @@ class EmployeeAdd {
 	}
 
 	updateProfileImage() {
-		const imageElement = document.querySelector('.profile-image img');
+		const imageElement = document.querySelector('.profileAdd-image img');
 		const fileNameElement = document.querySelector('.file-name');
 		const deleteButton = document.querySelector('.delete-btn');
 
@@ -69,8 +69,8 @@ class EmployeeAdd {
 		`;
 
 		const profileImageSection = `
-			<div class="profile-image-wrapper">
-				<div class="profile-image">
+			<div class="profileAdd-image-wrapper">
+				<div class="profileAdd-image">
 					<img src="${this.profileImageSrc}" alt="Profile Image" />
 				</div>
 				${fileNameSection}
@@ -78,7 +78,7 @@ class EmployeeAdd {
 		`;
 
 		setTimeout(() => {
-			document.querySelector('.profile-image').addEventListener('click', () => {
+			document.querySelector('.profileAdd-image').addEventListener('click', () => {
 				this.profileImageInput.click();
 			});
 			document
@@ -110,5 +110,3 @@ class EmployeeAdd {
 		`;
 	}
 }
-
-export default EmployeeAdd;

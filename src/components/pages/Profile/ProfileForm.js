@@ -1,8 +1,8 @@
-export function ProfileForm({ name, job, team, phone, email, bio }, buttons) {
+export function ProfileForm({ username, job, team, phone, email, bio }, buttons) {
 	return `
     <form id="profileForm" class="form">
         <legend>직원 정보</legend>
-        <input type="text" class="form-item" id="name" placeholder="이름" value="${name}">
+        <input type="text" class="form-item" id="name" placeholder="이름" value="${username}">
         <input type="text" class="form-item" id="job" placeholder="직업" value="${job}">
         <input type="text" class="form-item" id="team" placeholder="직무" value="${team}">
         <input type="text" class="form-item" id="phone" placeholder="전화번호" value="${phone}">

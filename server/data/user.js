@@ -1,5 +1,5 @@
 const userData = {
-	name: '김직원',
+	username: '김직원',
 	job: '셰프',
 	team: '요리연구소',
 	phone: '010-1234-1234',
