@@ -1,8 +1,9 @@
 import AvatarImg from '/public/avatar.svg';
 
 export default class VacationListItem {
-	constructor(parentEl, isMyType, filterType) {
-		this.parentEl = parentEl;
+	constructor(listParentEl, modalParentEl, isMyType, filterType) {
+		this.listParentEl = listParentEl;
+		this.modalParentEl = modalParentEl;
 		this.isMyType = isMyType;
 		this.filterType = filterType;
 	}
@@ -22,15 +23,13 @@ export default class VacationListItem {
 	}
 
 	async filterMyData() {
-		const userData = await this.fetchUserData();
-		const vacationDatas = await this.fetchVacationData();
+		const fetchedDatas = await Promise.all([this.fetchVacationData(), this.fetchUserData()]);
+		const [vacationDatas, userData] = fetchedDatas;
 
 		return vacationDatas.filter((vacationData) => vacationData.userId === userData.userId);
 	}
 
 	getTemplate(userRequestData) {
-		// console.log(userRequestData);
-
 		const { requestId, image, username, title, createdDate, startDate, endDate } = userRequestData;
 		const createdDateRow = new Date(createdDate);
 		const month = Intl.DateTimeFormat('ko-KR', { month: 'numeric' }).format(createdDateRow);
@@ -66,15 +65,15 @@ export default class VacationListItem {
 			this.getTemplate(userRequestData),
 		);
 
-		const result = templateList.join('');
-		console.log('result', result);
-
-		return result;
+		return templateList.join('');
 	}
 
 	async render() {
 		const data = this.isMyType ? await this.filterMyData() : await this.fetchVacationData();
-
-		this.parentEl.innerHTML = this.getVacationList(data);
+		// console.log('this.listParentEl', this.listParentEl);
+		// console.log('this.modalParentEl', this.modalParentEl);
+		// console.log('this.isMyType', this.isMyType);
+		// console.log('this.filterType', this.filterType);
+		this.listParentEl.innerHTML = this.getVacationList(data);
 	}
 }

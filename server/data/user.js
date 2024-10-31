@@ -1,4 +1,5 @@
 const userData = {
+	userId: 'g-dragon123',
 	username: '김직원',
 	job: '셰프',
 	team: '요리연구소',
