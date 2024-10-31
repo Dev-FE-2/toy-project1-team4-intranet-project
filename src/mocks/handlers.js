@@ -31,6 +31,5 @@ export const handlers = [
 		);
 
 		return response;
-
 	}),
 ];
