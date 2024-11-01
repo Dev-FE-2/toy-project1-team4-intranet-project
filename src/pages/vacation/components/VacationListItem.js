@@ -123,7 +123,7 @@ export default class VacationListItem {
 	async render() {
 		const filteredData = await this.filterTypeData();
 		this.listParentEl.innerHTML = this.getVacationList(filteredData);
-		this.modalParentEl.addEventListener('click', (event) => {
+		this.listParentEl.addEventListener('click', (event) => {
 			this.showHistoryModal(event);
 		});
 	}
