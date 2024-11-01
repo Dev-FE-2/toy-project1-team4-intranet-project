@@ -7,7 +7,9 @@ body:
     id: setting-description
     attributes:
       label: 📄 설명
-      description: 변경한 설정에 대한 설명을 작성해 주세요.
+      description: |
+       변경한 설정에 대한 설명을 작성해 주세요.
+       - 
       placeholder: 자세하게 작성하기!
     validations:
       required: true
@@ -15,7 +17,9 @@ body:
     id: setting-tasks
     attributes:
       label: 🔨 변경할 설정
-      description: 변경할 설정에 대한 Tasks를 작성해 주세요.
+      description: |
+       변경할 설정에 대한 Tasks를 작성해 주세요.
+       - [ ] 체크박스
       placeholder: 최대한 세분화해서 작성!
     validations:
       required: true

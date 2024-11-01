@@ -1,0 +1,175 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;  
+  justify-content: flex-start;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  font-size: 18px;
+  white-space: nowrap;
+}
+
+.blue-text {
+  color: var(--color-highlight);
+  font-weight: bold;
+}
+
+.search-container {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.search {
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  width: 200px;
+  margin: 0;
+}
+
+.register-btn {
+  padding: 8px 30px;
+  background-color: var(--color-highlight);
+  color: var(--color-light);
+  border-radius: 30px;
+  cursor: pointer;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed; 
+}
+
+thead {
+  background-color: var(--color-background);
+  position: sticky;
+  top: 0; 
+  z-index: 1; 
+}
+
+th, td {
+  padding: 12px;  
+  font-size: 15px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  font-weight: bold;
+  background-color: var(--color-background); 
+}
+
+td {
+  vertical-align: middle;
+}
+
+.table-container {
+  height: 70vh;
+  overflow-y: auto; 
+}
+
+.employee-row img {
+  border-radius: 50%;
+  width: 40px; 
+  height: 40px;
+  margin-right: 10px;
+}
+
+.row-details {
+  display: flex;
+  align-items: center;
+}
+
+.arrow {
+  font-size: 14px; 
+  color: #999;
+  cursor: pointer;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  align-items: center;
+  padding: 10px 0;
+}
+
+.pagination .page-number{
+  padding: 6px 10px; 
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.pagination .prev-page,
+.pagination .next-page {
+  font-size: larger;
+  padding: 10px;
+}
+.pagination .active {
+  background-color: var(--color-primary);
+  color: white;
+}
+@media (max-width: 1024px) {
+  .header {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .subtitle {
+    font-size: 15px;
+    white-space: nowrap;
+    margin-bottom: 20px; 
+  }
+
+  .search-container {
+    display: flex;
+    justify-content: center; 
+    gap: 10px;
+  }
+
+  .search {
+    width: 100%;
+  }
+
+  .register-btn {
+    width: 50%; 
+    padding: 6px 20px; 
+    white-space: nowrap; 
+  }
+
+  .table-container {
+    height: 600px; 
+    overflow-y: auto; 
+  }
+
+  th:nth-child(2), td:nth-child(2), th:nth-child(3), td:nth-child(3), th:nth-child(4), td:nth-child(4) {
+    display: none;
+  }
+
+  .employee-row img {
+    width: 40px;
+    height: 40px;
+  }
+
+  th, td {
+    font-size: 13px;
+  }
+
+  .pagination {
+    padding: 5px 0;
+  }
+  
+   .row-details span,
+   td:nth-last-child(2) { 
+     white-space: nowrap;
+   }
+ }
