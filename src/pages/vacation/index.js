@@ -69,7 +69,7 @@ export default class VacationPage {
 		const modalParentEl = document.querySelector('#modalWrapper');
 		const listParentEl = document.querySelector('#vacationList');
 
-		new VacationApplyModal(this.modalParentEl).render();
+		new VacationApplyModal(modalParentEl).render();
 
 		const applyModalBtnWrapper = document.getElementById('applyModalBtnWrapper');
 		const applyModalCancelBtn = applyModalBtnWrapper.querySelector('button:first-child');
