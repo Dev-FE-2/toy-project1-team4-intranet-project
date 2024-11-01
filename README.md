@@ -142,7 +142,7 @@ npm run dev
 
 **✍️ 피그마를 이용한 디자인**
 
-<img width="1054" alt="피그마" src="https://github.com/user-attachments/assets/e83a6e4d-bfe1-4cf7-b171-1ab9535b5395">
+<img width="1054" alt="피그마" src="https://github.com/user-attachments/assets/40745222-b1ff-46e8-afc9-19df05e996ec">
 
 
 피그마를 사용하여 프로젝트의 디자인을 협업했습니다. 데스크탑과 모바일 뷰, 컴포넌트들을 작업하였으며, 팀원들은 제작된 피그마를 바탕으로 마크업 작업을 수월하게 진행 할 수 있었습니다.
