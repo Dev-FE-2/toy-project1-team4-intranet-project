@@ -1,5 +1,5 @@
 import AvatarImg from '/public/avatar.svg';
-import VacationHistoryModal from '../VacationHistoryModal';
+import VacationHistoryModal from './VacationHistoryModal';
 
 export default class VacationListItem {
 	constructor(parentEl, isMyType, filterType) {

@@ -1,6 +1,6 @@
 import VacationListItem from './components/VacationListItem';
 import './style.css';
-import VacationApplyModal from './VacationApplyModal';
+import VacationApplyModal from './components/VacationApplyModal';
 
 export default class VacationPage {
 	constructor(contents) {

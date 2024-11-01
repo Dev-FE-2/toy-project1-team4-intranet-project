@@ -62,6 +62,7 @@ export default class VacationApplyModal {
 			body: toJSON,
 		});
 
+		alert('근태 신청이 완료되었습니다.');
 		vacationApplyModal.classList.remove('active');
 	}
 
