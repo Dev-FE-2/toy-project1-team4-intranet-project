@@ -120,6 +120,19 @@ export default class VacationListItem {
 		historyModal.classList.add('active');
 	}
 
+	async showHistoryModal(event) {
+		const modalWrapper = document.querySelector('#modalWrapper');
+		const liEl = event.target.closest('li');
+		const liKey = liEl.getAttribute('data-key');
+
+		const vacationDatas = await this.fetchVacationData();
+		const foundData = vacationDatas.filter((data) => data.requestId === liKey);
+
+		new VacationHistoryModal(modalWrapper, foundData).render();
+		const historyModal = modalWrapper.querySelector('#historyModal');
+		historyModal.classList.add('active');
+	}
+
 	async render() {
 		const filteredData = await this.filterTypeData();
 		this.listParentEl.innerHTML = this.getVacationList(filteredData);
