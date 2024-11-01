@@ -8,6 +8,7 @@ export default class Pagination {
 			count: vacationListItem.count,
 		};
 		console.log('this.states', this.states);
+		this.clickPage = this.clickPage.bind(this); // this 바인딩을 고정하여 이벤트 핸들러에서 this를 잃지 않도록 설정
 	}
 
 	setState(newState) {
@@ -29,7 +30,7 @@ export default class Pagination {
 	get numberTemplate() {
 		const htmls = this.pageNums.map((pageNumber) => {
 			const className =
-				this.states.filterType === pageNumber
+				this.states.pageNumber === pageNumber
 					? 'vacation__btn--item active'
 					: 'vacation__btn--item';
 
@@ -58,18 +59,20 @@ export default class Pagination {
 		return `<ul class="vacation__btn--main">${this.numberTemplate}</ul>`;
 	}
 
+	clickPage(event) {
+		const pageNumber = parseInt(event.target.closest('li').getAttribute('data-page'), 10);
+
+		console.log(pageNumber);
+
+		this.vacationListItem.setState({ pageNumber });
+		this.setState({ pageNumber });
+	}
+
 	render() {
 		console.log(this.template);
 
 		this.parentEl.innerHTML = this.template;
 
-		this.parentEl.addEventListener('click', (event) => {
-			const pageNumber = parseInt(event.target.closest('li').getAttribute('data-page'), 10);
-
-			console.log(pageNumber);
-
-			this.listInstance.setState({ pageNumber });
-			this.setState({ pageNumber });
-		});
+		this.parentEl.addEventListener('click', this.clickPage);
 	}
 }
