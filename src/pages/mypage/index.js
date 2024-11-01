@@ -10,6 +10,7 @@ export default class MyPage {
 		this.updateCurrentTime = this.updateCurrentTime.bind(this);
 		this.intervalId = null; // setInterval ID 저장할 변수
 		this.user_id = 'g-dragon123';
+		//this.handleViewAllClick = this.handleViewAllClick.bind(this);
 	}
 
 	render() {
@@ -94,7 +95,7 @@ export default class MyPage {
 				<section class="contents-bottom">
 					<div class="attendance__title">
 						<h2 class="page-title">Attendance State</h2>
-						<button class="view-all">View all</button>
+						<a class="view-all" href="/vacation">View all</a>
 					</div>
 					<div class="attendance-list__wrap">
 						<ul class="attendance-list-container">
@@ -106,10 +107,12 @@ export default class MyPage {
 		document.querySelector('#pageContents').innerHTML = content;
 
 		this.startClock();
-		this.checkUrlChange(); // URL 변경 감지 시작
+		this.checkUrlChange();
 		this.addModalEventListener();
 		this.getUserProfile();
 		this.getVacationDataPreview(vacationData);
+		//document.querySelector('.view-all').addEventListener('click', this.handleViewAllClick);
+
 		return content;
 	}
 
@@ -198,4 +201,10 @@ export default class MyPage {
 		const attendanceListContainer = document.querySelector('.attendance-list-container');
 		createLiAttendanceList(this.user_id, vacationData, attendanceListContainer);
 	}
+
+	// handleViewAllClick(event) {
+	// 	event.preventDefault();  // 기본 링크 동작을 막음
+	// 	window.history.pushState(null, null, '/vacation');
+
+	// }
 }
