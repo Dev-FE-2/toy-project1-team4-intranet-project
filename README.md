@@ -42,7 +42,6 @@ npm run dev
 | ----------- | ------------- | ---------------- | -------------- |
 | <img src="https://github.com/user-attachments/assets/a59cd2a4-5d8e-4e45-9e2e-0dd10c71eadd" width="200px" alt="mypage"> | <img src="https://github.com/user-attachments/assets/efb38499-b8a8-49bd-be0d-69d620754110" width="200px" alt="profile"> | <img src="https://github.com/user-attachments/assets/f7b14d24-bc32-4f10-8e34-8e7fc862b2d9" width="200px" alt="vacation"> | <img src="https://github.com/user-attachments/assets/da6f27b7-dbe9-45e7-b871-52b4fee4e558" width="200px" alt="notice"> |
 
-
 #### 마이페이지
 
 - 실시간으로 시간을 표시한다.
@@ -139,7 +138,6 @@ npm run dev
 
 **📒 노션 회의록**
 
-회의록은 노션을 통해 관리하며, 모든 팀원이 각자 역할 분담을 작성합니다.
  <img width="1054" alt="회의록" src="https://github.com/user-attachments/assets/5367a8f2-9f77-45cb-b5b0-8527f95f759d">
 
 **✍️ 피그마를 이용한 디자인**

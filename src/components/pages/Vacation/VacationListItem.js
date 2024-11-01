@@ -2,10 +2,21 @@ import AvatarImg from '/public/avatar.svg';
 import VacationHistoryModal from './VacationHistoryModal';
 
 export default class VacationListItem {
-	constructor(parentEl, isMyType, filterType) {
-		this.parentEl = parentEl;
-		this.isMyType = isMyType;
-		this.filterType = filterType;
+	constructor(listParentEl, modalParentEl, updateCount) {
+		this.listParentEl = listParentEl;
+		this.modalParentEl = modalParentEl;
+		this.updateCount = updateCount;
+		this.states = {
+			isMyVacation: false,
+			filterType: '전체',
+			pageNumber: 1,
+			pageSize: 10,
+		};
+	}
+
+	setState(newStates) {
+		this.states = { ...this.states, ...newStates };
+		this.render();
 	}
 
 	async fetchVacationData() {
@@ -23,15 +34,41 @@ export default class VacationListItem {
 	}
 
 	async filterMyData() {
-		const userData = await this.fetchUserData();
-		const vacationDatas = await this.fetchVacationData();
+		const fetchedDatas = await Promise.all([this.fetchVacationData(), this.fetchUserData()]);
+		const [vacationData, userData] = fetchedDatas;
 
-		return vacationDatas.filter((vacationData) => vacationData.userId === userData.userId);
+		const filteredDataByMy = vacationData.filter(
+			(vacationData) => vacationData.userId === userData.userId,
+		);
+
+		return filteredDataByMy;
+	}
+
+	async filterTypeData() {
+		const data = this.states.isMyVacation
+			? await this.filterMyData()
+			: await this.fetchVacationData();
+
+		const filteredDataByType =
+			this.states.filterType === '전체'
+				? data
+				: data.filter((vacationData) => vacationData.requestType === this.states.filterType);
+
+		this.updateCount(filteredDataByType.length);
+
+		return this.paginate(filteredDataByType);
+	}
+
+	paginate(data) {
+		const start = (this.states.pageNumber - 1) * this.states.pageSize;
+		const end = start + this.states.pageSize;
+
+		const pagedData = data.slice(start, end);
+
+		return pagedData;
 	}
 
 	getTemplate(userRequestData) {
-		// console.log(userRequestData);
-
 		const { requestId, image, username, title, createdDate, startDate, endDate } = userRequestData;
 		const createdDateRow = new Date(createdDate);
 		const month = Intl.DateTimeFormat('ko-KR', { month: 'numeric' }).format(createdDateRow);
@@ -67,10 +104,7 @@ export default class VacationListItem {
 			this.getTemplate(userRequestData),
 		);
 
-		const result = templateList.join('');
-		console.log('result', result);
-
-		return result;
+		return templateList.join('');
 	}
 
 	async showHistoryModal(event) {
@@ -87,10 +121,9 @@ export default class VacationListItem {
 	}
 
 	async render() {
-		const data = this.isMyType ? await this.filterMyData() : await this.fetchVacationData();
-
-		this.parentEl.innerHTML = this.getVacationList(data);
-		this.parentEl.addEventListener('click', (event) => {
+		const filteredData = await this.filterTypeData();
+		this.listParentEl.innerHTML = this.getVacationList(filteredData);
+		this.listParentEl.addEventListener('click', (event) => {
 			this.showHistoryModal(event);
 		});
 	}

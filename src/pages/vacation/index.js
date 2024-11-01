@@ -1,10 +1,17 @@
-import VacationListItem from './components/VacationListItem';
+import {
+	VacationListItem,
+	VacationTypeTabMenu,
+	Pagination,
+	VacationApplyModal,
+} from '../../components/pages/Vacation';
 import './style.css';
-import VacationApplyModal from './components/VacationApplyModal';
 
 export default class VacationPage {
-	constructor(contents) {
-		this.contentsElement = contents;
+	constructor(contentsElement) {
+		this.contentsElement = contentsElement;
+		this.applyModalEl = new VacationApplyModal();
+		this.pagination = null;
+		this._count = 0;
 		this.template = `
             <section class="contents vacation">
                 <div class="vacation__page-title-wrapper">
@@ -17,46 +24,21 @@ export default class VacationPage {
                 </div>
 
                 <div class="vacation__list-wrapper">
-                    <ul class="vacation__list-nav">
-                        <li class="vacation__nav-item active">연차</li>
-                        <li class="vacation__nav-item">반차</li>
-                        <li class="vacation__nav-item">조퇴</li>
-                        <li class="vacation__nav-item">기차</li>
-                    </ul>
+                    <ul id="typeTabMenu" class="vacation__list-nav"></ul>
 
                     <div class="vacation__content-wrapper">
                         <ul id="vacationList" class="vacation__list-main"></ul>
 
-                        <div class="vacation__list-btn">
-                            <div class="vacation__btn--before-wrapper">
-                                <div class="vacation__btn--before--first">&lt;</div>
-                                <div class="vacation__btn--before">&lt;&lt;</div>
-                            </div>
-                            <ul class="vacation__btn--main">
-                                <li class="vacation__btn--item">1</li>
-                                <li class="vacation__btn--item">2</li>
-                                <li class="vacation__btn--item">3</li>
-                                <li class="vacation__btn--item">4</li>
-                                <li class="vacation__btn--item">5</li>
-                                <li class="vacation__btn--item">6</li>
-                                <li class="vacation__btn--item">7</li>
-                                <li class="vacation__btn--item">8</li>
-                            </ul>
-                            <div class="vacation__btn--next-wrapper">
-                                <div class="vacation__btn--next">&gt;</div>
-                                <div class="vacation__btn--last">&gt;&gt;</div>
-                            </div>
-                        </div>
+                        <div id="pagination" class="vacation__list-btn"></div>
                     </div>
                 </div>
                 <div class="vacation-btn-wrapper--mobile">
                     <button data-button="register" class="btn btn--primary">근태 신청</button>
                 </div>
             </section>
-            <div id="modalWrapper">
-            
-            </div>
-            `;
+
+            <div id="modalWrapper"></div>
+        `;
 	}
 
 	showModal() {
@@ -76,24 +58,20 @@ export default class VacationPage {
 		}
 	}
 
-	fetchVacationList() {
-		new VacationListItem(this.vacationListEl, false, null).render();
-	}
-
-	fetchMyVacationList(event) {
-		new VacationListItem(this.vacationListEl, true, null).render();
+	updateCount(count) {
+		this._count = count;
+		if (this.pagination) {
+			this.pagination.setState({ count });
+		}
 	}
 
 	render() {
 		this.contentsElement.innerHTML = this.template;
 
-		// 리스트 렌더링
-		this.vacationListEl = document.querySelector('#vacationList');
-		this.modalWrapper = document.querySelector('#modalWrapper');
-		this.fetchVacationList();
+		const modalParentEl = document.querySelector('#modalWrapper');
+		const listParentEl = document.querySelector('#vacationList');
 
-		// 근태 신청 모달 렌더링
-		new VacationApplyModal(this.modalWrapper).render();
+		new VacationApplyModal(modalParentEl).render();
 
 		const applyModalBtnWrapper = document.getElementById('applyModalBtnWrapper');
 		const applyModalCancelBtn = applyModalBtnWrapper.querySelector('button:first-child');
@@ -107,8 +85,37 @@ export default class VacationPage {
 		// 근태 신청 모달 닫기
 		applyModalCancelBtn.addEventListener('click', this.closeModal);
 
-		// 나의 근태 목록 필터링
+		// 리스트 렌더링
+		const vacationListItem = new VacationListItem(
+			listParentEl,
+			modalParentEl,
+			this.updateCount.bind(this),
+		);
+		vacationListItem.render();
+
+		// 페이지네이션 렌더링
+		const paginationEl = document.querySelector('#pagination');
+		this.pagination = new Pagination(paginationEl, vacationListItem);
+		this.pagination.render();
+
+		// 휴가 종류 메뉴 탭 렌더링
+		const menuEl = document.querySelector('#typeTabMenu');
+		new VacationTypeTabMenu(menuEl, vacationListItem).render();
+
+		// 나의 근태 목록 토글 필터링
 		const myVacationBtn = document.querySelector('#myVacationBtn');
-		myVacationBtn.addEventListener('click', this.fetchMyVacationList);
+		myVacationBtn.addEventListener('click', () => {
+			if (myVacationBtn.dataset.type === 'myVacation') {
+				vacationListItem.setState({ isMyVacation: true });
+
+				myVacationBtn.innerHTML = '모든 근태';
+				myVacationBtn.dataset.type = 'allEmployeeVacation';
+			} else {
+				vacationListItem.setState({ isMyVacation: false });
+
+				myVacationBtn.innerHTML = '나의 근태';
+				myVacationBtn.dataset.type = 'myVacation';
+			}
+		});
 	}
 }
