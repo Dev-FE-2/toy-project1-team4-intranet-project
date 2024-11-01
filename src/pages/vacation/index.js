@@ -1,7 +1,7 @@
 import VacationListItem from './components/VacationListItem';
 import VacationTypeTabMenu from './components/VacationTypeTabMenu';
 import Pagination from './components/Pagination';
-import VacationApplyModal from './VacationApplyModal';
+import VacationApplyModal from './components/VacationApplyModal';
 
 export default class VacationPage {
 	constructor(contentsElement) {
