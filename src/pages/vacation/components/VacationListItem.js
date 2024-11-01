@@ -1,4 +1,5 @@
 import AvatarImg from '/public/avatar.svg';
+import VacationHistoryModal from '../VacationHistoryModal';
 
 export default class VacationListItem {
 	constructor(parentEl, isMyType, filterType) {
@@ -72,9 +73,25 @@ export default class VacationListItem {
 		return result;
 	}
 
+	async showHistoryModal(event) {
+		const modalWrapper = document.querySelector('#modalWrapper');
+		const liEl = event.target.closest('li');
+		const liKey = liEl.getAttribute('data-key');
+
+		const vacationDatas = await this.fetchVacationData();
+		const foundData = vacationDatas.filter((data) => data.requestId === liKey);
+
+		new VacationHistoryModal(modalWrapper, foundData).render();
+		const historyModal = modalWrapper.querySelector('#historyModal');
+		historyModal.classList.add('active');
+	}
+
 	async render() {
 		const data = this.isMyType ? await this.filterMyData() : await this.fetchVacationData();
 
 		this.parentEl.innerHTML = this.getVacationList(data);
+		this.parentEl.addEventListener('click', (event) => {
+			this.showHistoryModal(event);
+		});
 	}
 }
