@@ -1,28 +1,53 @@
-import './style.css';
-import javascriptLogo from './javascript.svg';
-import viteLogo from '/vite.svg';
-import { setupCounter } from './counter.js';
+import { worker } from './mocks/browser';
+import { route } from './router/route';
+import Layout from './components/Layout';
+import './global.css';
 
 async function app() {
-	document.querySelector('#app').innerHTML = `
-    <div>
-      <a href="https://vitejs.dev" target="_blank">
-        <img src="${viteLogo}" class="logo" alt="Vite logo" />
-      </a>
-      <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank">
-        <img src="${javascriptLogo}" class="logo vanilla" alt="JavaScript logo" />
-      </a>
-      <h1>Okay</h1>
-      <div class="card">
-        <button id="counter" type="button"></button>
-      </div>
-      <p class="read-the-docs">
-        Click on the Vite logo to learn more
-      </p>
-    </div>
-  `;
-
-	setupCounter(document.querySelector('#counter'));
+	init();
+	route();
 }
 
-document.addEventListener('DOMContentLoaded', app);
+const init = () => {
+	const layout = new Layout();
+	document.querySelector('#app').innerHTML = layout.render();
+
+	window.addEventListener('popstate', route);
+
+	const navElements = document.querySelectorAll('.nav');
+	navElements.forEach((navEl) => {
+		navEl.addEventListener('click', navigate);
+	});
+};
+
+const navigate = (event) => {
+	event.preventDefault();
+
+	// const path = event.target.getAttribute('href');
+	const anchor = event.target.closest('a');
+
+	history.pushState(null, null, anchor.href);
+
+	if (anchor && anchor.href) {
+		route();
+	}
+};
+
+const enableMocking = async () => {
+	if (process.env.NODE_ENV !== 'development') {
+		return;
+	}
+
+	// `worker.start()` returns a Promise that resolves
+	// once the Service Worker is up and ready to intercept requests.
+	return worker.start({
+		onUnhandledRequest: 'bypass', // 핸들링되지 않은 요청 무시
+	});
+};
+
+document.addEventListener(
+	'DOMContentLoaded',
+	enableMocking().then(() => {
+		app();
+	}),
+);
