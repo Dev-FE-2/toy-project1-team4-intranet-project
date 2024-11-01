@@ -28,19 +28,20 @@ npm run dev
 
 ## 프로젝트 소개
 
-**인트라넷 서비스 이븐하게 설명 ....**
+**이븐하게 서비스는 음식 프렌차이즈 회사의 직원 관리 인트라넷 서비스입니다.** 
 
-> 이븐하게 팀 설명 한줄
+> 4조 이븐하게 팀은 EVEN한 프론트엔드 개발자를 목표로 하고 있습니다.
 
- <img width="1728" alt="readme2">
+ <img width="1728" alt="readme2" src="https://github.com/user-attachments/assets/b737edd4-a472-44f8-ba84-9102e8d90a6f">
 
   <br>
 
 ### 작동화면
 
-|                                                   메인 페이지                                                   |                                                    프로필 페이지                                                     |                                                   근태 신청 페이지                                                    |                                                    공지사항 페이지                                                    |
-| :---------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------: |
-| ![main]() | ![profile](경로) | ![vacation](경로) | ![notice](경로) |
+| 마이 페이지 | 프로필 페이지 | 근태 신청 페이지 | 공지사항 페이지 |
+| ----------- | ------------- | ---------------- | -------------- |
+| <img src="https://github.com/user-attachments/assets/a59cd2a4-5d8e-4e45-9e2e-0dd10c71eadd" width="200px" alt="mypage"> | <img src="https://github.com/user-attachments/assets/efb38499-b8a8-49bd-be0d-69d620754110" width="200px" alt="profile"> | <img src="https://github.com/user-attachments/assets/f7b14d24-bc32-4f10-8e34-8e7fc862b2d9" width="200px" alt="vacation"> | <img src="https://github.com/user-attachments/assets/da6f27b7-dbe9-45e7-b871-52b4fee4e558" width="200px" alt="notice"> |
+
 
 #### 마이페이지
 
@@ -85,25 +86,32 @@ npm run dev
 - 공지사항 내역 클릭시 상세페이지로 이동한다.
 - 목록에서 특정 공지사항을 클릭 시 공지사항 상세 페이지로 이동한다.
 
-## 🔨 기술스택
+## 🔨 개발환경
+
+<p>
+    <img src="https://img.shields.io/badge/javascript-F7DF1E?style=flat-square&logo=javascript&logoColor=white"/>
+    <img src="https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css3&logoColor=white"/>
+    <img src="https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white"/>
+    <img src="https://img.shields.io/badge/Node.js-339933?style=flat-square&logo=Node.js&logoColor=white"/>
+</p>
 
 ### Front
 
-<img src="https://img.shields.io/badge/HTML-E34F26?style=for-the-badge&logo=%3Chtml%3E&logoColor=white">
+<img src="https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white"/>
 
 웹 페이지의 구조를 정의하고 콘텐츠를 배치하는 데 사용
 
-<img src="https://img.shields.io/badge/CSS-1572B6?style=for-the-badge&logo=%3Ccss%3E&logoColor=white">
+<img src="https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css3&logoColor=white"/>
 
 웹 페이지의 스타일링을 담당하여 사용자에게 시각적으로 일관된 디자인을 제공
 
-<img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=%3CJavaScript%3E&logoColor=white">
+<img src="https://img.shields.io/badge/javascript-F7DF1E?style=flat-square&logo=javascript&logoColor=white"/>
 
 웹 페이지의 동적 기능을 구현하고, 사용자 인터랙션을 처리하는 데 사용
 
 ### Back-end
 
-<img src="https://img.shields.io/badge/Node.js-5FA04E?style=for-the-badge&logo=%3CNode.js%3E&logoColor=white">
+<img src="https://img.shields.io/badge/Node.js-339933?style=flat-square&logo=Node.js&logoColor=white"/>
 
 비동기 I/O 및 이벤트 주도 아키텍쳐 설계에 적합한 node.js 사용
 
@@ -132,7 +140,7 @@ npm run dev
 **📒 노션 회의록**
 
 회의록은 노션을 통해 관리하며, 모든 팀원이 각자 역할 분담을 작성합니다.
- <img width="1054" alt="회의록" src="https://github.com/user-attachments/assets/57d5e838-974d-423a-9c77-874b6f32c47a">
+ <img width="1054" alt="회의록" src="https://github.com/user-attachments/assets/5367a8f2-9f77-45cb-b5b0-8527f95f759d">
 
 **✍️ 피그마를 이용한 디자인**
 
