@@ -37,8 +37,8 @@
 	flex-direction: column;
 	gap: 12px;
 	flex: 1;
-    height: 100%;
-    overflow-y: scroll;
+	height: 100%;
+	overflow-y: scroll;
 }
 
 .vacation__list-nav {
@@ -70,11 +70,14 @@
 	flex-grow: 1;
 }
 
+.vacation__list-main li {
+	padding: 6px 0;
+}
+
 .vacation__main-item {
 	display: flex;
 	align-items: center;
 	padding: 16px 24px;
-	margin-bottom: 12px;
 	border-radius: 24px;
 	background-color: #f9f8f6;
 }
@@ -83,7 +86,7 @@
 	margin-right: 20px;
 }
 
-.vacation__main-item--profile img{
+.vacation__main-item--profile img {
 	width: 60px;
 	height: 60px;
 }
@@ -110,9 +113,9 @@
 
 .vacation__main-item--desc {
 	white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    padding-right: var(--padding-sm);
+	overflow: hidden;
+	text-overflow: ellipsis;
+	padding-right: var(--padding-sm);
 	line-height: 18px;
 	flex-grow: 1;
 }
@@ -131,7 +134,6 @@
 	font-size: 14px;
 	margin-right: 48px;
 }
-
 
 .vacation__main-item--author {
 	color: var(--color-secondary);
@@ -338,6 +340,17 @@
 	padding: 5px 0;
 }
 
+.vacation__history-wrapper.active input[type='date']::before {
+	content: '';
+	width: 0;
+	position: static;
+	top: 0;
+	left: 0;
+	transform: none;
+	background-color: inherit;
+	padding: 0;
+}
+
 .vacation__apply-form-wrapper input[type='date']:focus::before,
 .vacation__apply-form-wrapper input[type='date']:valid::before {
 	display: none;
@@ -369,8 +382,7 @@
 	padding: 8px 44px;
 }
 
-.vacation__apply-btn-wrapper button:first-child,
-.vacation__history-btn-wrapper button:first-child {
+.vacation__apply-btn-wrapper button:first-child {
 	margin-right: 16px;
 }
 
@@ -395,7 +407,7 @@
 		padding: 12px;
 	}
 
-	.vacation__main-item--profile img{
+	.vacation__main-item--profile img {
 		width: 45px;
 		height: 45px;
 	}

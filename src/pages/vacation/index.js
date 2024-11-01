@@ -2,14 +2,11 @@ import VacationListItem from './components/VacationListItem';
 import VacationTypeTabMenu from './components/VacationTypeTabMenu';
 import Pagination from './components/Pagination';
 import VacationApplyModal from './VacationApplyModal';
-import VacationHistoryModal from './VacationHistoryModal';
-import './style.css';
 
 export default class VacationPage {
 	constructor(contentsElement) {
 		this.contentsElement = contentsElement;
 		this.applyModalEl = new VacationApplyModal();
-		this.historyModalEl = new VacationHistoryModal();
 		this.pagination = null;
 		this._count = 0;
 		this.template = `
@@ -41,7 +38,7 @@ export default class VacationPage {
         `;
 	}
 
-	showModal(event) {
+	showModal() {
 		const applyModal = document.getElementById('applyModal');
 		applyModal.classList.add('active');
 	}
@@ -68,24 +65,26 @@ export default class VacationPage {
 	render() {
 		this.contentsElement.innerHTML = this.template;
 
+		// 리스트 렌더링
+		this.vacationListEl = document.querySelector('#vacationList');
+		this.fetchVacationList();
+
 		const modalParentEl = document.querySelector('#modalWrapper');
 		const listParentEl = document.querySelector('#vacationList');
 
 		new VacationApplyModal(modalParentEl).render();
-		new VacationHistoryModal(modalParentEl).render();
 
 		const applyModalBtnWrapper = document.getElementById('applyModalBtnWrapper');
 		const applyModalCancelBtn = applyModalBtnWrapper.querySelector('button:first-child');
-		const historyModalBtnWrapper = document.getElementById('historyModalBtnWrapper');
-		const historyModalCancelBtn = historyModalBtnWrapper.querySelector('button:first-child');
 
+		// 근태 신청 모달 팝업
 		const openApplyModalBtns = document.querySelectorAll('[data-button="register"]');
 		openApplyModalBtns.forEach((btn) => {
 			btn.addEventListener('click', this.showModal); // 실행 컨텍스트 문제로 this.showModal 내부의 this는 실행 주체인 openApplyModalBtn이 됨
 		});
 
+		// 근태 신청 모달 닫기
 		applyModalCancelBtn.addEventListener('click', this.closeModal);
-		historyModalCancelBtn.addEventListener('click', this.closeModal);
 
 		// 리스트 렌더링
 		const vacationListItem = new VacationListItem(
