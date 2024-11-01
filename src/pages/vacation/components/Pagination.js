@@ -7,7 +7,6 @@ export default class Pagination {
 			pageSize: vacationListItem.states.pageSize,
 			count: vacationListItem.count,
 		};
-		console.log('this.states', this.states);
 		this.clickPage = this.clickPage.bind(this); // this 바인딩을 고정하여 이벤트 핸들러에서 this를 잃지 않도록 설정
 	}
 
@@ -36,7 +35,6 @@ export default class Pagination {
 
 			return `<li class="${className}" data-page="${pageNumber}">${pageNumber}</li>`;
 		});
-		console.log('htmls', htmls);
 
 		return htmls.join('');
 	}
@@ -62,17 +60,12 @@ export default class Pagination {
 	clickPage(event) {
 		const pageNumber = parseInt(event.target.closest('li').getAttribute('data-page'), 10);
 
-		console.log(pageNumber);
-
 		this.vacationListItem.setState({ pageNumber });
 		this.setState({ pageNumber });
 	}
 
 	render() {
-		console.log(this.template);
-
 		this.parentEl.innerHTML = this.template;
-
 		this.parentEl.addEventListener('click', this.clickPage);
 	}
 }

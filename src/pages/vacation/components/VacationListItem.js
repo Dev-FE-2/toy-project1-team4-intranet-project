@@ -64,9 +64,6 @@ export default class VacationListItem {
 
 		const pagedData = data.slice(start, end);
 
-		console.log(this.states.pageNumber);
-		console.log(pagedData);
-
 		return pagedData;
 	}
 
