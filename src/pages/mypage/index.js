@@ -12,7 +12,7 @@ export default class MyPage {
 		this.user_id = 'g-dragon123';
 	}
 
-	render() {
+	async render() {
 		const content = `<div id="contents">
 			<section class="section">
 				<div class="modal-box">
@@ -94,7 +94,7 @@ export default class MyPage {
 				<section class="contents-bottom">
 					<div class="attendance__title">
 						<h2 class="page-title">Attendance State</h2>
-						<button class="view-all">View all</button>
+						<a class="view-all" href="/vacation">View all</a>
 					</div>
 					<div class="attendance-list__wrap">
 						<ul class="attendance-list-container">
@@ -106,10 +106,15 @@ export default class MyPage {
 		document.querySelector('#pageContents').innerHTML = content;
 
 		this.startClock();
-		this.checkUrlChange(); // URL 변경 감지 시작
+		this.checkUrlChange();
 		this.addModalEventListener();
 		this.getUserProfile();
 		this.getVacationDataPreview(vacationData);
+
+		// await을 사용하여 API 호출
+		await this.getApiTest();
+		await this.getApiParameterTest();
+
 		return content;
 	}
 
@@ -197,5 +202,32 @@ export default class MyPage {
 		// ul 영역을 찾고 내부에 li 요소를 동적으로 채우기 위해 선언
 		const attendanceListContainer = document.querySelector('.attendance-list-container');
 		createLiAttendanceList(this.user_id, vacationData, attendanceListContainer);
+	}
+
+	// API 호출 메서드 (async/await 사용)
+	async getApiTest() {
+		try {
+			const response = await fetch(`http://localhost:3000/api/user`);
+			if (!response.ok) {
+				throw new Error('Network response was not ok');
+			}
+			const data = await response.json();
+			console.log(data); // 데이터 확인 (data.users로 접근 가능)
+		} catch (error) {
+			console.error('Error fetching user profile:', error);
+		}
+	}
+
+	async getApiParameterTest() {
+		try {
+			const response = await fetch(`http://localhost:3000/api/user/${this.user_id}`);
+			if (!response.ok) {
+				throw new Error('Network response was not ok');
+			}
+			const data = await response.json();
+			console.log(data); // 데이터 확인 (data.users로 접근 가능)
+		} catch (error) {
+			console.error('Error fetching user profile:', error);
+		}
 	}
 }
