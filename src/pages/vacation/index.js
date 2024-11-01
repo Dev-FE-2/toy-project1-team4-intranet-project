@@ -1,5 +1,6 @@
 import VacationListItem from './components/VacationListItem';
 import VacationTypeTabMenu from './components/VacationTypeTabMenu';
+import Pagination from './components/Pagination';
 import VacationApplyModal from './VacationApplyModal';
 import VacationHistoryModal from './VacationHistoryModal';
 import './style.css';
@@ -9,6 +10,8 @@ export default class VacationPage {
 		this.contentsElement = contentsElement;
 		this.applyModalEl = new VacationApplyModal();
 		this.historyModalEl = new VacationHistoryModal();
+		this.pagination = null;
+		this._count = 0;
 		this.template = `
             <section class="contents vacation">
                 <div class="vacation__page-title-wrapper">
@@ -26,26 +29,7 @@ export default class VacationPage {
                     <div class="vacation__content-wrapper">
                         <ul id="vacationList" class="vacation__list-main"></ul>
 
-                        <div class="vacation__list-btn">
-                            <div class="vacation__btn--before-wrapper">
-                                <div class="vacation__btn--before--first">&lt;</div>
-                                <div class="vacation__btn--before">&lt;&lt;</div>
-                            </div>
-                            <ul class="vacation__btn--main">
-                                <li class="vacation__btn--item">1</li>
-                                <li class="vacation__btn--item">2</li>
-                                <li class="vacation__btn--item">3</li>
-                                <li class="vacation__btn--item">4</li>
-                                <li class="vacation__btn--item">5</li>
-                                <li class="vacation__btn--item">6</li>
-                                <li class="vacation__btn--item">7</li>
-                                <li class="vacation__btn--item">8</li>
-                            </ul>
-                            <div class="vacation__btn--next-wrapper">
-                                <div class="vacation__btn--next">&gt;</div>
-                                <div class="vacation__btn--last">&gt;&gt;</div>
-                            </div>
-                        </div>
+                        <div id="pagination" class="vacation__list-btn"></div>
                     </div>
                 </div>
                 <div class="vacation-btn-wrapper--mobile">
@@ -74,13 +58,18 @@ export default class VacationPage {
 		}
 	}
 
+	updateCount(count) {
+		this._count = count;
+		if (this.pagination) {
+			this.pagination.setState({ count });
+		}
+	}
+
 	render() {
 		this.contentsElement.innerHTML = this.template;
 
 		const modalParentEl = document.querySelector('#modalWrapper');
 		const listParentEl = document.querySelector('#vacationList');
-		const menuEl = document.querySelector('#typeTabMenu');
-		const myVacationBtn = document.querySelector('#myVacationBtn');
 
 		new VacationApplyModal(modalParentEl).render();
 		new VacationHistoryModal(modalParentEl).render();
@@ -99,13 +88,24 @@ export default class VacationPage {
 		historyModalCancelBtn.addEventListener('click', this.closeModal);
 
 		// 리스트 렌더링
-		const vacationListItem = new VacationListItem(listParentEl, modalParentEl);
+		const vacationListItem = new VacationListItem(
+			listParentEl,
+			modalParentEl,
+			this.updateCount.bind(this),
+		);
 		vacationListItem.render();
 
+		// 페이지네이션 렌더링
+		const paginationEl = document.querySelector('#pagination');
+		this.pagination = new Pagination(paginationEl, vacationListItem);
+		this.pagination.render();
+
 		// 휴가 종류 메뉴 탭 렌더링
+		const menuEl = document.querySelector('#typeTabMenu');
 		new VacationTypeTabMenu(menuEl, vacationListItem).render();
 
-		// 나의 근태 목록 필터링
+		// 나의 근태 목록 토글 필터링
+		const myVacationBtn = document.querySelector('#myVacationBtn');
 		myVacationBtn.addEventListener('click', () => {
 			if (myVacationBtn.dataset.type === 'myVacation') {
 				vacationListItem.setState({ isMyVacation: true });

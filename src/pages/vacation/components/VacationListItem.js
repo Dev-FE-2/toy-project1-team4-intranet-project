@@ -1,12 +1,15 @@
 import AvatarImg from '/public/avatar.svg';
 
 export default class VacationListItem {
-	constructor(listParentEl, modalParentEl) {
+	constructor(listParentEl, modalParentEl, updateCount) {
 		this.listParentEl = listParentEl;
 		this.modalParentEl = modalParentEl;
+		this.updateCount = updateCount;
 		this.states = {
 			isMyVacation: false,
 			filterType: '전체',
+			pageNumber: 1,
+			pageSize: 10,
 		};
 	}
 
@@ -31,9 +34,13 @@ export default class VacationListItem {
 
 	async filterMyData() {
 		const fetchedDatas = await Promise.all([this.fetchVacationData(), this.fetchUserData()]);
-		const [vacationDatas, userData] = fetchedDatas;
+		const [vacationData, userData] = fetchedDatas;
 
-		return vacationDatas.filter((vacationData) => vacationData.userId === userData.userId);
+		const filteredDataByMy = vacationData.filter(
+			(vacationData) => vacationData.userId === userData.userId,
+		);
+
+		return filteredDataByMy;
 	}
 
 	async filterTypeData() {
@@ -41,9 +48,26 @@ export default class VacationListItem {
 			? await this.filterMyData()
 			: await this.fetchVacationData();
 
-		return this.states.filterType === '전체'
-			? data
-			: data.filter((vacationData) => vacationData.requestType === this.states.filterType);
+		const filteredDataByType =
+			this.states.filterType === '전체'
+				? data
+				: data.filter((vacationData) => vacationData.requestType === this.states.filterType);
+
+		this.updateCount(filteredDataByType.length);
+
+		return this.paginate(filteredDataByType);
+	}
+
+	paginate(data) {
+		const start = (this.states.pageNumber - 1) * this.states.pageSize;
+		const end = start + this.states.pageSize;
+
+		const pagedData = data.slice(start, end);
+
+		console.log(this.states.pageNumber);
+		console.log(pagedData);
+
+		return pagedData;
 	}
 
 	getTemplate(userRequestData) {
