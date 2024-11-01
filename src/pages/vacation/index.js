@@ -1,7 +1,9 @@
-import VacationListItem from './components/VacationListItem';
-import VacationTypeTabMenu from './components/VacationTypeTabMenu';
-import Pagination from './components/Pagination';
-import VacationApplyModal from './components/VacationApplyModal';
+import {
+	VacationListItem,
+	VacationTypeTabMenu,
+	Pagination,
+	VacationApplyModal,
+} from '../../components/pages/Vacation';
 import './style.css';
 
 export default class VacationPage {
