@@ -7,14 +7,13 @@ export default class EmployeeList {
 	constructor(currentPage = 1) {
 		this.currentPage = currentPage;
 		this.itemsPerPage = ITEMS_PER_PAGE;
-		this.searchQuery = ''; // 검색어 상태 추가
+		this.searchQuery = '';
 	}
 
-	// 검색어를 기준으로 직원 데이터를 필터링하는 함수
 	get filteredEmployees() {
-		if (!this.searchQuery) return employeesData; // 검색어가 없으면 전체 데이터를 반환
-		return employeesData.filter((employee) =>
-			employee.name.toLowerCase().includes(this.searchQuery.toLowerCase()),
+		if (!this.searchQuery) return employeesData;
+		return employeesData.filter(
+			(employee) => employee.username && employee.username.includes(this.searchQuery),
 		);
 	}
 

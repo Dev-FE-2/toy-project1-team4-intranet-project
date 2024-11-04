@@ -73,7 +73,7 @@ td {
 }
 
 .table-container {
-  height: 380px; 
+  height: 70vh;
   overflow-y: auto; 
 }
 

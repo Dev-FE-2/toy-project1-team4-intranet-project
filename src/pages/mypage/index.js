@@ -10,6 +10,7 @@ export default class MyPage {
 		this.updateCurrentTime = this.updateCurrentTime.bind(this);
 		this.intervalId = null; // setInterval ID 저장할 변수
 		this.user_id = 'g-dragon123';
+		//this.handleViewAllClick = this.handleViewAllClick.bind(this);
 	}
 
 	async render() {
