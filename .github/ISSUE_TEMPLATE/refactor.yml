@@ -1,0 +1,32 @@
+name: 🔨 Refactor
+description: 변경한 설정이 있나요?
+title: '[🔨 Refactor] '
+labels: ['🔨 Refactor']
+body:
+  - type: textarea
+    id: refactor-description
+    attributes:
+      label: 📄 설명
+      description: |
+       리팩토링 대상과 리팩토링이 필요한 이유를 작성해 주세요.
+       - 
+      placeholder: 자세하게 작성하기!
+    validations:
+      required: true
+  - type: textarea
+    id: refactor-tasks
+    attributes:
+      label: 🔨 리팩토링 Tasks
+      description: |
+       리팩토링에 대한 Tasks를 작성해 주세요.
+       - [ ] 체크박스
+      placeholder: 최대한 세분화해서 작성!
+    validations:
+      required: true
+  - type: textarea
+    id: refactor-more
+    attributes:
+      label: 📝 메모
+      description: 더 하고 싶은 말이 있다면 작성해 주세요.
+    validations:
+      required: false
