@@ -1,79 +1,56 @@
 const express = require('express');
-const sqlite3 = require('sqlite3').verbose();
-const cors = require('cors'); // CORS 설정을 위해 사용
+const cors = require('cors');
+const db = require('./database.cjs'); // 분리된 db 모듈을 불러옴
 const app = express();
 const PORT = 3000;
 
 app.use(cors());
 app.use(express.json());
 
-// SQLite 데이터베이스 연결
-const db = new sqlite3.Database('./database.sqlite', (err) => {
-  if (err) {
-    console.error('Error opening database:', err.message);
-  } else {
-    console.log('Connected to the SQLite database.');
-    db.run(`CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, name TEXT, age INTEGER)`);
-    db.run(`CREATE TABLE IF NOT EXISTS test (id INTEGER PRIMARY KEY, name TEXT, age INTEGER)`);
-  }
-});
+function initializeDatabase() {
+  db.serialize(() => {
+    db.run(`CREATE TABLE IF NOT EXISTS users (
+      user_id INTEGER PRIMARY KEY AUTOINCREMENT,
+      username TEXT NOT NULL,
+      job TEXT,
+      team TEXT,
+      phone TEXT,
+      email TEXT UNIQUE,
+      bio TEXT,
+      profile_image TEXT
+    )`);
 
-// 예제 API 엔드포인트 - 사용자 데이터 가져오기
-app.get('/api/user', (req, res) => {
-  db.all('SELECT * FROM users', [], (err, rows) => {
-    if (err) {
-      res.status(500).json({ error: err.message });
-    } else {
-      res.json({ users: rows });
-    }
+    
   });
-});
+}
 
-app.get('/api/user/:userId', (req, res) => {
-  const userId = req.params.userId; // URL의 userId 파라미터 추출
-  db.all('SELECT * FROM users WHERE id = ?', [userId], (err, rows) => {
-    if (err) {
-      res.status(500).json({ error: err.message });
-    } else {
-      res.json({ users: rows });
-    }
-  });
-});
+// 데이터베이스 초기화
+initializeDatabase();
 
-// 예제 API 엔드포인트 - 사용자 데이터 추가하기
-app.post('/api/user', (req, res) => {
-  const { name, age } = req.body;
-  db.run(`INSERT INTO users (name, age) VALUES (?, ?)`, [name, age], function (err) {
-    if (err) {
-      res.status(500).json({ error: err.message });
-    } else {
-      res.json({ id: this.lastID });
-    }
-  });
-});
+// userApi 라우터 불러오기
+const userRoutes = require('./server/api/userApi.cjs');
+app.use('/api', userRoutes); // /api/user 경로로 연결
 
-// 예제 API 엔드포인트 - 사용자 데이터 가져오기
-app.get('/api/test', (req, res) => {
-  db.all('SELECT * FROM test', [], (err, rows) => {
-    if (err) {
-      res.status(500).json({ error: err.message });
-    } else {
-      res.json({ users: rows });
-    }
-  });
-});
 
-// 예제 API 엔드포인트 - 사용자 데이터 추가하기
-app.post('/api/test', (req, res) => {
-  const { name, age } = req.body;
-  db.run(`INSERT INTO test (name, age) VALUES (?, ?)`, [name, age], function (err) {
-    if (err) {
-      res.status(500).json({ error: err.message });
-    } else {
-      res.json({ id: this.lastID });
-    }
-  });
-});
+
+
+// // 마이페이지용 - 근무 시간 데이터 추가하기
+// app.post('/api/user_work_hours', (req, res) => {
+//     const { user_id, work_date, weekly_hours, start_time, end_time, attendance_status, last_modified } = req.body;
+  
+//     db.run(
+//       `INSERT INTO user_work_hours (user_id, work_date, weekly_hours, start_time, end_time, attendance_status, last_modified) 
+//        VALUES (?, ?, ?, ?, ?, ?, ?)`,
+//       [user_id, work_date, weekly_hours, start_time, end_time, attendance_status, last_modified],
+//       function (err) {
+//         if (err) {
+//           res.status(500).json({ error: err.message });
+//         } else {
+//           res.json({ id: this.lastID });
+//         }
+//       }
+//     );
+//   });
 
 app.listen(PORT, () => {
   console.log(`Server is running at http://localhost:${PORT}`);
