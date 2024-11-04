@@ -13,7 +13,7 @@ export default class MyPage {
 		//this.handleViewAllClick = this.handleViewAllClick.bind(this);
 	}
 
-	render() {
+	async render() {
 		const content = `<div id="contents">
 			<section class="section">
 				<div class="modal-box">
@@ -111,7 +111,10 @@ export default class MyPage {
 		this.addModalEventListener();
 		this.getUserProfile();
 		this.getVacationDataPreview(vacationData);
-		//document.querySelector('.view-all').addEventListener('click', this.handleViewAllClick);
+
+		// await을 사용하여 API 호출
+		await this.getApiTest();
+		await this.getApiParameterTest();
 
 		return content;
 	}
@@ -202,9 +205,30 @@ export default class MyPage {
 		createLiAttendanceList(this.user_id, vacationData, attendanceListContainer);
 	}
 
-	// handleViewAllClick(event) {
-	// 	event.preventDefault();  // 기본 링크 동작을 막음
-	// 	window.history.pushState(null, null, '/vacation');
+	// API 호출 메서드 (async/await 사용)
+	async getApiTest() {
+		try {
+			const response = await fetch(`http://localhost:3000/api/user`);
+			if (!response.ok) {
+				throw new Error('Network response was not ok');
+			}
+			const data = await response.json();
+			console.log(data); // 데이터 확인 (data.users로 접근 가능)
+		} catch (error) {
+			console.error('Error fetching user profile:', error);
+		}
+	}
 
-	// }
+	async getApiParameterTest() {
+		try {
+			const response = await fetch(`http://localhost:3000/api/user/${this.user_id}`);
+			if (!response.ok) {
+				throw new Error('Network response was not ok');
+			}
+			const data = await response.json();
+			console.log(data); // 데이터 확인 (data.users로 접근 가능)
+		} catch (error) {
+			console.error('Error fetching user profile:', error);
+		}
+	}
 }
