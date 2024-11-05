@@ -1,6 +1,6 @@
 import './style.css';
-import { ProfileForm } from '../../components/pages/Profile/ProfileForm';
-import ImageUploader from '../../components/pages/Profile/ImageUploader';
+import { ProfileForm } from '../../components/pages/profile/profileForm';
+import ImageUploader from '../../components/pages/profile/ImageUploader';
 
 export default class EmployeeAdd {
 	constructor() {

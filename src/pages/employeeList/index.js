@@ -1,8 +1,8 @@
 import './style.css';
 import employeesData from '../../../server/data/employees';
 import { url } from '../../router/url';
-import Pagination from '../../components/pages/EmployeeList/Pagination';
-import SearchBar from '../../components/pages/EmployeeList/Search';
+import Pagination from '../../components/pages/employeeList/Pagination';
+import SearchBar from '../../components/pages/employeeList/Search';
 
 const ITEMS_PER_PAGE = 10;
 
