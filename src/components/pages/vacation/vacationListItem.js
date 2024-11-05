@@ -1,6 +1,6 @@
 import AvatarImg from '/public/avatar.svg';
 import VacationHistoryModal from './vacationHistoryModal';
-import { Loading, NoData } from '../../common';
+import { Loading, NoData, Error503 } from '../../common';
 
 export default class VacationListItem {
 	constructor(listParentEl, modalParentEl, updateCount) {
@@ -71,7 +71,9 @@ export default class VacationListItem {
 
 			return this.paginate(filteredDataByType);
 		} catch (error) {
-			new Error(`Data fetch Error: ${error}`);
+			console.error(`Data fetch Error: ${error}`);
+
+			return;
 		} finally {
 			loading.remove();
 		}
@@ -118,6 +120,10 @@ export default class VacationListItem {
 	}
 
 	getVacationList(filteredData) {
+		if (!filteredData) {
+			return new Error503(this.listParentEl).render();
+		}
+
 		if (filteredData.length === 0) {
 			return new NoData().render();
 		}
