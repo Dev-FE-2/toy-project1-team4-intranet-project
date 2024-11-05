@@ -1,6 +1,6 @@
 import { worker } from './mocks/browser';
 import { route } from './router/route';
-import Layout from './components/Layout';
+import Layout from './components/layout';
 import './global.css';
 
 async function app() {

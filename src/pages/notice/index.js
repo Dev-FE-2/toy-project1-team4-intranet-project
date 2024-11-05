@@ -9,22 +9,59 @@ export default class Notice {
 		this.maxPage = 10;
 		this.contentsElement = contentsElement;
 		this.isMobile = window.innerWidth <= 768; // TABLET
-		this.loading = false; // 중복 호출 방지 플래그
-		this.timer;
+		this.isLoadingNotices = false; // 중복 호출 방지 플래그
+		this.scrollDebounceTimer = null;
+		this.searchQuery = '';
+		this.filteredResults = [];
 	}
 
 	// 공지사항 데이터를 불러오기
-	fetchNoticeData(url) {
+	async fetchNoticeData(url) {
 		try {
-			const res = fetch(url);
+			const res = await fetch(url);
 			if (!res.ok) {
-				throw new Error(`${res.statusText}`);
+				throw new Error(`HTTP error : ${res.status}`);
 			}
-			return res.json();
+			return await res.json();
 		} catch (err) {
 			console.error(err);
-			throw err;
+			throw new Error('공지사항을 불러오는데 실패했습니다.');
 		}
+	}
+
+	// 데이터 검색
+	getFilteredData(data) {
+		const searchLower = this.searchQuery.toLowerCase();
+		return data.filter(
+			(item) =>
+				item.title.toLowerCase().includes(searchLower) ||
+				item.content.toLowerCase().includes(searchLower),
+		);
+	}
+
+	// 검색 처리
+	handleSearch(event) {
+		event.preventDefault();
+		const inputElement = this.contentsElement.querySelector('.notice__search__input');
+		this.searchQuery = inputElement.value.trim();
+		this.filteredResults = this.getFilteredData(noticeData);
+		console.log(this.searchQuery);
+
+		if (this.filteredResults.length === 0) {
+			alert('검색결과가 없습니다.');
+		} else {
+			this.currentPage = 1;
+			this.renderNoticeList(this.filteredResults);
+			this.isMobile
+				? this.setupLazyLoading(this.filteredResults)
+				: this.renderPagination(this.filteredResults);
+		}
+	}
+
+	// 검색 폼 설정
+	setupSearchForm() {
+		const searchForm = this.contentsElement.querySelector('.notice__search-container');
+		searchForm.addEventListener('submit', (event) => this.handleSearch(event));
 	}
 
 	// 전체 페이지 수 계산
@@ -114,7 +151,7 @@ export default class Notice {
 		return paginationContainer;
 	}
 
-	//페이지네이션 랜더링
+	// 페이지네이션 랜더링
 	renderPagination(data) {
 		const paginationContainer = this.contentsElement.querySelector('.pagination-container');
 		paginationContainer.innerHTML = '';
@@ -165,9 +202,10 @@ export default class Notice {
 		});
 	}
 
-	// Notice 리스트 랜더링
+	// 공지사항 리스트 랜더링
 	renderNoticeList(data) {
 		const listContainer = this.contentsElement.querySelector('.list-container');
+		listContainer.innerHTML = ''; // 이전 검색 결과를 제거
 		const startIndex = (this.currentPage - 1) * this.itemsPerPage;
 		const endIndex = startIndex + this.itemsPerPage;
 		const currentData = data.slice(startIndex, endIndex);
@@ -194,11 +232,11 @@ export default class Notice {
 
 			// 로딩 중이 아니고, 스크롤 위치가 페이지의 끝 근처에 도달하고, 추가 페이지가 존재할 때
 			if (
-				!this.loading &&
+				!this.isLoadingNotices &&
 				currentScroll >= totalHeight - 10 &&
 				this.currentPage < this.getTotalPages(data)
 			) {
-				this.loading = true; // 중복 호출 방지
+				this.isLoadingNotices = true; // 중복 호출 방지
 				this.currentPage++;
 				this.renderLazyLoading(data);
 			}
@@ -206,9 +244,9 @@ export default class Notice {
 
 		// 이벤트 핸들러를 바인딩하고 설정
 		pageContainer.addEventListener('scroll', () => {
-			if (!this.timer) {
-				this.timer = setTimeout(() => {
-					this.timer = null;
+			if (!this.scrollDebounceTimer) {
+				this.scrollDebounceTimer = setTimeout(() => {
+					this.scrollDebounceTimer = null;
 					onScroll();
 					console.log('timer!');
 				}, 500);
@@ -229,37 +267,33 @@ export default class Notice {
 			this.addUlListener(listContainer, data);
 		}
 
-		this.loading = false; // 로딩 완료 후 플래그 초기화
+		this.isLoadingNotices = false; // 로딩 완료 후 플래그 초기화
 	}
 
 	// 공지사항 렌더링
 	render() {
-		// const noticeData = this.fetchNoticeData();
 		this.contentsElement.innerHTML = `
-    <div class="contents">
-      <h1 class="notice__title">공지사항</h1>
-      <section class="notice-section">
-			<form class="notice__search-container">
-				<input class="notice__search__input" placeholder="search">
-				<button type="submit" class="notice__search__button" aria-label="Search">
-					<img class="notice__search__img" src="${searchIcon}" alt="검색">
-				</button>
-			</form>
-			<div class="notice-container">
-				<div class="list-container"></div>
-				<div class="pagination-container"></div>
-			</div>
-      </section>
-    </div>`;
-		this.renderNoticeList(noticeData);
+        <div class="contents">
+            <h1 class="notice__title">공지사항</h1>
+            <section class="notice-section">
+                <form class="notice__search-container">
+                    <input class="notice__search__input" placeholder="search">
+                    <button type="submit" class="notice__search__button" aria-label="Search">
+                        <img class="notice__search__img" src="${searchIcon}" alt="검색">
+                    </button>
+                </form>
+                <div class="notice-container">
+                    <div class="list-container"></div>
+                    <div class="pagination-container"></div>
+                </div>
+            </section>
+        </div>`;
+		this.setupSearchForm();
 
-		// this.setupLazyLoading(noticeData);
-		// this.renderPagination(noticeData);
+		// 현재 검색된 데이터에 따라 리스트와 페이지네이션을 렌더링
+		const dataToRender = this.filteredResults.length ? this.filteredResults : noticeData;
+		this.renderNoticeList(dataToRender);
 
-		if (this.isMobile) {
-			this.setupLazyLoading(noticeData);
-		} else {
-			this.renderPagination(noticeData);
-		}
+		this.isMobile ? this.setupLazyLoading(dataToRender) : this.renderPagination(dataToRender);
 	}
 }
