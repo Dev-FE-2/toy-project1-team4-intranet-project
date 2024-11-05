@@ -8,7 +8,6 @@ export default class Loading {
 
 	remove() {
 		const loadingEl = this.parentEl.querySelector('.spinner-container');
-		console.log(loadingEl);
 		loadingEl.remove();
 	}
 
