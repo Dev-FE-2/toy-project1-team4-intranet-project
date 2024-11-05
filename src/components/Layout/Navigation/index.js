@@ -1,5 +1,5 @@
 import { url } from '../../../router/url';
-import { IconHome, IconProfile, IconTimetable, IconNotice, IconEmployee } from '../../Icon';
+import { IconHome, IconProfile, IconTimetable, IconNotice, IconEmployee } from '../../icon';
 import './style.css';
 
 export default class Navigation {

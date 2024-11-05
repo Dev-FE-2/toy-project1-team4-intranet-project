@@ -1,6 +1,6 @@
 import { url } from '../../router/url';
-import Navigation from './Navigation';
-import UserStatus from './UserStatus';
+import Navigation from './navigation';
+import UserStatus from './userStatus';
 import './style.css';
 import Logo from '/public/logo.svg';
 
