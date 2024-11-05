@@ -1,6 +1,6 @@
 import AvatarImg from '/public/avatar.svg';
 import VacationHistoryModal from './vacationHistoryModal';
-import Loading from '../../common/loading';
+import { Loading, NoData } from '../../common';
 
 export default class VacationListItem {
 	constructor(listParentEl, modalParentEl, updateCount) {
@@ -65,7 +65,9 @@ export default class VacationListItem {
 					? data
 					: data.filter((vacationData) => vacationData.requestType === this.states.filterType);
 
-			this.updateCount(filteredDataByType.length);
+			const totalCount = filteredDataByType.length;
+
+			this.updateCount(totalCount);
 
 			return this.paginate(filteredDataByType);
 		} catch (error) {
@@ -115,10 +117,12 @@ export default class VacationListItem {
            		 </li>`;
 	}
 
-	getVacationList(requestDataList) {
-		const templateList = requestDataList.map((userRequestData) =>
-			this.getTemplate(userRequestData),
-		);
+	getVacationList(filteredData) {
+		if (filteredData.length === 0) {
+			return new NoData().render();
+		}
+
+		const templateList = filteredData.map((userRequestData) => this.getTemplate(userRequestData));
 
 		return templateList.join('');
 	}
