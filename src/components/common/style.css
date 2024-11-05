@@ -1,4 +1,4 @@
-.no-data {
+.error {
     width: 100%;
     display: flex;
     justify-content: center;
@@ -7,9 +7,10 @@
     padding: var(--padding-xl);
     font-size: var(--font-size-sub-heading);
     font-weight: 300;
+    text-align: center;
 }
 
-.no-data img{
+.error img{
     width: 100%;
     max-width: 500px;
 }
