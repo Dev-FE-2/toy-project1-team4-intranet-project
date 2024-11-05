@@ -1,6 +1,6 @@
 import './style.css';
 import employeesData from '../../../server/data/employees';
-import { ProfileForm } from '../../components/pages/profile2/profileForm';
+import { ProfileForm } from '../../components/pages/profile/profileForm';
 import { url } from '../../router/url';
 
 export default class EmployeeDetail {

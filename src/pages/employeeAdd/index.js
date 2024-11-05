@@ -1,5 +1,5 @@
 import './style.css';
-import { ProfileForm } from '../../components/pages/profile2/profileForm';
+import { ProfileForm } from '../../components/pages/profile/profileForm';
 
 export default class EmployeeAdd {
 	constructor() {
