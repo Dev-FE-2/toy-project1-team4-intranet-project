@@ -1,5 +1,6 @@
 import AvatarImg from '/public/avatar.svg';
 import VacationHistoryModal from './vacationHistoryModal';
+import Loading from '../../common/loading';
 
 export default class VacationListItem {
 	constructor(listParentEl, modalParentEl, updateCount) {
@@ -44,19 +45,34 @@ export default class VacationListItem {
 		return filteredDataByMy;
 	}
 
+	async addDelayForLoading(fetchData) {
+		const delay = new Promise((resolve) => setTimeout(resolve, 500));
+
+		return Promise.all([fetchData, delay]).then((resolve) => resolve[0]);
+	}
+
 	async filterTypeData() {
-		const data = this.states.isMyVacation
-			? await this.filterMyData()
-			: await this.fetchVacationData();
+		const loading = new Loading(this.listParentEl);
+		loading.render();
 
-		const filteredDataByType =
-			this.states.filterType === '전체'
-				? data
-				: data.filter((vacationData) => vacationData.requestType === this.states.filterType);
+		try {
+			const data = this.states.isMyVacation
+				? await this.addDelayForLoading(this.filterMyData())
+				: await this.addDelayForLoading(this.fetchVacationData());
 
-		this.updateCount(filteredDataByType.length);
+			const filteredDataByType =
+				this.states.filterType === '전체'
+					? data
+					: data.filter((vacationData) => vacationData.requestType === this.states.filterType);
 
-		return this.paginate(filteredDataByType);
+			this.updateCount(filteredDataByType.length);
+
+			return this.paginate(filteredDataByType);
+		} catch (error) {
+			new Error(`Data fetch Error: ${error}`);
+		} finally {
+			loading.remove();
+		}
 	}
 
 	paginate(data) {
