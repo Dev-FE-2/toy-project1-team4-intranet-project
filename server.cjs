@@ -1,79 +1,84 @@
 const express = require('express');
-const sqlite3 = require('sqlite3').verbose();
-const cors = require('cors'); // CORS 설정을 위해 사용
+const cors = require('cors');
+const db = require('./database.cjs'); // 분리된 db 모듈을 불러옴
 const app = express();
 const PORT = 3000;
 
 app.use(cors());
 app.use(express.json());
 
-// SQLite 데이터베이스 연결
-const db = new sqlite3.Database('./database.sqlite', (err) => {
-  if (err) {
-    console.error('Error opening database:', err.message);
-  } else {
-    console.log('Connected to the SQLite database.');
-    db.run(`CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, name TEXT, age INTEGER)`);
-    db.run(`CREATE TABLE IF NOT EXISTS test (id INTEGER PRIMARY KEY, name TEXT, age INTEGER)`);
-  }
-});
+function initializeDatabase() {
+  db.serialize(() => {
+    // users 테이블 생성
+    db.run(`CREATE TABLE IF NOT EXISTS users (
+      user_id INTEGER PRIMARY KEY AUTOINCREMENT,
+      username TEXT NOT NULL,
+      job TEXT,
+      team TEXT,
+      phone TEXT,
+      email TEXT UNIQUE,
+      bio TEXT,
+      profile_image TEXT
+    )`);
 
-// 예제 API 엔드포인트 - 사용자 데이터 가져오기
-app.get('/api/user', (req, res) => {
-  db.all('SELECT * FROM users', [], (err, rows) => {
-    if (err) {
-      res.status(500).json({ error: err.message });
-    } else {
-      res.json({ users: rows });
-    }
-  });
-});
+    // notice 테이블 생성
+    db.run(`CREATE TABLE IF NOT EXISTS notice (
+      notice_id INTEGER PRIMARY KEY AUTOINCREMENT,
+      title TEXT NOT NULL,
+      content TEXT,
+      writer TEXT,
+      image_url TEXT,
+      created_date DATE,
+      last_modified_date DATETIME,
+      user_id INTEGER,
+      FOREIGN KEY (user_id) REFERENCES users(user_id)
+    )`);
 
-app.get('/api/user/:userId', (req, res) => {
-  const userId = req.params.userId; // URL의 userId 파라미터 추출
-  db.all('SELECT * FROM users WHERE id = ?', [userId], (err, rows) => {
-    if (err) {
-      res.status(500).json({ error: err.message });
-    } else {
-      res.json({ users: rows });
-    }
-  });
-});
+    // vacation 테이블 생성
+    db.run(`CREATE TABLE IF NOT EXISTS vacation (
+      request_id INTEGER PRIMARY KEY AUTOINCREMENT,
+      vacation_type TEXT,
+      username TEXT,
+      img_src TEXT,
+      vacation_title TEXT,
+      vacation_content TEXT,
+      created_date DATE,
+      vacation_start_day DATE,
+      vacation_end_day DATE,
+      user_id INTEGER,
+      FOREIGN KEY (user_id) REFERENCES users(user_id)
+    )`);
 
-// 예제 API 엔드포인트 - 사용자 데이터 추가하기
-app.post('/api/user', (req, res) => {
-  const { name, age } = req.body;
-  db.run(`INSERT INTO users (name, age) VALUES (?, ?)`, [name, age], function (err) {
-    if (err) {
-      res.status(500).json({ error: err.message });
-    } else {
-      res.json({ id: this.lastID });
-    }
+    // user_work_hours 테이블 생성
+    db.run(`CREATE TABLE IF NOT EXISTS user_work_hours (
+      user_id INTEGER NOT NULL,
+      work_date DATE NOT NULL,
+      weekly_hours REAL,
+      start_time TIME,
+      end_time TIME,
+      attendance_status TEXT,
+      last_modified DATETIME,
+      PRIMARY KEY (user_id, work_date),
+      FOREIGN KEY (user_id) REFERENCES users(user_id)
+    )`);
   });
-});
+}
 
-// 예제 API 엔드포인트 - 사용자 데이터 가져오기
-app.get('/api/test', (req, res) => {
-  db.all('SELECT * FROM test', [], (err, rows) => {
-    if (err) {
-      res.status(500).json({ error: err.message });
-    } else {
-      res.json({ users: rows });
-    }
-  });
-});
+// 데이터베이스 초기화
+initializeDatabase();
 
-// 예제 API 엔드포인트 - 사용자 데이터 추가하기
-app.post('/api/test', (req, res) => {
-  const { name, age } = req.body;
-  db.run(`INSERT INTO test (name, age) VALUES (?, ?)`, [name, age], function (err) {
-    if (err) {
-      res.status(500).json({ error: err.message });
-    } else {
-      res.json({ id: this.lastID });
-    }
-  });
-});
+// API 라우터 불러오기
+const userRoutes = require('./server/api/userApi.cjs');
+const mypageRoutes = require('./server/api/mypageApi.cjs');
+const noticeRoutes = require('./server/api/noticeApi.cjs');
+const userProfileRoutes = require('./server/api/userProfileApi.cjs');
+const vacationRoutes = require('./server/api/vacationApi.cjs');
+
+app.use('/api', userRoutes);
+app.use('/api', mypageRoutes);
+app.use('/api', noticeRoutes);
+app.use('/api', userProfileRoutes);
+app.use('/api', vacationRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server is running at http://localhost:${PORT}`);
