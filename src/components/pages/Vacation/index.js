@@ -1,8 +1,8 @@
-import VacationTypeTabMenu from './VacationTypeTabMenu';
-import VacationListItem from './VacationListItem';
-import Pagination from './Pagination';
-import VacationApplyModal from './VacationApplyModal';
-import VacationHistoryModal from './VacationHistoryModal';
+import VacationTypeTabMenu from './vacationTypeTabMenu';
+import VacationListItem from './vacationListItem';
+import Pagination from './pagination';
+import VacationApplyModal from './vacationApplyModal';
+import VacationHistoryModal from './vacationHistoryModal';
 
 export {
 	VacationTypeTabMenu,

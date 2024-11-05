@@ -6,9 +6,9 @@ import ProfilePage from './userProfile';
 import VacationPage from './vacation';
 import NoticePage from './notice';
 import NoticeDetailPage from './noticeDetail';
-import EmployeeListPage from './EmployeeList';
-import EmployeeDetailPage from './EmployeeDetail';
-import EmployeeAddPage from './EmployeeAdd';
+import EmployeeListPage from './employeeList';
+import EmployeeDetailPage from './employeeDetail';
+import EmployeeAddPage from './employeeAdd';
 
 export {
 	NotFound404Page,

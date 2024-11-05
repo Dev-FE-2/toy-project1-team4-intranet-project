@@ -1,5 +1,5 @@
 import './style.css';
-import { ProfileForm } from '../../components/pages/Profile/ProfileForm';
+import { ProfileForm } from '../../components/pages/profile/profileForm';
 import { url } from '../../router/url';
 import userData from '../../../server/data/user';
 

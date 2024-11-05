@@ -3,7 +3,7 @@ import {
 	VacationTypeTabMenu,
 	Pagination,
 	VacationApplyModal,
-} from '../../components/pages/Vacation';
+} from '../../components/pages/vacation';
 import './style.css';
 
 export default class VacationPage {
