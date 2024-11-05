@@ -7,34 +7,52 @@
 
 
 const express = require('express');
-const db = require('../../database.cjs'); // 분리된 db 모듈을 불러옴
+const db  = require('../../database.cjs');
 const router = express.Router();
 
-router.post('/user', (req, res) => {
-  const { username, job, team, phone, email, bio, profile_image } = req.body;
+// 근무 시간 추가 (INSERT)
+router.post('/work_hours', (req, res) => {
+  const { user_id, work_date, weekly_hours, start_time, end_time, attendance_status, last_modified } = req.body;
   db.run(
-    `INSERT INTO users (username, job, team, phone, email, bio, profile_image) VALUES (?, ?, ?, ?, ?, ?, ?)`,
-    [username, job, team, phone, email, bio, profile_image],
+    `INSERT INTO user_work_hours (user_id, work_date, weekly_hours, start_time, end_time, attendance_status, last_modified) 
+     VALUES (?, ?, ?, ?, ?, ?, ?)`,
+    [user_id, work_date, weekly_hours, start_time, end_time, attendance_status, last_modified],
     function (err) {
       if (err) {
         res.status(500).json({ error: err.message });
       } else {
-        res.json({ user_id: this.lastID });
+        res.json({ id: this.lastID });
       }
     }
   );
 });
 
-// 마이페이지용 프로필 정보 불러오기
-router.get('/mypage/user/:userId', (req, res) => {
-    const userId = req.params.userId; // URL의 userId 파라미터 추출
-    db.all('SELECT user_id, username, job, profile_image FROM users WHERE user_id = ?', [userId], (err, rows) => {
+// 특정 날짜의 근무 시간 조회 (SELECT)
+router.get('/work_hours/:userId/:workDate', (req, res) => {
+  const { userId, workDate } = req.params;
+  db.all(
+    `SELECT * FROM user_work_hours WHERE user_id = ? AND work_date = ?`,
+    [userId, workDate],
+    (err, rows) => {
       if (err) {
         res.status(500).json({ error: err.message });
       } else {
-        res.json({ users: rows });
+        res.json({ work_hours: rows });
       }
-    });
+    }
+  );
+});
+
+// 전체 근무 시간 조회 (SELECT ALL)
+router.get('/work_hours/:userId', (req, res) => {
+  const { userId } = req.params;
+  db.all(`SELECT * FROM user_work_hours WHERE user_id = ?`, [userId], (err, rows) => {
+    if (err) {
+      res.status(500).json({ error: err.message });
+    } else {
+      res.json({ work_hours: rows });
+    }
   });
+});
 
 module.exports = router;
