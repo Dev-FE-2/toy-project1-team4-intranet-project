@@ -4,6 +4,7 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    gap: var(--padding-lg);
     padding: var(--padding-xl);
     font-size: var(--font-size-sub-heading);
     font-weight: 300;
