@@ -5,55 +5,52 @@ export default class Pagination {
 		this.onPageChange = onPageChange;
 	}
 
-	renderButtons(totalPages, currentPage) {
+	renderButtons() {
 		return `
-			<a href="#" class="prev-page">«</a>
+			<a href="#" class="prev-page ${this.currentPage === 1 ? 'disabled' : ''}">«</a>
 			${Array.from(
-				{ length: totalPages },
+				{ length: this.totalPages },
 				(_, index) => `
-				<span class="page-number ${index + 1 === currentPage ? 'active' : ''}" data-page="${index + 1}">
+				<span class="page-number ${index + 1 === this.currentPage ? 'active' : ''}" data-page="${index + 1}">
 					${index + 1}
 				</span>
 			`,
 			).join('')}
-			<a href="#" class="next-page">»</a>
+			<a href="#" class="next-page ${this.currentPage === this.totalPages ? 'disabled' : ''}">»</a>
 		`;
 	}
 
 	render(containerSelector) {
 		const paginationContainer = document.querySelector(containerSelector);
-		paginationContainer.innerHTML = this.renderButtons(this.totalPages, this.currentPage);
-		this.addPaginationEventListeners();
+		if (paginationContainer.innerHTML !== this.renderButtons()) {
+			paginationContainer.innerHTML = this.renderButtons();
+			this.addPaginationEventListeners(paginationContainer);
+		}
 	}
 
 	updateButtons(totalPages, currentPage) {
-		this.totalPages = totalPages;
-		this.currentPage = currentPage;
-		this.render('.pagination');
+		if (totalPages !== this.totalPages || currentPage !== this.currentPage) {
+			this.totalPages = totalPages;
+			this.currentPage = currentPage;
+			this.render('.pagination');
+		}
 	}
 
-	addPaginationEventListeners() {
-		document.querySelectorAll('.page-number').forEach((button) => {
-			button.addEventListener('click', (event) => {
-				event.preventDefault();
-				const page = parseInt(event.target.getAttribute('data-page'), 10);
-				if (!isNaN(page)) {
+	addPaginationEventListeners(paginationContainer) {
+		paginationContainer.addEventListener('click', (event) => {
+			event.preventDefault();
+			const target = event.target;
+
+			if (target.classList.contains('page-number')) {
+				const page = parseInt(target.getAttribute('data-page'), 10);
+				if (!isNaN(page) && page !== this.currentPage) {
 					this.onPageChange(page);
 				}
-			});
-		});
-
-		const prevButton = document.querySelector('.prev-page');
-		const nextButton = document.querySelector('.next-page');
-		if (prevButton)
-			prevButton.addEventListener('click', (event) => {
-				event.preventDefault();
+			} else if (target.classList.contains('prev-page') && this.currentPage > 1) {
 				this.onPageChange(this.currentPage - 1);
-			});
-		if (nextButton)
-			nextButton.addEventListener('click', (event) => {
-				event.preventDefault();
+			} else if (target.classList.contains('next-page') && this.currentPage < this.totalPages) {
 				this.onPageChange(this.currentPage + 1);
-			});
+			}
+		});
 	}
 }
