@@ -1,4 +1,5 @@
 import { fetchVacationData, fetchUserData } from '../../../apis';
+import { addDelayForLoading } from '../../../utils/loadingUtil';
 import { Loading, NoData, Error503 } from '../../common';
 import VacationHistoryModal from './vacationHistoryModal';
 import AvatarImg from '/public/avatar.svg';
@@ -35,12 +36,6 @@ export default class VacationListItem {
 		return filteredDataByMy;
 	}
 
-	async #addDelayForLoading(fetchData) {
-		const delay = new Promise((resolve) => setTimeout(resolve, 500));
-
-		return Promise.all([fetchData, delay]).then((resolve) => resolve[0]);
-	}
-
 	#paginate(data) {
 		const start = (this.states.pageNumber - 1) * this.states.pageSize;
 		const end = start + this.states.pageSize;
@@ -56,8 +51,8 @@ export default class VacationListItem {
 
 		try {
 			const data = this.states.isMyVacation
-				? await this.#addDelayForLoading(this.#filterMyData())
-				: await this.#addDelayForLoading(fetchVacationData());
+				? await addDelayForLoading(this.#filterMyData())
+				: await addDelayForLoading(fetchVacationData());
 
 			const filteredDataByType =
 				this.states.filterType === '전체'
