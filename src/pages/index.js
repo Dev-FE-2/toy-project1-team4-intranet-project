@@ -9,6 +9,7 @@ import NoticeDetailPage from './noticeDetail';
 import EmployeeListPage from './employeeList';
 import EmployeeDetailPage from './employeeDetail';
 import EmployeeAddPage from './employeeAdd';
+import SignUpPage from './signup';
 
 export {
 	NotFound404Page,
@@ -22,4 +23,5 @@ export {
 	EmployeeListPage,
 	EmployeeDetailPage,
 	EmployeeAddPage,
+	SignUpPage,
 };

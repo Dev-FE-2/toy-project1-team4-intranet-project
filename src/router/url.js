@@ -1,6 +1,7 @@
 export const url = {
 	home: '/',
 	login: '/login',
+	signup: '/signup',
 	userProfile: (userId) => `/profile/${userId}`,
 	vacation: `/vacation`,
 	notice: `/notice`,
@@ -8,7 +9,7 @@ export const url = {
 	employeeList: `/admin/employees`,
 	employeeDetail: (employeeId) => `/admin/employees/${employeeId}`,
 	employeeAdd: `/admin/employees/add`,
-	sample: (noticeId) => `/sample/${noticeId}`,
+	sample: (id) => `/sample/${id}`,
 };
 
 export const urlPattern = {
