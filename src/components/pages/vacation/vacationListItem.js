@@ -1,5 +1,6 @@
 import AvatarImg from '/public/avatar.svg';
 import VacationHistoryModal from './vacationHistoryModal';
+import { Loading, NoData, Error503 } from '../../common';
 
 export default class VacationListItem {
 	constructor(listParentEl, modalParentEl, updateCount) {
@@ -44,19 +45,38 @@ export default class VacationListItem {
 		return filteredDataByMy;
 	}
 
+	async addDelayForLoading(fetchData) {
+		const delay = new Promise((resolve) => setTimeout(resolve, 500));
+
+		return Promise.all([fetchData, delay]).then((resolve) => resolve[0]);
+	}
+
 	async filterTypeData() {
-		const data = this.states.isMyVacation
-			? await this.filterMyData()
-			: await this.fetchVacationData();
+		const loading = new Loading(this.listParentEl);
+		loading.render();
 
-		const filteredDataByType =
-			this.states.filterType === '전체'
-				? data
-				: data.filter((vacationData) => vacationData.requestType === this.states.filterType);
+		try {
+			const data = this.states.isMyVacation
+				? await this.addDelayForLoading(this.filterMyData())
+				: await this.addDelayForLoading(this.fetchVacationData());
 
-		this.updateCount(filteredDataByType.length);
+			const filteredDataByType =
+				this.states.filterType === '전체'
+					? data
+					: data.filter((vacationData) => vacationData.requestType === this.states.filterType);
 
-		return this.paginate(filteredDataByType);
+			const totalCount = filteredDataByType.length;
+
+			this.updateCount(totalCount);
+
+			return this.paginate(filteredDataByType);
+		} catch (error) {
+			console.error(`Data fetch Error: ${error}`);
+
+			return;
+		} finally {
+			loading.remove();
+		}
 	}
 
 	paginate(data) {
@@ -99,10 +119,16 @@ export default class VacationListItem {
            		 </li>`;
 	}
 
-	getVacationList(requestDataList) {
-		const templateList = requestDataList.map((userRequestData) =>
-			this.getTemplate(userRequestData),
-		);
+	getVacationList(filteredData) {
+		if (!filteredData) {
+			return new Error503(this.listParentEl).render();
+		}
+
+		if (filteredData.length === 0) {
+			return new NoData().render();
+		}
+
+		const templateList = filteredData.map((userRequestData) => this.getTemplate(userRequestData));
 
 		return templateList.join('');
 	}

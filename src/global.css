@@ -20,6 +20,7 @@
 	--font-family: 'Noto Sans KR', sans-serif;
 
 	--font-size-heading: calc((36 / var(--root-font-size)) * 1rem);
+	--font-size-sub-heading: calc((24 / var(--root-font-size)) * 1rem);
 	--font-size-paragraph: calc((16 / var(--root-font-size)) * 1rem);
 
 	--font-weight-heading: 300;
