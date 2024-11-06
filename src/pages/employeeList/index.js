@@ -11,29 +11,50 @@ export default class EmployeeList {
 		this.currentPage = currentPage;
 		this.itemsPerPage = ITEMS_PER_PAGE;
 		this.searchQuery = '';
+		this.cachedFilteredEmployees = null;
+		this.cachedCurrentEmployees = null;
+		this.cachedTotalPages = null;
 		this.pagination = new Pagination(this.totalPages, this.currentPage, this.updatePage.bind(this));
 		this.searchBar = new SearchBar(this.handleSearch.bind(this));
 	}
 
 	get filteredEmployees() {
-		if (!this.searchQuery) return employeesData;
-		return employeesData.filter(
-			(employee) => employee.username && employee.username.includes(this.searchQuery),
-		);
+		if (this.cachedFilteredEmployees === null || this.searchQuery !== this.cachedSearchQuery) {
+			this.cachedFilteredEmployees = this.searchQuery
+				? employeesData.filter(
+						(employee) => employee.username && employee.username.includes(this.searchQuery),
+					)
+				: employeesData;
+			this.cachedSearchQuery = this.searchQuery;
+			this.cachedTotalPages = null;
+		}
+		return this.cachedFilteredEmployees;
 	}
 
 	get currentEmployees() {
-		const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-		return this.filteredEmployees.slice(startIndex, startIndex + this.itemsPerPage);
+		if (this.cachedCurrentEmployees === null || this.currentPage !== this.cachedCurrentPage) {
+			const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+			this.cachedCurrentEmployees = this.filteredEmployees.slice(
+				startIndex,
+				startIndex + this.itemsPerPage,
+			);
+			this.cachedCurrentPage = this.currentPage;
+		}
+		return this.cachedCurrentEmployees;
 	}
 
 	get totalPages() {
-		return Math.ceil(this.filteredEmployees.length / this.itemsPerPage);
+		// 필터링된 직원 목록이 변경되면 페이지 수를 다시 계산
+		if (this.cachedTotalPages === null) {
+			this.cachedTotalPages = Math.ceil(this.filteredEmployees.length / this.itemsPerPage);
+		}
+		return this.cachedTotalPages;
 	}
 
 	updatePage(newPage) {
 		if (newPage < 1 || newPage > this.totalPages) return;
 		this.currentPage = newPage;
+		this.cachedCurrentEmployees = null; // 페이지가 변경되었으므로 현재 직원 목록 캐시 초기화
 		this.renderEmployeeList();
 		this.pagination.updateButtons(this.totalPages, this.currentPage);
 	}
@@ -41,6 +62,9 @@ export default class EmployeeList {
 	handleSearch(query) {
 		this.searchQuery = query;
 		this.currentPage = 1;
+		this.cachedFilteredEmployees = null;
+		this.cachedCurrentEmployees = null;
+		this.cachedTotalPages = null;
 		this.renderEmployeeList();
 		this.pagination.updateButtons(this.totalPages, this.currentPage);
 	}
@@ -56,8 +80,8 @@ export default class EmployeeList {
 			noResultsMessage.style.display = 'none';
 			this.addEmployeeRowEventListeners();
 		} else {
-			employeeListElement.innerHTML = ''; // 기존 테이블 본문은 비워 둠
-			noResultsMessage.style.display = 'block'; // "검색 결과가 없습니다" 메시지 표시
+			employeeListElement.innerHTML = '';
+			noResultsMessage.style.display = 'block';
 		}
 	}
 
