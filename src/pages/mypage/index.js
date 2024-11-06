@@ -9,8 +9,7 @@ export default class MyPage {
 		// Bind the update time method to the instance
 		this.updateCurrentTime = this.updateCurrentTime.bind(this);
 		this.intervalId = null; // setInterval ID 저장할 변수
-		this.user_id = 'g-dragon123';
-		//this.handleViewAllClick = this.handleViewAllClick.bind(this);
+		this.user_id = '1';
 	}
 
 	async render() {
@@ -115,6 +114,9 @@ export default class MyPage {
 		// await을 사용하여 API 호출
 		await this.getApiTest();
 		await this.getApiParameterTest();
+		await this.getUserProfileImage();
+
+		this.addProfileImageUploadListener();
 
 		return content;
 	}
@@ -231,4 +233,77 @@ export default class MyPage {
 			console.error('Error fetching user profile:', error);
 		}
 	}
+
+	// 프로필 이미지 업로드 핸들러 추가
+	addProfileImageUploadListener() {
+		const profileIcon = document.querySelector('.profile__icon');
+
+		// 프로필 아이콘 클릭 시 파일 선택 창을 열도록 input[type="file"]을 동적으로 생성
+		const fileInput = document.createElement('input');
+		fileInput.type = 'file';
+		fileInput.accept = 'image/*'; // 이미지 파일만 허용
+
+		// 프로필 아이콘 클릭 시 파일 선택 창 열기
+		profileIcon.addEventListener('click', () => {
+			fileInput.click();
+		});
+
+		// 파일 선택 후 서버로 이미지 업로드 요청
+		fileInput.addEventListener('change', async (event) => {
+			const file = event.target.files[0];
+			if (file) {
+				const formData = new FormData();
+				formData.append('profileImage', file);
+				formData.append('user_id', 1); // 현재 사용자 ID도 전송
+				console.log(formData);
+				try {
+					const response = await fetch(`http://localhost:3000/api/user/upload-profile-image`, {
+						method: 'POST',
+						body: formData,
+					});
+					const result = await response.json();
+					if (response.ok) {
+						alert('프로필 이미지가 성공적으로 업데이트되었습니다.');
+						// 프로필 이미지 갱신 (base64 URL을 응답에서 받아와서 사용)
+						profileIcon.querySelector('img').src = result.imageUrl;
+					} else {
+						console.error('Error uploading image:', result.error);
+					}
+				} catch (error) {
+					console.error('Error uploading profile image:', error);
+				}
+			}
+		});
+	}
+
+	// 데이터가 잘 저장되었는지 테스트를 위해 해당 코드를 상입하였습니다.
+	// 랜더쪽에 await로 함수 호출을 하였는데 새로고침 하면서 프로필 이미지에 불러옵니다.
+	// 이건 사용안하고 addProfileImageUploadListener 이 함수만 쓰면 될 것 같네요.
+	// user_id는 로그인 기능 추가 후 가져와서 전역으로 사용하면 될 것 같은데
+	// 일단 저는 테스트용으로 1로 고정해서 사용하고 맨위에 user_id=1 선언했습니다.
+	async getUserProfileImage() {
+		try {
+			const response = await fetch(`http://localhost:3000/api/user/${this.user_id}`);
+			if (!response.ok) {
+				throw new Error('Network response was not ok');
+			}
+			const userData = await response.json();
+
+			// 이미지 URL을 프로필 아이콘에 반영
+			const profileIconImg = document.querySelector('.profile__icon img');
+			profileIconImg.src = userData.profile_image_url;
+
+			// 기타 사용자 정보 반영
+			document.querySelector('.profile-name').textContent = userData.username;
+			document.querySelector('.profile-position').textContent = userData.job;
+		} catch (error) {
+			console.error('Error fetching user profile:', error);
+		}
+	}
+
+	// 필요한 api 메서드 무엇
+	// 회원정보 -> 프로필
+	// 이번주 시간정보 -> 가운데 파라미터
+	// vacation -> userid랑 연동
+	// 모바일 페이지 notice
 }

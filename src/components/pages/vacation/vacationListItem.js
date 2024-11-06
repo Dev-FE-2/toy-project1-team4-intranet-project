@@ -4,6 +4,7 @@ import { Loading, NoData, Error503 } from '../../common';
 import VacationHistoryModal from './vacationHistoryModal';
 import AvatarImg from '/public/avatar.svg';
 
+
 export default class VacationListItem {
 	#listParentEl;
 	#modalParentEl;
