@@ -1,6 +1,8 @@
 export default class Search {
-	constructor(onSearch) {
+	constructor(onSearch, debounceTime = 300) {
 		this.onSearch = onSearch;
+		this.debounceTime = debounceTime;
+		this.debounceTimeout = null;
 	}
 
 	render(containerSelector) {
@@ -10,14 +12,18 @@ export default class Search {
 			<button class="register-btn">직원 등록</button>
 		`;
 
+		this.searchInput = searchContainer.querySelector('.search');
 		this.addSearchEventListener();
 	}
 
 	addSearchEventListener() {
-		const searchInput = document.querySelector('.search');
-		searchInput.addEventListener('input', (event) => {
+		this.searchInput.addEventListener('input', (event) => {
 			const query = event.target.value;
-			this.onSearch(query);
+
+			clearTimeout(this.debounceTimeout);
+			this.debounceTimeout = setTimeout(() => {
+				this.onSearch(query);
+			}, this.debounceTime);
 		});
 	}
 }
