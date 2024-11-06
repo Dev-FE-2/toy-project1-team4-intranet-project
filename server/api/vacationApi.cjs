@@ -12,6 +12,11 @@ const db = require('../../database.cjs');
 const router = express.Router();
 const path = require('path');
 const fs = require('fs');
+const multer = require('multer');
+
+// Multer 설정: 메모리에 저장하도록 구성
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 
 // 특정 휴가 요청 조회 (SELECT) - 이미지 정보 포함
 router.get('/vacation/:requestId', (req, res) => {
@@ -95,73 +100,67 @@ router.post('/vacation/page', (req, res) => {
   });
 });
 
-// 이미지 저장 함수와 휴가 요청 추가 함수
-function saveImageAndVacation(imagePath, imageName, vacationData, res) {
+// 이미지와 휴가 요청을 저장하는 함수
+function saveImageAndVacation(imageData, imageName, vacationData, res) {
   db.serialize(() => {
     // 트랜잭션 시작
     db.run("BEGIN TRANSACTION");
 
     // Step 1: 이미지를 images 테이블에 저장
-    fs.readFile(imagePath, (err, imageData) => {
-      if (err) {
-        res.status(500).json({ error: 'Error reading image file' });
-        db.run("ROLLBACK"); // 오류 발생 시 롤백
-        return;
-      }
-      
-      db.run(
-        `INSERT INTO images (name, data) VALUES (?, ?)`,
-        [imageName, imageData],
-        function (err) {
-          if (err) {
-            res.status(500).json({ error: 'Error inserting image into database' });
-            db.run("ROLLBACK"); // 오류 발생 시 롤백
-            return;
-          }
-          
-          const image_id = this.lastID;
-          // 현재 날짜와 시간을 'YYYY-MM-DD HH:MM:SS' 형식으로 가져옴
-          const createdDate = new Date().toISOString().slice(0, 19).replace('T', ' ');
-
-          // Step 2: 생성된 image_id를 사용하여 vacation 테이블에 데이터 삽입
-          const { vacation_type, username, vacation_title, vacation_content, vacation_start_day, vacation_end_day, user_id } = vacationData;
-          db.run(
-            `INSERT INTO vacation (vacation_type, username, vacation_title, vacation_content, created_date, vacation_start_day, vacation_end_day, user_id, image_id) 
-             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-            [vacation_type, username, vacation_title, vacation_content, createdDate, vacation_start_day, vacation_end_day, user_id, image_id],
-            function (err) {
-              if (err) {
-                res.status(500).json({ error: 'Error inserting vacation into database' });
-                db.run("ROLLBACK"); // 오류 발생 시 롤백
-                return;
-              }
-              
-              // 성공적으로 두 테이블에 삽입되었으면 커밋
-              db.run("COMMIT", (commitErr) => {
-                if (commitErr) {
-                  res.status(500).json({ error: 'Error committing transaction' });
-                } else {
-                  res.json({ request_id: this.lastID });
-                }
-              });
-            }
-          );
+    db.run(
+      `INSERT INTO images (name, data) VALUES (?, ?)`,
+      [imageName, imageData],
+      function (err) {
+        if (err) {
+          res.status(500).json({ error: 'Error inserting image into database' });
+          db.run("ROLLBACK"); // 오류 발생 시 롤백
+          return;
         }
-      );
-    });
+
+        const image_id = this.lastID;
+        const createdDate = new Date().toISOString().slice(0, 19).replace('T', ' ');
+
+        // Step 2: 생성된 image_id를 사용하여 vacation 테이블에 데이터 삽입
+        const { vacation_type, username, vacation_title, vacation_content, vacation_start_day, vacation_end_day, user_id } = vacationData;
+        db.run(
+          `INSERT INTO vacation (vacation_type, username, vacation_title, vacation_content, created_date, vacation_start_day, vacation_end_day, user_id, image_id) 
+           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+          [vacation_type, username, vacation_title, vacation_content, createdDate, vacation_start_day, vacation_end_day, user_id, image_id],
+          function (err) {
+            if (err) {
+              res.status(500).json({ error: 'Error inserting vacation into database' });
+              db.run("ROLLBACK"); // 오류 발생 시 롤백
+              return;
+            }
+            
+            // 성공적으로 두 테이블에 삽입되었으면 커밋
+            db.run("COMMIT", (commitErr) => {
+              if (commitErr) {
+                res.status(500).json({ error: 'Error committing transaction' });
+              } else {
+                res.json({ request_id: this.lastID });
+              }
+            });
+          }
+        );
+      }
+    );
   });
 }
 
-// 휴가 요청 추가 (INSERT) - 이미지 저장 기능 통합
-router.post('/vacation', (req, res) => {
-
+// 휴가 요청 추가 (INSERT) - 이미지 업로드 기능 포함
+router.post('/vacation', upload.single('profileImage'), (req, res) => {
   const { vacation_type, username, vacation_title, vacation_content, vacation_start_day, vacation_end_day, user_id } = req.body;
-  // 현재 imagePath는 샘플 데이터로 실제 구현 시에 적절한 경로로 설정해야 합니다.
-  const imagePath = path.join(__dirname, '..', '..', 'public', 'avatar.svg');
-  const imageName = 'test';
+
+  if (!req.file) {
+    return res.status(400).json({ error: 'No image file uploaded' });
+  }
+
+  const imageData = req.file.buffer; // 메모리에 저장된 이미지 데이터
+  const imageName = req.file.originalname; // 이미지 파일명
   const vacationData = { vacation_type, username, vacation_title, vacation_content, vacation_start_day, vacation_end_day, user_id };
-  
-  saveImageAndVacation(imagePath, imageName, vacationData, res);
+
+  saveImageAndVacation(imageData, imageName, vacationData, res);
 });
 
 module.exports = router;
