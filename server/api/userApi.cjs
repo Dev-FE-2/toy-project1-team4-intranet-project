@@ -13,7 +13,14 @@ const db = require('../../database.cjs'); // 분리된 db 모듈을 불러옴
 const router = express.Router();
 const fs = require('fs');
 const path = require('path');
+const multer = require('multer');
 
+// Multer 설정: 메모리에 저장하도록 구성
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
+
+// 이미지가 실제 업로드 되는건 아래 코드를 참고해야하며 해당 코드에는 imagePath와 imageName이 
+// 디폴트 값으로 들어가 있습니다.
 // 사용자 프로필 추가 (INSERT) - 이미지가 있을 경우 image 테이블에 추가 후 users 테이블에 삽입
 router.post('/user', (req, res) => {
   const { username, job, team, phone, email, bio } = req.body;
@@ -101,7 +108,7 @@ router.get('/user/:userId', (req, res) => {
 
   db.get(
     `SELECT u.user_id, u.username, u.job, u.team, u.phone, u.email, u.bio, u.created_date, 
-            i.data AS profile_image 
+            i.data as profile_image_data 
      FROM users u
      LEFT JOIN images i ON u.image_id = i.id
      WHERE u.user_id = ?`,
@@ -112,17 +119,75 @@ router.get('/user/:userId', (req, res) => {
       }
 
       if (row) {
-        // 이미지가 없을 경우 profile_image를 null 처리하거나 기본 이미지 URL로 변경
-        if (!row.profile_image) {
-          row.profile_image = null; // 또는 기본 이미지 URL을 삽입할 수 있습니다.
+        // 이미지 데이터가 있을 경우 base64로 인코딩하여 클라이언트로 전달
+        if (row.profile_image_data) {
+          row.profile_image_url = `data:image/png;base64,${row.profile_image_data.toString('base64')}`;
+          delete row.profile_image_data; // raw 데이터 삭제
+        } else {
+          row.profile_image_url = '/default-avatar.png'; // 기본 이미지 URL
         }
 
-        res.json(row); // 사용자 정보와 이미지 데이터를 반환
+        res.json(row); // 사용자 정보와 이미지 URL 반환
       } else {
         res.status(404).json({ error: 'User not found' });
       }
     }
   );
+});
+
+// 사용자 프로필 이미지 업로드 (메모리 저장 방식)
+router.post('/user/upload-profile-image', upload.single('profileImage'), (req, res) => {
+  const userId = req.body.user_id;
+  const profileImage = req.file;
+
+  if (!profileImage) {
+    return res.status(400).json({ error: 'No image file uploaded' });
+  }
+
+  // 프로필 이미지 데이터가 메모리에 저장되어 있으므로 `profileImage.buffer`에서 데이터를 읽어올 수 있습니다.
+  const imageData = profileImage.buffer;
+
+  // 데이터베이스에 이미지 데이터를 저장하는 작업
+  db.serialize(() => {
+    db.run("BEGIN TRANSACTION");
+
+    // Step 1: images 테이블에 이미지 데이터 삽입
+    db.run(
+      `INSERT INTO images (name, data) VALUES (?, ?)`,
+      [profileImage.originalname, imageData],
+      function (err) {
+        if (err) {
+          db.run("ROLLBACK");
+          return res.status(500).json({ error: 'Error inserting image into database' });
+        }
+
+        const imageId = this.lastID;
+
+        // Step 2: users 테이블의 image_id 업데이트
+        db.run(
+          `UPDATE users SET image_id = ? WHERE user_id = ?`,
+          [imageId, userId],
+          function (err) {
+            if (err) {
+              db.run("ROLLBACK");
+              return res.status(500).json({ error: 'Error updating user profile image' });
+            }
+
+            // 성공 시 커밋하고 이미지 URL과 함께 응답 전송
+            db.run("COMMIT", (commitErr) => {
+              if (commitErr) {
+                res.status(500).json({ error: 'Error committing transaction' });
+              } else {
+                // 이미지 데이터를 base64로 인코딩하여 응답으로 전송
+                const base64Image = `data:image/png;base64,${imageData.toString('base64')}`;
+                res.json({ message: 'Profile image updated successfully', imageUrl: base64Image });
+              }
+            });
+          }
+        );
+      }
+    );
+  });
 });
 
 module.exports = router;
