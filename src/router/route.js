@@ -12,11 +12,10 @@ import {
 	EmployeeListPage,
 	EmployeeDetailPage,
 	EmployeeAddPage,
+	SignUpPage,
 } from '../pages';
 
-export const route = () => {
-	const path = window.location.pathname;
-
+export const route = (path = window.location.pathname) => {
 	const navigation = new Navigation();
 	navigation.updateActiveMenu();
 
@@ -69,6 +68,10 @@ export const route = () => {
 
 		case path === url.login:
 			contentsElement.innerHTML = new LoginPage().render();
+			break;
+
+		case path === url.signup:
+			new SignUpPage(contentsElement).render();
 			break;
 
 		case urlPattern.sample.test(path): {
