@@ -1,7 +1,10 @@
 export default class VacationTypeTabMenu {
+	#parentEl;
+	#listInstance;
+
 	constructor(parentEl, listInstance) {
-		this.parentEl = parentEl;
-		this.listInstance = listInstance;
+		this.#parentEl = parentEl;
+		this.#listInstance = listInstance;
 		this.states = {
 			filterType: listInstance.states.filterType,
 		};
@@ -12,7 +15,7 @@ export default class VacationTypeTabMenu {
 		this.render();
 	}
 
-	get template() {
+	get #template() {
 		const htmls = ['전체', '연차', '반차', '조퇴', '기타'].map((type) => {
 			const className =
 				this.states.filterType === type ? 'vacation__nav-item active' : 'vacation__nav-item';
@@ -24,11 +27,11 @@ export default class VacationTypeTabMenu {
 	}
 
 	render() {
-		this.parentEl.innerHTML = this.template;
+		this.#parentEl.innerHTML = this.#template;
 
-		this.parentEl.addEventListener('click', (event) => {
+		this.#parentEl.addEventListener('click', (event) => {
 			const filterType = event.target.closest('li').getAttribute('data-type');
-			this.listInstance.setState({ filterType });
+			this.#listInstance.setState({ filterType });
 			this.setState({ filterType });
 		});
 	}

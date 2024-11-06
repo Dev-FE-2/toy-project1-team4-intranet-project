@@ -1,7 +1,10 @@
 export default class Pagination {
+	#parentEl;
+	#vacationListItem;
+
 	constructor(parentEl, vacationListItem) {
-		this.parentEl = parentEl;
-		this.vacationListItem = vacationListItem;
+		this.#parentEl = parentEl;
+		this.#vacationListItem = vacationListItem;
 		this.states = {
 			pageNumber: vacationListItem.states.pageNumber,
 			pageSize: vacationListItem.states.pageSize,
@@ -15,7 +18,7 @@ export default class Pagination {
 		this.render();
 	}
 
-	get pageNums() {
+	get #pageNums() {
 		const totalPageNum = Math.ceil(this.states.count / this.states.pageSize);
 		const pageNums = [];
 
@@ -26,8 +29,8 @@ export default class Pagination {
 		return pageNums;
 	}
 
-	get numberTemplate() {
-		const htmls = this.pageNums.map((pageNumber) => {
+	get #numberTemplate() {
+		const htmls = this.#pageNums.map((pageNumber) => {
 			const className =
 				this.states.pageNumber === pageNumber
 					? 'vacation__btn--item active'
@@ -39,33 +42,33 @@ export default class Pagination {
 		return htmls.join('');
 	}
 
-	get beforeTemplate() {
+	get #beforeTemplate() {
 		return `<div class="vacation__btn--before-wrapper">
                     <div class="vacation__btn--before--first">&lt;</div>
                     <div class="vacation__btn--before">&lt;&lt;</div>
                 </div>`;
 	}
 
-	get afterTemplate() {
+	get #afterTemplate() {
 		return `<div class="vacation__btn--next-wrapper">
                     <div class="vacation__btn--next">&gt;</div>
                     <div class="vacation__btn--last">&gt;&gt;</div>
                 </div>`;
 	}
 
-	get template() {
-		return `<ul class="vacation__btn--main">${this.numberTemplate}</ul>`;
+	get #template() {
+		return `<ul class="vacation__btn--main">${this.#numberTemplate}</ul>`;
 	}
 
 	clickPage(event) {
 		const pageNumber = parseInt(event.target.closest('li').getAttribute('data-page'), 10);
 
-		this.vacationListItem.setState({ pageNumber });
+		this.#vacationListItem.setState({ pageNumber });
 		this.setState({ pageNumber });
 	}
 
 	render() {
-		this.parentEl.innerHTML = this.template;
-		this.parentEl.addEventListener('click', this.clickPage);
+		this.#parentEl.innerHTML = this.#template;
+		this.#parentEl.addEventListener('click', this.clickPage);
 	}
 }
