@@ -41,10 +41,10 @@ export default class VacationHistoryModal {
         `;
 	}
 
-	renderOption(vacationType, requestType) {
-		const htmls = vacationType.map((obj) => {
-			const { value, emoji } = obj;
-			const isSelected = requestType === obj.value ? 'selected' : '';
+	renderOption(vacationTypes, requestType) {
+		const htmls = vacationTypes.map((type) => {
+			const { value, emoji } = type;
+			const isSelected = requestType === type.value ? 'selected' : '';
 
 			return `<option value="${value}" ${isSelected}>${emoji} ${value}</option>`;
 		});
@@ -54,7 +54,7 @@ export default class VacationHistoryModal {
 
 	setRequestType() {
 		const requestType = this.foundData[0].requestType;
-		const vacationType = [
+		const vacationTypes = [
 			{
 				value: '연차',
 				emoji: '🏖️',
@@ -73,7 +73,7 @@ export default class VacationHistoryModal {
 			},
 		];
 
-		let template = this.renderOption(vacationType, requestType);
+		let template = this.renderOption(vacationTypes, requestType);
 		return template;
 	}
 
