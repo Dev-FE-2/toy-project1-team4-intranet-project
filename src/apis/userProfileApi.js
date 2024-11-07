@@ -1,11 +1,8 @@
 async function postUserData(formData) {
-	const response = await fetch('http://localhost:3000/api/user', {
+	const response = await fetch('http://localhost:3000/api/user/register', {
 		method: 'POST',
 		cache: 'no-cache',
-		headers: {
-			'Content-Type': 'application/json',
-		},
-		body: JSON.stringify(formData),
+		body: formData, // FormData 객체를 직렬화하지 않고 그대로 사용
 	});
 
 	if (!response.ok) {
