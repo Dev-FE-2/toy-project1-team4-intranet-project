@@ -1,6 +1,6 @@
 export default class VacationHistoryModal {
-	constructor(modalWrapper, foundData) {
-		this.modalWrapper = modalWrapper;
+	constructor(modalParentEl, foundData) {
+		this.modalParentEl = modalParentEl;
 		this.foundData = foundData;
 		this.template = `
         <div id="historyModal" class="vacation__history-wrapper">
@@ -41,44 +41,50 @@ export default class VacationHistoryModal {
         `;
 	}
 
+	renderOption(vacationTypes, requestType) {
+		const htmls = vacationTypes.map((type) => {
+			const { value, emoji } = type;
+			const isSelected = requestType === type.value ? 'selected' : '';
+
+			return `<option value="${value}" ${isSelected}>${emoji} ${value}</option>`;
+		});
+		console.log(htmls);
+		return htmls.join('');
+	}
+
 	setRequestType() {
 		const requestType = this.foundData[0].requestType;
+		const vacationTypes = [
+			{
+				value: '연차',
+				emoji: '🏖️',
+			},
+			{
+				value: '반차',
+				emoji: '🌇',
+			},
+			{
+				value: '조퇴',
+				emoji: '🚑',
+			},
+			{
+				value: '기타',
+				emoji: '💬',
+			},
+		];
 
-		let firstOption = `<option value="연차">🏖️ 연차</option>`;
-		let secondOption = `<option value="반차">🌇 반차</option>`;
-		let thirdOption = `<option value="병가">🚑 병가</option>`;
-		let fourthOption = `<option value="기타">💬 기타</option>`;
-		let template = ``;
-
-		switch (true) {
-			case requestType === '연차':
-				firstOption = `<option value="연차" selected>🏖️ 연차</option>`;
-				template = `${firstOption}${secondOption}${thirdOption}${fourthOption}`;
-				break;
-			case requestType === '반차':
-				secondOption = `<option value="반차" selected>🌇 반차</option>`;
-				template = `${firstOption}${secondOption}${thirdOption}${fourthOption}`;
-				break;
-			case requestType === '병가':
-				thirdOption = `<option value="병가" selected>🚑 병가</option>`;
-				template = `${firstOption}${secondOption}${thirdOption}${fourthOption}`;
-				break;
-			case requestType === '기타':
-				fourthOption = `<option value="기타" selected>💬 기타</option>`;
-				template = `${firstOption}${secondOption}${thirdOption}${fourthOption}`;
-				break;
-		}
+		let template = this.renderOption(vacationTypes, requestType);
 		return template;
 	}
 
 	closeHistoryModal() {
-		const historyModal = document.getElementById('historyModal');
+		const historyModal = document.querySelector('#historyModal');
 		historyModal.classList.remove('active');
 	}
 
 	render() {
-		this.modalWrapper.insertAdjacentHTML('beforeend', this.template);
-		const historyModal = document.getElementById('historyModal');
+		this.modalParentEl.insertAdjacentHTML('beforeend', this.template);
+		const historyModal = document.querySelector('#historyModal');
 		const vacationSelectTag = historyModal.querySelector('#vacationSelect');
 		const vacationDescription = historyModal.querySelector('textarea');
 		const historyOkBtn = document.querySelector('#historyModalBtnWrapper button');
