@@ -1,4 +1,4 @@
-import { postUserData } from '../../apis/userProfileApi';
+import { postUserData } from '../../apis/userApi';
 import { route } from '../../router/route';
 import { Error503 } from '../../components/common';
 import Form from '../../components/common/form';

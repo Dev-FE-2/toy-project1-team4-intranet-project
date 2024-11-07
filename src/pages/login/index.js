@@ -1,4 +1,4 @@
-import { fetchUserData } from '../../apis/userProfileApi';
+import { fetchUserData } from '../../apis/userApi';
 import { route } from '../../router/route';
 import { Error503 } from '../../components/common';
 import Form from '../../components/common/form';
