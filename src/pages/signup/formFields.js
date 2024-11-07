@@ -1,4 +1,4 @@
-export const formFields = [
+export const FORM_FIELDS = [
 	{
 		label: '프로필 사진',
 		inputType: 'file',
@@ -23,7 +23,14 @@ export const formFields = [
 	{
 		label: '비밀번호 확인',
 		inputType: 'password',
-		inputName: 'rePassword',
+		inputName: 'passwordConfirm',
+		inputValue: '',
+		required: 'required',
+	},
+	{
+		label: '이름',
+		inputType: 'text',
+		inputName: 'username',
 		inputValue: '',
 		required: 'required',
 	},
