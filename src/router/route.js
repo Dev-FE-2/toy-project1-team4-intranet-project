@@ -67,7 +67,7 @@ export const route = (path = window.location.pathname) => {
 		}
 
 		case path === url.login:
-			contentsElement.innerHTML = new LoginPage().render();
+			new LoginPage(contentsElement).render();
 			break;
 
 		case path === url.signup:
