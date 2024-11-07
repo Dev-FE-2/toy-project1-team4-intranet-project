@@ -1,6 +1,6 @@
 export default class VacationApplyModal {
-	constructor(modalWrapper) {
-		this.modalWrapper = modalWrapper;
+	constructor(modalParentEl) {
+		this.modalParentEl = modalParentEl;
 		this.template = `
             <div class="vacation__apply-wrapper" id="applyModal">
                 <div class="vacation__apply-background"></div>
@@ -42,7 +42,7 @@ export default class VacationApplyModal {
 
 	async handleVacationSubmit(event) {
 		event.preventDefault();
-		const vacationApplyModal = document.getElementById('applyModal');
+		const vacationApplyModal = this.modalParentEl.querySelector('#applyModal');
 		const submitArray = [];
 		const submitObject = {};
 		const formData = new FormData(this);
@@ -67,9 +67,11 @@ export default class VacationApplyModal {
 	}
 
 	async render() {
-		this.modalWrapper.insertAdjacentHTML('beforeend', this.template);
-		const vacationApplyForm = document.getElementById('vacationApplyForm');
+		this.modalParentEl.insertAdjacentHTML('beforeend', this.template);
+		const vacationApplyForm = document.querySelector('#vacationApplyForm');
 
-		vacationApplyForm.addEventListener('submit', this.handleVacationSubmit);
+		vacationApplyForm.addEventListener('submit', () => {
+			this.handleVacationSubmit;
+		});
 	}
 }
