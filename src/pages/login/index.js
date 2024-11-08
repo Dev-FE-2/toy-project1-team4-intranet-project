@@ -1,21 +1,34 @@
-export default class LoginPage {
-	render() {
-		return `<section class="contents">
-                <h1 class="page-title">로그인</h1>
+import { fetchUserData } from '../../apis/userApi';
+import { route } from '../../router/route';
+import { Error503 } from '../../components/common';
+import Form from '../../components/common/form';
+import { FORM_FIELDS } from './formFields';
 
-                <form action="" class="form">
-                    <fieldset>
-                        <legend>아이디</legend>
-                        <input type="text" class="form-item" placeholder="아이디" />
-                    </fieldset>
-                    <fieldset>
-                        <legend>비밀번호</legend>
-                        <input type="password" class="form-item" placeholder="비밀번호" />
-                    </fieldset>
-                    <div class="btn-wrap">
-                        <button class="btn btn--primary" type="submit">로그인</button>
-                    </div>
-                </form>
-            </section>`;
+export default class LoginPage {
+	#contentsElement;
+	#formContainerEl;
+	#fields = FORM_FIELDS;
+
+	constructor(contentsElement) {
+		this.#contentsElement = contentsElement;
+	}
+
+	get #template() {
+		return `<section class="contents">
+					<h1 class="page-title">로그인</h1>
+					<div id="formContainer" class="form-container"></div>
+				</section>`;
+	}
+
+	#login() {
+		console.log('로그인');
+	}
+
+	async render() {
+		this.#contentsElement.innerHTML = this.#template;
+		this.#formContainerEl = document.querySelector('#formContainer');
+		new Form(this.#formContainerEl, this.#fields).render();
+
+		this.#formContainerEl.addEventListener('submit', this.#login.bind(this));
 	}
 }

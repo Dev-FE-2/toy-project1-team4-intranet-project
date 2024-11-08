@@ -82,6 +82,13 @@ body {
 	}
 }
 
+.form-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+}
+
 .form {
 	margin: 0 auto;
 	width: 100%;
@@ -131,6 +138,7 @@ body {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	font-size: var(--font-size-paragraph);
 }
 
 .btn--primary {
