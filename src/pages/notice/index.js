@@ -1,299 +1,251 @@
 import './style.css';
-import noticeData from './noticeList';
-import searchIcon from '../../assets/icons/icon_search.svg';
+import NoticeApi from '../../apis/noticeApi';
+import Pagination from '../../components/pages/notice/pagination';
+import Search from '../../components/pages/notice/search';
+import InfiniteScroll from '../../components/pages/notice/infiniteScroll';
 
 export default class Notice {
 	constructor(contentsElement) {
-		this.currentPage = 1;
-		this.itemsPerPage = 4;
-		this.maxPage = 10;
+		// 상수 정의
+		this.ITEMS_PER_PAGE = 4;
+		this.MOBILE_BREAKPOINT = 768;
+
+		// 초기 상태 설정
 		this.contentsElement = contentsElement;
-		this.isMobile = window.innerWidth <= 768; // TABLET
-		this.isLoadingNotices = false; // 중복 호출 방지 플래그
-		this.scrollDebounceTimer = null;
+		this.notices = [];
+		this.currentPage = 1;
 		this.searchQuery = '';
 		this.filteredResults = [];
+		this.isMobile = window.innerWidth <= this.MOBILE_BREAKPOINT;
+		this.infiniteScrollInitialized = false;
+
+		// API 인스턴스 생성
+		this.api = new NoticeApi();
 	}
 
-	// 공지사항 데이터를 불러오기
-	async fetchNoticeData(url) {
+	// 데이터 초기화 및 로드
+	async initialize() {
 		try {
-			const res = await fetch(url);
-			if (!res.ok) {
-				throw new Error(`HTTP error : ${res.status}`);
-			}
-			return await res.json();
-		} catch (err) {
-			console.error(err);
-			throw new Error('공지사항을 불러오는데 실패했습니다.');
+			await this.fetchNoticeData();
+			this.initializeInfiniteScroll();
+		} catch (error) {
+			console.error('Failed to initialize data:', error);
 		}
 	}
 
-	// 데이터 검색
-	getFilteredData(data) {
-		const searchLower = this.searchQuery.toLowerCase();
-		return data.filter(
-			(item) =>
-				item.title.toLowerCase().includes(searchLower) ||
-				item.content.toLowerCase().includes(searchLower),
-		);
+	// 공지사항 데이터 가져오기
+	async fetchNoticeData() {
+		try {
+			const response = await this.api.getNoticesByPage(this.currentPage, this.ITEMS_PER_PAGE);
+
+			if (response && response.notices) {
+				this.notices = response.notices;
+				this.totalPages = response.totalPages;
+				this.totalNotices = response.totalNotices;
+				return this.notices;
+			} else {
+				console.error('Invalid response format:', response);
+				throw new Error('Invalid response format');
+			}
+		} catch (error) {
+			console.error('Error fetching notice data:', error);
+			throw error;
+		}
 	}
 
-	// 검색 처리
-	handleSearch(event) {
-		event.preventDefault();
-		const inputElement = this.contentsElement.querySelector('.notice__search__input');
-		this.searchQuery = inputElement.value.trim();
-		this.filteredResults = this.getFilteredData(noticeData);
-		console.log(this.searchQuery);
+	// 인피니트 스크롤 초기화
+	initializeInfiniteScroll() {
+		if (this.isMobile) {
+			this.infiniteScroll = new InfiniteScroll(
+				this.renderInfiniteScroll.bind(this),
+				this.totalPages,
+			);
+			this.infiniteScrollInitialized = true;
+		}
+	}
 
-		if (this.filteredResults.length === 0) {
-			alert('검색결과가 없습니다.');
-		} else {
+	// 데이터 필터링
+	async handleSearch(searchQuery) {
+		try {
+			this.searchQuery = searchQuery;
+
+			if (!searchQuery.trim()) {
+				const response = await this.api.getNoticesByPage(1, this.ITEMS_PER_PAGE);
+				Object.assign(this, response);
+				this.filteredResults = this.notices;
+			} else {
+				const response = await this.api.searchNotices(searchQuery, 1, this.ITEMS_PER_PAGE);
+				Object.assign(this, response);
+				this.filteredResults = this.notices;
+			}
+
+			if (!this.filteredResults.length) {
+				alert('검색결과가 없습니다.');
+				return;
+			}
+
 			this.currentPage = 1;
-			this.renderNoticeList(this.filteredResults);
-			this.isMobile
-				? this.setupLazyLoading(this.filteredResults)
-				: this.renderPagination(this.filteredResults);
+			this.resetView();
+		} catch (error) {
+			console.error('Search error:', error);
 		}
 	}
 
-	// 검색 폼 설정
-	setupSearchForm() {
-		const searchForm = this.contentsElement.querySelector('.notice__search-container');
-		searchForm.addEventListener('submit', (event) => this.handleSearch(event));
-	}
+	// 뷰 초기화 및 재렌더링
+	resetView() {
+		this.renderNoticeList(this.filteredResults);
 
-	// 전체 페이지 수 계산
-	getTotalPages(data) {
-		return Math.ceil(data.length / this.itemsPerPage);
-	}
-
-	// 페이지 변경 처리
-	handlePageChange(pageNumber) {
-		this.currentPage = pageNumber;
-		this.render();
-	}
-
-	// 버튼 생성
-	createButton(text, className, onClick) {
-		const button = document.createElement('button');
-		button.innerText = text;
-		button.classList.add(className);
-		if (onClick) {
-			button.addEventListener('click', onClick);
+		if (this.isMobile) {
+			this.resetInfiniteScroll();
+		} else {
+			this.renderPagination();
 		}
-		return button;
 	}
 
-	// 페이지네이션 버튼 생성
-	createPaginationButton(text, page, isSelectable) {
-		const buttonClass = isSelectable ? 'button-unselected' : 'button-inactivated';
-		const onClick = isSelectable ? () => this.handlePageChange(page) : undefined;
-		return this.createButton(text, buttonClass, onClick);
+	// 인피니트 스크롤 초기화
+	resetInfiniteScroll() {
+		const pageContainer = document.querySelector('.layout__page-container');
+		this.infiniteScroll.reset();
+		this.infiniteScroll.setupInfiniteScroll(pageContainer);
 	}
 
-	// 페이지네이션 생성
-	createPagination(data) {
-		const paginationContainer = document.createElement('div');
-		paginationContainer.classList.add('pagination-list');
+	// 페이지네이션 렌더링
+	renderPagination() {
+		const paginationContainer = this.contentsElement.querySelector('.notice__pagination-container');
 
-		const totalPages = this.getTotalPages(data);
-		const isSelectable = totalPages > this.maxPage;
+		new Pagination({
+			totalPages: this.totalPages,
+			currentPage: this.currentPage,
+			onPageChange: async (page) => {
+				this.currentPage = page;
+				try {
+					const response = this.searchQuery
+						? await this.api.searchNotices(this.searchQuery, page, this.ITEMS_PER_PAGE)
+						: await this.api.getNoticesByPage(page, this.ITEMS_PER_PAGE);
 
-		// 이전 버튼 생성
-		const prevButtons = [
-			{ text: '«', page: 1 },
-			{
-				text: '‹',
-				page: Math.max(
-					1,
-					Math.floor((this.currentPage - 1) / this.maxPage) * this.maxPage - this.maxPage + 1,
-				),
+					Object.assign(this, response); // response의 모든 속성이 this 객체로 복사됨
+					this.filteredResults = this.notices;
+					this.renderNoticeList(this.filteredResults);
+					this.renderPagination();
+				} catch (error) {
+					console.error('Error changing page:', error);
+				}
 			},
-		];
-
-		prevButtons.forEach(({ text, page }) => {
-			const button = this.createPaginationButton(text, page, isSelectable);
-			paginationContainer.append(button);
-		});
-
-		// 페이지 번호 버튼 생성
-		const startPage = Math.floor((this.currentPage - 1) / this.maxPage) * this.maxPage + 1;
-		const endPage = Math.min(startPage + this.maxPage - 1, totalPages);
-
-		for (let i = startPage; i <= endPage; i++) {
-			const pageButton = this.createButton(i, 'button-unselected', () => this.handlePageChange(i));
-			if (i === this.currentPage) {
-				pageButton.classList.remove('button-unselected');
-				pageButton.classList.add('button-selected');
-			}
-			paginationContainer.append(pageButton);
-		}
-
-		// 다음 버튼 생성
-		const nextButtons = [
-			{
-				text: '›',
-				page: Math.min(
-					totalPages,
-					Math.floor((this.currentPage - 1) / this.maxPage) * this.maxPage + this.maxPage + 1,
-				),
-			},
-			{ text: '»', page: totalPages },
-		];
-
-		nextButtons.forEach(({ text, page }) => {
-			const button = this.createPaginationButton(text, page, isSelectable);
-			paginationContainer.append(button);
-		});
-
-		return paginationContainer;
+		}).render(paginationContainer);
 	}
 
-	// 페이지네이션 랜더링
-	renderPagination(data) {
-		const paginationContainer = this.contentsElement.querySelector('.pagination-container');
-		paginationContainer.innerHTML = '';
-		const pagination = this.createPagination(data);
-		paginationContainer.append(pagination);
+	// 공지사항 아이템 HTML 생성
+	createNoticeItem(item, index) {
+		return `
+			<li class="notice__item" data-index="${index}">
+				<img class="notice__item__img" src="data:image/jpeg;base64,${item.image_data}" alt="공지사항 이미지"/>
+				<div class="notice__info">
+					<h3 class="notice__info__title">${item.title}</h3>
+					<p class="notice__info__content">${item.content}</p>
+				</div>
+			</li>
+		`;
 	}
 
 	// 공지사항 리스트 생성
 	createNoticeList(data) {
 		const ulElement = document.createElement('ul');
-		ulElement.classList.add('notice-list');
+		ulElement.classList.add('notice__list');
 
-		data.forEach((item, index) => {
-			const liElement = document.createElement('li');
-			liElement.classList.add('notice-item');
-			liElement.setAttribute('data-index', index);
-			liElement.innerHTML = `
-        <img class="notice-item__img" src="${item.image_url}" alt="공지사항 이미지"/>
-        <div class="notice-info">
-          <h3 class="notice-info__title">${item.title}</h3>
-          <p class="notice-info__content">${item.content}</p>
-        </div>
-      `;
-			ulElement.append(liElement);
+		data.forEach((item) => {
+			const listItem = document.createElement('li');
+			listItem.classList.add('notice__item');
+			listItem.dataset.id = item.notice_id;
+
+			listItem.innerHTML = `
+            <img class="notice__item__img" 
+                src="${item.image_data ? `data:image/jpeg;base64,${item.image_data}` : 'default-image-path.jpg'}" 
+                alt="공지사항 이미지"
+                loading="lazy"
+            />
+            <div class="notice__info">
+                <h3 class="notice__info__title">${item.title}</h3>
+                <p class="notice__info__content">${item.content}</p>
+            </div>
+        `;
+
+			listItem.addEventListener('click', () => {
+				window.location.href = `/notice/${item.notice_id}`;
+			});
+
+			ulElement.appendChild(listItem);
 		});
+
 		return ulElement;
 	}
 
-	// 공지사항 리스트에 클릭 이벤트 추가
-	addUlListener(element, data) {
-		element.addEventListener('click', (event) => {
-			let target = event.target;
-
-			while (target && target.tagName !== 'LI') {
-				target = target.parentElement;
-			}
-
-			const tagName = target.tagName;
-			if (target && tagName === 'LI') {
-				const index = target.getAttribute('data-index');
-				const selectedData = data[index];
-
-				// 상세 페이지로 이동
-				if (selectedData) {
-					window.location.href = `/notice/${selectedData.notice_id}`;
-				}
-			}
-		});
-	}
-
-	// 공지사항 리스트 랜더링
+	// 공지사항 리스트 렌더링
 	renderNoticeList(data) {
-		const listContainer = this.contentsElement.querySelector('.list-container');
-		listContainer.innerHTML = ''; // 이전 검색 결과를 제거
-		const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-		const endIndex = startIndex + this.itemsPerPage;
-		const currentData = data.slice(startIndex, endIndex);
-
-		const list = this.createNoticeList(currentData);
-		listContainer.append(list);
-		this.addUlListener(listContainer, data);
+		const listContainer = this.contentsElement.querySelector('.notice__list-container');
+		listContainer.innerHTML = '';
+		listContainer.append(this.createNoticeList(data));
 	}
 
-	// 레이지 로딩 설정
-	setupLazyLoading(data) {
-		if (this.lazyLoadingSetUp) {
-			return; // 이미 설정된 경우 새로운 이벤트 리스너 추가하지 않음
+	// 인피니트 스크롤로 공지사항 렌더링
+	async renderInfiniteScroll(page) {
+		try {
+			const response = this.searchQuery
+				? await this.api.searchNotices(this.searchQuery, page, this.ITEMS_PER_PAGE)
+				: await this.api.getNoticesByPage(page, this.ITEMS_PER_PAGE);
+
+			Object.assign(this, response); // response의 모든 속성이 this 객체로 복사됨
+			const listContainer = this.contentsElement.querySelector('.notice__list-container');
+			if (this.notices.length) {
+				listContainer.append(this.createNoticeList(this.notices));
+			}
+		} catch (error) {
+			console.error('Error loading more notices:', error);
 		}
-
-		this.lazyLoadingSetUp = true;
-
-		const pageContainer = document.querySelector('.layout__page-container');
-
-		// 스크롤 이벤트 리스너
-		const onScroll = () => {
-			const currentScroll = pageContainer.scrollTop + pageContainer.clientHeight;
-			const totalHeight = pageContainer.scrollHeight;
-
-			// 로딩 중이 아니고, 스크롤 위치가 페이지의 끝 근처에 도달하고, 추가 페이지가 존재할 때
-			if (
-				!this.isLoadingNotices &&
-				currentScroll >= totalHeight - 10 &&
-				this.currentPage < this.getTotalPages(data)
-			) {
-				this.isLoadingNotices = true; // 중복 호출 방지
-				this.currentPage++;
-				this.renderLazyLoading(data);
-			}
-		};
-
-		// 이벤트 핸들러를 바인딩하고 설정
-		pageContainer.addEventListener('scroll', () => {
-			if (!this.scrollDebounceTimer) {
-				this.scrollDebounceTimer = setTimeout(() => {
-					this.scrollDebounceTimer = null;
-					onScroll();
-					console.log('timer!');
-				}, 500);
-			}
-		});
 	}
 
-	// 레이지 로딩으로 공지사항 렌더링
-	renderLazyLoading(data) {
-		const listContainer = this.contentsElement.querySelector('.list-container');
-		const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-		const endIndex = startIndex + this.itemsPerPage;
-		const currentData = data.slice(startIndex, endIndex);
-
-		if (currentData.length > 0) {
-			const list = this.createNoticeList(currentData);
-			listContainer.append(list);
-			this.addUlListener(listContainer, data);
-		}
-
-		this.isLoadingNotices = false; // 로딩 완료 후 플래그 초기화
+	// 공지사항 템플릿 생성
+	getNoticeTemplate() {
+		return `
+			<div class="contents">
+				<header class="notice-header">
+					<h1 class="notice__title">공지사항</h1>
+				</header>
+				<section class="notice-section">
+					<div class="notice-container">
+						<div class="notice__search-container"></div>
+						<div class="notice__list-container"></div>
+						<div class="notice__pagination-container"></div>
+					</div>
+				</section>
+			</div>
+		`;
 	}
 
 	// 공지사항 렌더링
-	render() {
-		this.contentsElement.innerHTML = `
-        <div class="contents">
-            <h1 class="notice__title">공지사항</h1>
-            <section class="notice-section">
-                <form class="notice__search-container">
-                    <input class="notice__search__input" placeholder="search">
-                    <button type="submit" class="notice__search__button" aria-label="Search">
-                        <img class="notice__search__img" src="${searchIcon}" alt="검색">
-                    </button>
-                </form>
-                <div class="notice-container">
-                    <div class="list-container"></div>
-                    <div class="pagination-container"></div>
-                </div>
-            </section>
-        </div>`;
-		this.setupSearchForm();
-
-		// 현재 검색된 데이터에 따라 리스트와 페이지네이션을 렌더링
-		const dataToRender = this.filteredResults.length ? this.filteredResults : noticeData;
-		this.renderNoticeList(dataToRender);
-
-		this.isMobile ? this.setupLazyLoading(dataToRender) : this.renderPagination(dataToRender);
+	async render() {
+		console.log('start');
+		// 템플릿 렌더링
+		this.contentsElement.innerHTML = this.getNoticeTemplate();
+		console.log('1');
+		// 데이터 초기화
+		await this.initialize();
+		console.log('2');
+		// 검색 컴포넌트 렌더링
+		const searchContainer = this.contentsElement.querySelector('.notice__search-container');
+		new Search(this.handleSearch.bind(this)).render(searchContainer);
+		console.log('3');
+		// 초기 데이터 렌더링
+		const initialData = this.filteredResults.length ? this.filteredResults : this.notices;
+		this.renderNoticeList(initialData);
+		console.log('4');
+		// 모바일/데스크톱 분기 처리
+		if (this.isMobile) {
+			this.resetInfiniteScroll();
+			console.log('5');
+		} else {
+			this.renderPagination();
+			console.log('6');
+		}
+		console.log('end');
 	}
 }
