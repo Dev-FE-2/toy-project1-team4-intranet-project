@@ -21,7 +21,9 @@ export default class Form {
 	}
 
 	get #buttons() {
-		return new ButtonGroup(this.#state.buttonDatas).render();
+		const html = this.#state.buttonDatas.map((buttonData) => new ButtonGroup(buttonData).render());
+
+		return html.join('');
 	}
 
 	get #template() {
@@ -31,7 +33,7 @@ export default class Form {
 	render() {
 		this.#parentEl.innerHTML = this.#template;
 		this.#formElement = document.querySelector('#signUpForm');
-		this.#formElement.insertAdjacentHTML('beforeend', this.#state.fieldDatas);
-		this.#formElement.insertAdjacentHTML('beforeend', this.#state.buttons);
+		this.#formElement.insertAdjacentHTML('beforeend', this.#fieldset);
+		this.#formElement.insertAdjacentHTML('beforeend', this.#buttons);
 	}
 }
