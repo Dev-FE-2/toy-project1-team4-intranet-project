@@ -2,7 +2,7 @@ import './style.css';
 import { ProfileForm } from '../../components/pages/profile/profileForm';
 import { url } from '../../router/url';
 import userData from '../../../server/data/user';
-import ImageUploader from '../../components/pages/profile/ImageUploader';
+import ImageUploader from '../../components/pages/profile/imageUploader';
 
 export default class UserProfile {
 	constructor() {

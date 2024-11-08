@@ -2,7 +2,7 @@ import './style.css';
 import employeesData from '../../../server/data/employees';
 import { ProfileForm } from '../../components/pages/profile/profileForm';
 import { url } from '../../router/url';
-import ImageUploader from '../../components/pages/profile/ImageUploader';
+import ImageUploader from '../../components/pages/profile/imageUploader';
 
 export default class EmployeeDetail {
 	constructor() {
