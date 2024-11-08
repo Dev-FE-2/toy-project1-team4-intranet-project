@@ -1,36 +1,37 @@
 import Input from './input';
+import ButtonGroup from './button';
 
 export default class Form {
 	#parentEl;
 	#formElement;
+	#state;
 
-	constructor(parentEl, fields) {
+	constructor(parentEl, fieldDatas, buttonDatas) {
 		this.#parentEl = parentEl;
-		this.state = {
-			fields,
+		this.#state = {
+			fieldDatas,
+			buttonDatas,
 		};
 	}
 
-	get fieldset() {
-		const html = this.state.fields.map((field) => new Input(field).render());
+	get #fieldset() {
+		const html = this.#state.fieldDatas.map((fieldData) => new Input(fieldData).render());
 
 		return html.join('');
 	}
 
-	get submitButton() {
-		return `<div class="btn-wrap">
-                    <button class="btn btn--primary" type="submit">회원가입</button>
-                </div>`;
+	get #buttons() {
+		return new ButtonGroup(this.#state.buttonDatas).render();
 	}
 
-	get template() {
+	get #template() {
 		return `<form id="signUpForm" method="post" class="form"></form>`;
 	}
 
 	render() {
-		this.#parentEl.innerHTML = this.template;
+		this.#parentEl.innerHTML = this.#template;
 		this.#formElement = document.querySelector('#signUpForm');
-		this.#formElement.insertAdjacentHTML('beforeend', this.fieldset);
-		this.#formElement.insertAdjacentHTML('beforeend', this.submitButton);
+		this.#formElement.insertAdjacentHTML('beforeend', this.#state.fieldDatas);
+		this.#formElement.insertAdjacentHTML('beforeend', this.#state.buttons);
 	}
 }
