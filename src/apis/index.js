@@ -1,4 +1,4 @@
 import { fetchVacationData } from './vacationApi';
-import { fetchUserData } from './userProfileApi';
+import { fetchUserData } from './userApi';
 
 export { fetchVacationData, fetchUserData };
