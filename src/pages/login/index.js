@@ -1,7 +1,7 @@
 import { fetchUserData } from '../../apis/userApi';
 import { route } from '../../router/route';
 import { Error503 } from '../../components/common';
-import Form from '../../components/common/form';
+import { Form } from '../../components/common/form';
 import { FORM_FIELDS, FORM_BUTTONS } from './formFieldDatas';
 
 export default class LoginPage {
