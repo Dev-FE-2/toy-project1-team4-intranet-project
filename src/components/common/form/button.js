@@ -5,7 +5,7 @@ export default class Button {
 		label,
 		colorType,
 		elementType, // 'button' | 'anchor'
-		buttonType = 'button',
+		buttonType = 'button', // 'button' | 'submit' ... 등
 		buttonId = '',
 		anchorLink = '',
 		anchorTarget = '',
@@ -23,11 +23,21 @@ export default class Button {
 	}
 
 	get #anchorTemplate() {
-		return `<a href='${this.#states.anchorLink}' target='${this.#states.anchorTarget}' class='${this.#states.className}'>${this.#states.label}</a>`;
+		return `<a 
+					href='${this.#states.anchorLink}' 
+					target='${this.#states.anchorTarget}' 
+					class='${this.#states.className}'>
+						${this.#states.label}
+				</a>`;
 	}
 
 	get #buttonTemplate() {
-		return `<button type='${this.#states.buttonType}' id="${this.#states.buttonId}" class='${this.#states.className}'>${this.#states.label}</button>`;
+		return `<button 
+					type='${this.#states.buttonType}' 
+					id="${this.#states.buttonId}" 
+					class='${this.#states.className}'>
+						${this.#states.label}
+				</button>`;
 	}
 
 	render() {
