@@ -291,4 +291,38 @@ router.post('/user/register', upload.single('profileImage'), (req, res) => {
 	});
 });
 
+// 로그인
+router.post('/login', (req, res) => {
+	const { email, password } = req.body;
+
+	if (!email || !password) {
+		return res.status(400).json({ error: `이메일 주소와 비밀번호는 필수 값 입니다.` });
+	}
+
+	db.serialize(() => {
+		db.get(`SELECT * FROM users WHERE email = ?`, [email], (err, row) => {
+			if (err) {
+				console.error('Database error:', err.message);
+				return res.status(500).json({ error: 'Internal server error' });
+			}
+
+			if (!row) {
+				return res.status(401).json({ error: 'Invalid email or password' });
+			}
+
+			// 비밀번호 비교 (해시된 비밀번호와 비교해야 함)
+			// 예: bcrypt.compareSync(password, row.password)
+			if (password !== row.password) {
+				return res.status(401).json({ error: 'Invalid email or password' });
+			}
+
+			// 성공 시 사용자 정보 반환 (민감한 데이터는 제외)
+			res.json({
+				user_id: row.user_id,
+				message: 'User logged in successfully',
+			});
+		});
+	});
+});
+
 module.exports = router;
