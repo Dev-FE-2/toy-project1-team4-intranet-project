@@ -1,5 +1,5 @@
 import Input from './input';
-import ButtonGroup from './button';
+import ButtonGroup from './buttonGroup';
 
 export default class Form {
 	#parentEl;
@@ -21,9 +21,7 @@ export default class Form {
 	}
 
 	get #buttons() {
-		const html = this.#state.buttonDatas.map((buttonData) => new ButtonGroup(buttonData).render());
-
-		return html.join('');
+		return new ButtonGroup(this.#state.buttonDatas).render();
 	}
 
 	get #template() {

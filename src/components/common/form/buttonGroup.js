@@ -8,7 +8,7 @@ export default class ButtonGroup {
 	}
 
 	get #template() {
-		const buttons = this.#buttonDatas.map((buttonData) => new Button(buttonData)).join('');
+		const buttons = this.#buttonDatas.map((buttonData) => new Button(buttonData).render()).join('');
 
 		return `<div class="btn-wrap">${buttons}</div>`;
 	}
