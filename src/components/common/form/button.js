@@ -24,20 +24,20 @@ export default class Button {
 
 	get #anchorTemplate() {
 		return `<a 
-					href='${this.#states.anchorLink}' 
-					target='${this.#states.anchorTarget}' 
-					class='${this.#states.className}'>
-						${this.#states.label}
-				</a>`;
+			href='${this.#states.anchorLink}' 
+			target='${this.#states.anchorTarget}' 
+			class='${this.#states.className}'>
+				${this.#states.label}
+		</a>`;
 	}
 
 	get #buttonTemplate() {
 		return `<button 
-					type='${this.#states.buttonType}' 
-					id="${this.#states.buttonId}" 
-					class='${this.#states.className}'>
-						${this.#states.label}
-				</button>`;
+			type='${this.#states.buttonType}' 
+			id="${this.#states.buttonId}" 
+			class='${this.#states.className}'>
+				${this.#states.label}
+		</button>`;
 	}
 
 	render() {
