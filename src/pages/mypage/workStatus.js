@@ -1,9 +1,16 @@
 // mypageModal.js
 
+//todo 근무 시작 종료 시에도 db에 해당 날짜 근무 시작 종료시간 저장하고 기존 랜더링 가져오는 부분도 DB로 변경
+//todo 휴가 목록등 db에서 가져오는 것으로 변경
+//todo 이번주 근무 시간을 랜더시 요일이 월요일일 경우 0시간으로 변경하고 db에도 수정 혹은 테이블에도 주간번호를 추가
+
+// 최대 주간 근무 시간 기준 정의
+const MAX_WEEKLY_HOURS = 56;
+
 // 근무 상태 토글 핸들러
 // 메인 근무 시작-종료 버튼과 모달 근무 시작-종료 버튼이 같은 클래스를 참조하며 상태값으로 구분
 // 취소 버튼에 대한 기능은 addModalWorkStatusButtonListener 이벤트 리스너로 위임함
-export function handleWorkStatusToggle(isWorking, isFromModal) {
+export function handleWorkStatusToggle(isWorking, isFromModal, user_id) {
 	const workStartTimeElement = document.querySelector('.work-time-start .work-time');
 	const workEndTimeElement = document.querySelector('.work-time-end .work-time');
 	const workStatusButton = document.querySelector('.work-status-btn');
@@ -12,8 +19,6 @@ export function handleWorkStatusToggle(isWorking, isFromModal) {
 	const modalWorkStatusButton = document.querySelector('.modal__work .work-status-btn__modal');
 	const workStatusCircle = document.querySelector('.status-circle');
 	const workStatusText = document.querySelector('.profile__status .status-text');
-	// 최대 주간 근무 시간 기준 정의
-	const MAX_WEEKLY_HOURS = 56;
 	console.log(workStatusCircle);
 
 	// css상태를 불러오는 함수 / 그러나 값 지정은 어려움
@@ -61,9 +66,11 @@ export function handleWorkStatusToggle(isWorking, isFromModal) {
 		const start = new Date(`1970-01-01T${workStartTime}:00`);
 		const end = new Date(`1970-01-01T${workEndTime}:00`);
 		const workDuration = Math.floor((end - start) / (1000 * 60)); // 분 단위
+		// 테스트용 10시간
+		//const workDuration = 600; // 분 단위
 
 		// 근무 종료 버튼 클릭에 따라 데이터베이스에 업데이트 후 프로미스 반환
-		return updateWorkHoursToDatabase(this.user_id, workDuration, workStartTime, workEndTime)
+		return updateWorkHoursToDatabase(user_id, workDuration, workStartTime, workEndTime)
 			.then(() => {
 				console.log('Work hours successfully updated.');
 			})
@@ -97,7 +104,7 @@ export function addWorkStatusButtonListener(getIsWorking) {
 }
 
 // 모달 레이아웃 근무 상태 버튼 클릭 이벤트 리스너 추가
-export function addModalWorkStatusButtonListener(getIsWorking, toggleWorkStatusCallback) {
+export function addModalWorkStatusButtonListener(getIsWorking, toggleWorkStatusCallback, user_id) {
 	const modalWorkStatusButton = document.querySelector('.work-status-btn__modal');
 	const modalWorkCancleButton = document.querySelector('.work-cancle-btn__modal');
 
@@ -106,7 +113,7 @@ export function addModalWorkStatusButtonListener(getIsWorking, toggleWorkStatusC
 
 		// 버튼 클릭시마다 isWorking 상태를 true, false로 전환하여 근무상태를 구분함
 		toggleWorkStatusCallback(); // 상태 전환 함수 호출
-		handleWorkStatusToggle(currentIsWorking, true); // 상태 토글 핸들러 호출
+		handleWorkStatusToggle(currentIsWorking, true, user_id); // 상태 토글 핸들러 호출
 	});
 
 	// 취소 버튼 클릭시 모달 display none
@@ -129,11 +136,32 @@ export async function fetchWeeklyWorkHours(userId) {
 
 		// 주간 근무 시간 합산 (분 단위로 누적된 시간)
 		const totalMinutes = data.work_hours.reduce((total, entry) => total + entry.weekly_hours, 0);
+
+		const minutes = totalMinutes % 60;
+
+		// 합산된 시간(분)을 시간 단위로 변환
+		const totalHours = (totalMinutes / 60).toFixed(0);
+
+		// 페이지의 .hours 요소에 주간 근무 시간 텍스트 설정
+		document.querySelector('.hours').textContent = `${totalHours}시간 ${minutes}분`;
+
+		// .work-time__chart의 스타일을 백분율에 맞게 업데이트
+		updateWorkTimeChart(totalHours);
+
 		return totalMinutes;
 	} catch (error) {
 		console.error('Error fetching weekly work hours:', error);
-		return 0; // 오류가 발생한 경우 0을 반환하여 기본 값으로 설정
+		return 0; // 오류 발생 시 0 반환
 	}
+}
+
+// 근무 시간 비율을 반영하여 .work-time__chart의 스타일 업데이트
+function updateWorkTimeChart(currentHours) {
+	const percentage = (currentHours / MAX_WEEKLY_HOURS) * 100;
+
+	// .work-time__chart의 백분율 적용된 스타일 업데이트
+	document.querySelector('.work-time__chart').style.background =
+		`conic-gradient(black 0% ${percentage}%, #e3e5eb ${percentage}% 100%)`;
 }
 
 // 서버에 근무 시간 데이터를 전송하는 함수
