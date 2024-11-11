@@ -1,4 +1,4 @@
-import Error404 from '../../components/common/error/error404';
+import { Error404 } from '../../components/common/error';
 
 export default class NotFound404Page {
 	#parentEl;
