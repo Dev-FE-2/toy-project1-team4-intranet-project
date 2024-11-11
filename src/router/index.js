@@ -1,4 +1,4 @@
 import { route } from './route';
-import { url, urlPattern } from './url';
+import { url, urlPattern, urlLabel } from './url';
 
-export { route, url, urlPattern };
+export { route, url, urlPattern, urlLabel };

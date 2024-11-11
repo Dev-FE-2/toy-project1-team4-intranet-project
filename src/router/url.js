@@ -18,3 +18,16 @@ export const urlPattern = {
 	employeeDetail: /^\/admin\/employees\/(\w+)$/,
 	sample: /^\/sample\/(\w+)$/,
 };
+
+export const urlLabel = {
+	home: '마이페이지',
+	login: '로그인',
+	signup: '회원가입',
+	userProfile: '프로필',
+	vacation: '근태 신청',
+	notice: '공지사항',
+	noticeDetail: '',
+	employeeList: '직원 구성원',
+	employeeDetail: '직원 정보 수정',
+	employeeAdd: `직원 등록`,
+};
