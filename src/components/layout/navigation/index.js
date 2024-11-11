@@ -3,12 +3,12 @@ import { IconHome, IconProfile, IconTimetable, IconNotice, IconEmployee } from '
 import './style.css';
 
 export default class Navigation {
-	constructor() {
-		this.path = window.location.pathname;
-	}
+	#path = window.location.pathname;
 
-	styleMenu(href) {
-		return this.path === href ? 'nav-item active' : 'nav-item';
+	constructor() {}
+
+	#styleMenu(href) {
+		return this.#path === href ? 'nav-item active' : 'nav-item';
 	}
 
 	updateActiveMenu() {
@@ -16,7 +16,7 @@ export default class Navigation {
 
 		document.querySelectorAll('.nav-item').forEach((item) => {
 			const href = item.getAttribute('href');
-			item.className = this.styleMenu(href);
+			item.className = this.#styleMenu(href);
 		});
 	}
 
@@ -30,23 +30,23 @@ export default class Navigation {
 		return `<nav class="nav">
             <ul>
                 <li>
-                    <a href="${url.home}" class="${this.styleMenu(url.home)}">
+                    <a href="${url.home}" class="${this.#styleMenu(url.home)}">
                         <i>${iconHome}</i>
                         <span class="nav-name--desktop">${urlLabel.home}</span>
                         <span class="nav-name--mobile">MY</span>
                     </a>
                 </li>
                 <li>
-                    <a href="${url.userProfile('user123')}" class="${this.styleMenu(url.userProfile('user123'))}"><i>${iconProfile}</i> ${urlLabel.userProfile}</a>
+                    <a href="${url.userProfile('user123')}" class="${this.#styleMenu(url.userProfile('user123'))}"><i>${iconProfile}</i> ${urlLabel.userProfile}</a>
                 </li>
                 <li>
-                    <a href="${url.vacation}" class="${this.styleMenu(url.vacation)}"><i>${iconTimetable}</i> ${urlLabel.vacation}</a>
+                    <a href="${url.vacation}" class="${this.#styleMenu(url.vacation)}"><i>${iconTimetable}</i> ${urlLabel.vacation}</a>
                 </li>
                 <li>
-                    <a href="${url.notice}" class="${this.styleMenu(url.notice)}"><i>${iconNotice}</i> ${urlLabel.notice}</a>
+                    <a href="${url.notice}" class="${this.#styleMenu(url.notice)}"><i>${iconNotice}</i> ${urlLabel.notice}</a>
                 </li>
                 <li>
-                    <a href="${url.employeeList}" class="${this.styleMenu(url.employeeList)}">
+                    <a href="${url.employeeList}" class="${this.#styleMenu(url.employeeList)}">
                         <i>${iconEmployee}</i>
                         <span class="nav-name--desktop">${urlLabel.employeeList}</span>
                         <span class="nav-name--mobile">직원</span>
