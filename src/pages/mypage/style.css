@@ -222,7 +222,7 @@
 	position: relative;
 	width: 50px;
 	height: 50px;
-	background: conic-gradient(black 0% 60%, #ffc33b 60% 80%, #e3e5eb 56% 100%);
+	background: conic-gradient(black 0% 0%, #e3e5eb 0% 100%);
 	border-radius: 50%;
 }
 
