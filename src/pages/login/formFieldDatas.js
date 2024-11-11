@@ -1,6 +1,6 @@
 export const FORM_BUTTONS = [
 	{
-		label: '회원 가입',
+		label: '로그인',
 		colorType: 'primary',
 		elementType: 'button',
 		buttonType: 'submit',
