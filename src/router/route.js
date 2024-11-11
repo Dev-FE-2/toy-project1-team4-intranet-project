@@ -81,7 +81,7 @@ export const route = (path = window.location.pathname) => {
 		}
 
 		default:
-			contentsElement.innerHTML = new NotFound404Page().render();
+			new NotFound404Page(contentsElement).render();
 			break;
 	}
 };
