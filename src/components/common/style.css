@@ -15,3 +15,20 @@
     width: 100%;
     max-width: 300px;
 }
+
+.notfound-wrapper {
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: var(--padding-lg);
+	height: 100%;
+	margin: 0 auto;
+	line-height: 1.5;
+}
+
+.notfound-img {
+	width: 100%;
+	max-width: fit-content;
+}

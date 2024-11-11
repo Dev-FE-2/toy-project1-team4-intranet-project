@@ -1,3 +1,12 @@
+export const FORM_BUTTONS = [
+	{
+		label: '로그인',
+		colorType: 'primary',
+		elementType: 'button',
+		buttonType: 'submit',
+	},
+];
+
 export const FORM_FIELDS = [
 	{
 		label: '이메일',

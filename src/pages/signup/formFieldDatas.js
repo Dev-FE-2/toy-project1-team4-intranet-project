@@ -1,3 +1,12 @@
+export const FORM_BUTTONS = [
+	{
+		label: '회원 가입',
+		colorType: 'primary',
+		elementType: 'button',
+		buttonType: 'submit',
+	},
+];
+
 export const FORM_FIELDS = [
 	{
 		label: '프로필 사진',

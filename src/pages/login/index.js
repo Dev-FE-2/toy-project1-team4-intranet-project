@@ -1,13 +1,14 @@
 import { fetchUserData } from '../../apis/userApi';
 import { route } from '../../router/route';
 import { Error503 } from '../../components/common';
-import Form from '../../components/common/form';
-import { FORM_FIELDS } from './formFields';
+import { Form } from '../../components/common/form';
+import { FORM_FIELDS, FORM_BUTTONS } from './formFieldDatas';
 
 export default class LoginPage {
 	#contentsElement;
 	#formContainerEl;
-	#fields = FORM_FIELDS;
+	#fieldDatas = FORM_FIELDS;
+	#buttonDatas = FORM_BUTTONS;
 
 	constructor(contentsElement) {
 		this.#contentsElement = contentsElement;
@@ -27,7 +28,7 @@ export default class LoginPage {
 	async render() {
 		this.#contentsElement.innerHTML = this.#template;
 		this.#formContainerEl = document.querySelector('#formContainer');
-		new Form(this.#formContainerEl, this.#fields).render();
+		new Form(this.#formContainerEl, this.#fieldDatas, this.#buttonDatas).render();
 
 		this.#formContainerEl.addEventListener('submit', this.#login.bind(this));
 	}
