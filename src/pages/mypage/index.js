@@ -3,6 +3,7 @@ import { addWorkStatusButtonListener, addModalWorkStatusButtonListener } from '.
 import { renderUserProfile } from './profile/userProfile.js';
 import vacationData from '/server/data/vacation.js';
 import { createLiAttendanceList } from './previewAttendance.js';
+import config from '../../../config.js';
 
 export default class MyPage {
 	constructor() {
@@ -112,8 +113,8 @@ export default class MyPage {
 		this.getVacationDataPreview(vacationData);
 
 		// await을 사용하여 API 호출
-		await this.getApiTest();
-		await this.getApiParameterTest();
+		// await this.getApiTest();
+		// await this.getApiParameterTest();
 		await this.getUserProfileImage();
 
 		this.addProfileImageUploadListener();
@@ -210,7 +211,7 @@ export default class MyPage {
 	// API 호출 메서드 (async/await 사용)
 	async getApiTest() {
 		try {
-			const response = await fetch(`http://localhost:3000/api/user`);
+			const response = await fetch(`${config.baseURL}/api/user`);
 			if (!response.ok) {
 				throw new Error('Network response was not ok');
 			}
@@ -223,7 +224,7 @@ export default class MyPage {
 
 	async getApiParameterTest() {
 		try {
-			const response = await fetch(`http://localhost:3000/api/user/${this.user_id}`);
+			const response = await fetch(`${config.baseURL}/api/user/${this.user_id}`);
 			if (!response.ok) {
 				throw new Error('Network response was not ok');
 			}
@@ -257,7 +258,7 @@ export default class MyPage {
 				formData.append('user_id', 1); // 현재 사용자 ID도 전송
 				console.log(formData);
 				try {
-					const response = await fetch(`http://localhost:3000/api/user/upload-profile-image`, {
+					const response = await fetch(`${config.baseURL}/api/user/upload-profile-image`, {
 						method: 'POST',
 						body: formData,
 					});
@@ -283,7 +284,7 @@ export default class MyPage {
 	// 일단 저는 테스트용으로 1로 고정해서 사용하고 맨위에 user_id=1 선언했습니다.
 	async getUserProfileImage() {
 		try {
-			const response = await fetch(`http://localhost:3000/api/user/${this.user_id}`);
+			const response = await fetch(`${config.baseURL}/api/user/${this.user_id}`);
 			if (!response.ok) {
 				throw new Error('Network response was not ok');
 			}
