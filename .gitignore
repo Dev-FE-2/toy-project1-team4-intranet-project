@@ -26,3 +26,6 @@ dist-ssr
 
 #eslint cache
 .eslintcache
+
+# Ignore SQLite database files
+database.sqlite
