@@ -1,6 +1,7 @@
 class AuthManager {
-	static #instance; // class 변수
-	#userState; // 인스턴스 변수
+	static #instance; // class 변수 선언
+	#state;
+	#listeners = new Set(); // 상태 변화 리스너
 
 	constructor() {
 		// 하나의 인스턴스로 상태관리를 하기 위해서 싱글톤 패턴 적용
@@ -9,13 +10,14 @@ class AuthManager {
 		}
 
 		// 인스턴스가 없으면 초기화하고 static 변수에 저장
-		this.#userState = this.#loadUserFromStorage();
+		this.#state = this.#loadUserFromStorage();
 		AuthManager.#instance = this;
 	}
 
 	setState(newState) {
-		this.#userState = { ...this.#userState, ...newState };
+		this.#state = { ...this.#state, ...newState };
 		this.#saveUserToStorage();
+		this.#alarmListeners();
 	}
 
 	#loadUserFromStorage() {
@@ -24,7 +26,7 @@ class AuthManager {
 	}
 
 	#saveUserToStorage() {
-		localStorage.setItem('user', JSON.stringify(this.#userState));
+		localStorage.setItem('user', JSON.stringify(this.#state));
 	}
 
 	login(userInfo) {
@@ -38,11 +40,27 @@ class AuthManager {
 	}
 
 	getUserInfo() {
-		return this.#userState;
+		return this.#state;
 	}
 
 	isAuthenticated() {
-		return this.#userState !== null;
+		return this.#state !== null;
+	}
+
+	subscribeListener(listener) {
+		// 이벤트 리스너 등록
+		this.#listeners.add(listener);
+	}
+
+	unsubscribeListener(listener) {
+		// 이벤트 리스너 제거
+		this.#listeners.delete(listener);
+	}
+
+	#alarmListeners() {
+		this.#listeners.forEach((listener) => {
+			listener(this.#state);
+		});
 	}
 }
 
