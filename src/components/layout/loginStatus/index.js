@@ -1,21 +1,26 @@
 import { url, urlLabel } from '../../../router';
+import { authManager } from '../../../services/auth';
 import './style.css';
 import Avatar from '/public/avatar.svg';
 
-export default class UserStatus {
+export default class LoginStatus {
 	#state;
 
 	constructor() {
 		this.#state = {
-			login: false,
+			isLogin: false,
 			path: window.location.pathname,
 		};
 	}
 
-	setState = (newState) => {
+	#init() {
+		this.#state.isLogin = authManager.isAuthenticated();
+	}
+
+	setState(newState) {
 		this.#state = { ...this.#state, ...newState };
 		this.render();
-	};
+	}
 
 	get #linkTemplate() {
 		const navList = ['login', 'signup'];
@@ -31,17 +36,19 @@ export default class UserStatus {
 		</nav>`;
 	}
 
-	get #profile() {
+	get #profileTemplate() {
 		return `<img class="avatar-img" src="${Avatar}" alt="프로필 사진" />`;
 	}
 
 	get #template() {
 		return `<div class="user-status">
-                ${this.#state.login ? this.#profile : this.#linkTemplate}
-            </div>`;
+			${this.#state.isLogin ? this.#profileTemplate : this.#linkTemplate}
+		</div>`;
 	}
 
 	render() {
+		this.#init();
+
 		return this.#template;
 	}
 }

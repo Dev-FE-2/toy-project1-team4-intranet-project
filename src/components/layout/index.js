@@ -1,23 +1,25 @@
 import { url } from '../../router/url';
 import Navigation from './navigation';
-import UserStatus from './userStatus';
+import LoginStatus from './loginStatus';
 import './style.css';
 import Logo from '/public/logo.svg';
 
 export default class Layout {
-	render() {
+	constructor() {}
+
+	get #template() {
 		const navigation = new Navigation();
-		const userStatus = new UserStatus();
+		const loginStatus = new LoginStatus();
 
 		return `<div class="layout">
 				<header class="layout__header">
 					<a href="${url.home}"><img class="logo-img" src="${Logo}" alt="EVEN" /></a>
-					<div class="header__mobile-user-status">${userStatus.render()}</div>
+					<div class="header__mobile-user-status">${loginStatus.render()}</div>
 					${navigation.render()}
 				</header>
 			    <div class="layout__body">
 					<aside class="layout__desktop-top-bar">
-						${userStatus.render()}
+						${loginStatus.render()}
 					</aside>
 					<main class="layout__page-container">
 						<div id="pageContents" class="contents-wrap"></div>
@@ -27,5 +29,9 @@ export default class Layout {
 					${navigation.render()}
 				</div>
 		</div>`;
+	}
+
+	render() {
+		return this.#template;
 	}
 }
