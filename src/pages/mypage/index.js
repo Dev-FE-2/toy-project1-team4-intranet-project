@@ -1,5 +1,9 @@
 import './style.css';
-import { addWorkStatusButtonListener, addModalWorkStatusButtonListener } from './modal.js';
+import {
+	addWorkStatusButtonListener,
+	addModalWorkStatusButtonListener,
+	fetchWeeklyWorkHours,
+} from './workStatus.js';
 import { renderUserProfile } from './profile/userProfile.js';
 import vacationData from '/server/data/vacation.js';
 import { createLiAttendanceList } from './previewAttendance.js';
@@ -113,9 +117,8 @@ export default class MyPage {
 		this.getVacationDataPreview(vacationData);
 
 		// await을 사용하여 API 호출
-		// await this.getApiTest();
-		// await this.getApiParameterTest();
 		await this.getUserProfileImage();
+		await fetchWeeklyWorkHours(this.user_id);
 
 		this.addProfileImageUploadListener();
 
@@ -143,6 +146,7 @@ export default class MyPage {
 			() => {
 				this.isWorking = !this.isWorking; // 상태 전환 true <-> false
 			},
+			this.user_id,
 		);
 	}
 	// 현재 시간을 가져오는 헬퍼 메서드
@@ -208,32 +212,6 @@ export default class MyPage {
 		createLiAttendanceList(this.user_id, vacationData, attendanceListContainer);
 	}
 
-	// API 호출 메서드 (async/await 사용)
-	async getApiTest() {
-		try {
-			const response = await fetch(`${config.baseURL}/api/user`);
-			if (!response.ok) {
-				throw new Error('Network response was not ok');
-			}
-			const data = await response.json();
-			console.log(data); // 데이터 확인 (data.users로 접근 가능)
-		} catch (error) {
-			console.error('Error fetching user profile:', error);
-		}
-	}
-
-	async getApiParameterTest() {
-		try {
-			const response = await fetch(`${config.baseURL}/api/user/${this.user_id}`);
-			if (!response.ok) {
-				throw new Error('Network response was not ok');
-			}
-			const data = await response.json();
-			console.log(data); // 데이터 확인 (data.users로 접근 가능)
-		} catch (error) {
-			console.error('Error fetching user profile:', error);
-		}
-	}
 
 	// 프로필 이미지 업로드 핸들러 추가
 	addProfileImageUploadListener() {
