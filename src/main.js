@@ -4,21 +4,9 @@ import Layout from './components/layout';
 import './global.css';
 
 async function app() {
-	init();
-	route();
-}
-
-const init = () => {
 	const appElement = document.querySelector('#app');
-	appElement.innerHTML = new Layout().render();
-
-	window.addEventListener('popstate', route);
-
-	const navElements = document.querySelectorAll('nav');
-	navElements.forEach((navEl) => {
-		navEl.addEventListener('click', navigate);
-	});
-};
+	new Layout(appElement).render();
+}
 
 const enableMocking = async () => {
 	if (process.env.NODE_ENV !== 'development') return;

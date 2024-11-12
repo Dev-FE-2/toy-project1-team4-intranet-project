@@ -1,37 +1,67 @@
-import { url } from '../../router/url';
+import { route, navigate, url } from '../../router';
 import Navigation from './navigation';
 import LoginStatus from './loginStatus';
 import './style.css';
 import Logo from '/public/logo.svg';
 
 export default class Layout {
-	constructor() {}
+	#appElement;
 
-	get #template() {
-		const navigation = new Navigation();
-		const loginStatus = new LoginStatus();
+	constructor(appElement) {
+		this.#appElement = appElement;
+	}
 
+	get #layoutTemplate() {
 		return `<div class="layout">
 				<header class="layout__header">
 					<a href="${url.home}"><img class="logo-img" src="${Logo}" alt="EVEN" /></a>
-					<div class="header__mobile-user-status">${loginStatus.render()}</div>
-					${navigation.render()}
+					<div id="mobileLoginStatus" class="header__mobile-user-status">{__loginStatus__}</div>
+					<div id="pcNavigation">{__navigation__}</div>
 				</header>
 			    <div class="layout__body">
-					<aside class="layout__desktop-top-bar">
-						${loginStatus.render()}
+					<aside id="pcLoginStatus" class="layout__desktop-top-bar">
+						{__loginStatus__}
 					</aside>
 					<main class="layout__page-container">
 						<div id="pageContents" class="contents-wrap"></div>
 					</main>
 				</div>
-				<div class="layout__mobile-bottom-nav-bar">
-					${navigation.render()}
+				<div id="mobileNavigation" class="layout__mobile-bottom-nav-bar">
+					{__navigation__}
 				</div>
 		</div>`;
 	}
 
+	#renderChildrenComponents(coponents) {
+		coponents.forEach(({ ClassComponent, elementSelectors }) => {
+			elementSelectors.forEach((selector) => {
+				const element = document.querySelector(selector);
+
+				element.innerHTML = new ClassComponent().render();
+			});
+		});
+	}
+
 	render() {
-		return this.#template;
+		this.#appElement.innerHTML = this.#layoutTemplate;
+		this.#renderChildrenComponents([
+			{
+				ClassComponent: Navigation,
+				elementSelectors: ['#pcNavigation', '#mobileNavigation'],
+			},
+			{
+				ClassComponent: LoginStatus,
+				elementSelectors: ['#pcLoginStatus', '#mobileLoginStatus'],
+			},
+		]);
+
+		window.addEventListener('popstate', route);
+
+		const navElements = document.querySelectorAll('nav');
+		navElements.forEach((navEl) => {
+			navEl.addEventListener('click', navigate);
+		});
+
+		route();
 	}
 }
