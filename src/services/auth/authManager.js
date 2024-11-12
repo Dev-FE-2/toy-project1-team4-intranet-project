@@ -14,7 +14,6 @@ class AuthManager {
 		};
 
 		AuthManager.#instance = this; // 인스턴스가 없으면 초기화하고 static 변수에 저장
-		console.log(this.#state);
 	}
 
 	setState(newState) {
@@ -24,14 +23,16 @@ class AuthManager {
 	}
 
 	#loadUserFromStorage() {
-		const userData = localStorage.getItem('user');
-		const userId = userData ? JSON.parse(userData).userId : null;
+		const userStringData = localStorage.getItem('user');
+		const userData = JSON.parse(userStringData);
 
-		return userId;
+		return userData ? userData.userId : null;
 	}
 
 	#saveUserToStorage() {
-		localStorage.setItem('user', JSON.stringify(this.#state.userId));
+		if (this.#state.userId) {
+			localStorage.setItem('user', JSON.stringify(this.#state.userId));
+		}
 	}
 
 	login({ userId }) {
@@ -39,10 +40,11 @@ class AuthManager {
 		console.log('User logged in userId:', userId);
 	}
 
-	logout() {
-		this.setState(null);
+	logout = () => {
+		localStorage.removeItem('user');
+		this.setState({ userId: null });
 		console.log('User logged out');
-	}
+	};
 
 	get userId() {
 		return this.#state?.userId;

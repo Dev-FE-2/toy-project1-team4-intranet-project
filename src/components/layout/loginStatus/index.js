@@ -58,7 +58,16 @@ export default class LoginStatus {
 		</div>`;
 	}
 
+	#logoutHandler() {
+		const element = document.querySelector('.avatar-img');
+
+		if (element) {
+			element.addEventListener('click', authManager.logout);
+		}
+	}
+
 	render() {
 		this.#parentEl.innerHTML = this.#template;
+		this.#logoutHandler();
 	}
 }
