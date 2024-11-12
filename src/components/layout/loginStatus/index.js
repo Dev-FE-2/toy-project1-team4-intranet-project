@@ -4,9 +4,11 @@ import './style.css';
 import Avatar from '/public/avatar.svg';
 
 export default class LoginStatus {
+	#parentEl;
 	#state;
 
-	constructor() {
+	constructor(parentEl) {
+		this.#parentEl = parentEl;
 		console.log('constructor newAuthState', authManager.isAuthenticated);
 		this.#state = {
 			path: window.location.pathname,
@@ -57,6 +59,6 @@ export default class LoginStatus {
 	}
 
 	render() {
-		return this.#template;
+		this.#parentEl.innerHTML = this.#template;
 	}
 }

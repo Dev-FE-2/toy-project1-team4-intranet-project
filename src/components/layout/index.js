@@ -32,12 +32,23 @@ export default class Layout {
 		</div>`;
 	}
 
+	#routeHandler() {
+		window.addEventListener('popstate', route);
+
+		const navElements = document.querySelectorAll('nav');
+		navElements.forEach((navEl) => {
+			navEl.addEventListener('click', navigate);
+		});
+
+		route();
+	}
+
 	#renderChildrenComponents(coponents) {
 		coponents.forEach(({ ClassComponent, elementSelectors }) => {
 			elementSelectors.forEach((selector) => {
 				const element = document.querySelector(selector);
 
-				element.innerHTML = new ClassComponent().render();
+				new ClassComponent(element).render();
 			});
 		});
 	}
@@ -55,13 +66,6 @@ export default class Layout {
 			},
 		]);
 
-		window.addEventListener('popstate', route);
-
-		const navElements = document.querySelectorAll('nav');
-		navElements.forEach((navEl) => {
-			navEl.addEventListener('click', navigate);
-		});
-
-		route();
+		this.#routeHandler();
 	}
 }

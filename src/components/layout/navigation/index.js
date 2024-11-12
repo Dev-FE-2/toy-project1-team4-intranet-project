@@ -3,9 +3,12 @@ import { IconHome, IconProfile, IconTimetable, IconNotice, IconEmployee } from '
 import './style.css';
 
 export default class Navigation {
+	#parentEl;
 	#path = window.location.pathname;
 
-	constructor() {}
+	constructor(parentEl) {
+		this.#parentEl = parentEl;
+	}
 
 	#styleMenu(href) {
 		return this.#path === href ? 'nav-item active' : 'nav-item';
@@ -20,7 +23,7 @@ export default class Navigation {
 		});
 	}
 
-	render() {
+	get #template() {
 		const iconHome = new IconHome().render();
 		const iconProfile = new IconProfile().render();
 		const iconTimetable = new IconTimetable().render();
@@ -54,5 +57,9 @@ export default class Navigation {
                 </li>
             </ul>
         </nav>`;
+	}
+
+	render() {
+		this.#parentEl.innerHTML = this.#template;
 	}
 }
