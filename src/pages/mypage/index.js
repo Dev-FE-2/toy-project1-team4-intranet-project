@@ -7,6 +7,7 @@ import {
 import { renderUserProfile } from './profile/userProfile.js';
 import vacationData from '/server/data/vacation.js';
 import { createLiAttendanceList } from './previewAttendance.js';
+import config from '../../../config.js';
 
 export default class MyPage {
 	constructor() {
@@ -211,6 +212,7 @@ export default class MyPage {
 		createLiAttendanceList(this.user_id, vacationData, attendanceListContainer);
 	}
 
+
 	// 프로필 이미지 업로드 핸들러 추가
 	addProfileImageUploadListener() {
 		const profileIcon = document.querySelector('.profile__icon');
@@ -234,7 +236,7 @@ export default class MyPage {
 				formData.append('user_id', 1); // 현재 사용자 ID도 전송
 				console.log(formData);
 				try {
-					const response = await fetch(`http://localhost:3000/api/user/upload-profile-image`, {
+					const response = await fetch(`${config.baseURL}/api/user/upload-profile-image`, {
 						method: 'POST',
 						body: formData,
 					});
@@ -260,7 +262,7 @@ export default class MyPage {
 	// 일단 저는 테스트용으로 1로 고정해서 사용하고 맨위에 user_id=1 선언했습니다.
 	async getUserProfileImage() {
 		try {
-			const response = await fetch(`http://localhost:3000/api/user/${this.user_id}`);
+			const response = await fetch(`${config.baseURL}/api/user/${this.user_id}`);
 			if (!response.ok) {
 				throw new Error('Network response was not ok');
 			}
