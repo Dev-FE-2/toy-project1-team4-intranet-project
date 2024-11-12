@@ -7,19 +7,29 @@ export default class LoginStatus {
 	#state;
 
 	constructor() {
+		console.log('constructor newAuthState', authManager.isAuthenticated);
 		this.#state = {
-			isLogin: false,
 			path: window.location.pathname,
+			isLogin: authManager.isAuthenticated,
 		};
-	}
-
-	#init() {
-		this.#state.isLogin = authManager.isAuthenticated();
+		authManager.subscribeListener(this.observeListenr.bind(this));
 	}
 
 	setState(newState) {
 		this.#state = { ...this.#state, ...newState };
 		this.render();
+	}
+
+	observeListenr(newStateFromAuth) {
+		console.log('observeListenr newStateFromAuth', newStateFromAuth);
+
+		const newIsLogin = newStateFromAuth.isAuthenticated;
+		console.log('newIsLogin', newIsLogin);
+		console.log('this.#state.isLogin', this.#state.isLogin);
+
+		if (this.#state.isLogin !== newIsLogin) {
+			this.setState({ isLogin: newIsLogin });
+		}
 	}
 
 	get #linkTemplate() {
@@ -47,8 +57,6 @@ export default class LoginStatus {
 	}
 
 	render() {
-		this.#init();
-
 		return this.#template;
 	}
 }

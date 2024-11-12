@@ -9,9 +9,12 @@ class AuthManager {
 			return AuthManager.#instance; // 이미 인스턴스가 존재하면 기존 인스턴스를 반환
 		}
 
-		// 인스턴스가 없으면 초기화하고 static 변수에 저장
-		this.#state = this.#loadUserFromStorage();
-		AuthManager.#instance = this;
+		this.#state = {
+			userId: this.#loadUserFromStorage(),
+		};
+
+		AuthManager.#instance = this; // 인스턴스가 없으면 초기화하고 static 변수에 저장
+		console.log(this.#state);
 	}
 
 	setState(newState) {
@@ -22,16 +25,18 @@ class AuthManager {
 
 	#loadUserFromStorage() {
 		const userData = localStorage.getItem('user');
-		return userData ? JSON.parse(userData) : null;
+		const userId = userData ? JSON.parse(userData).userId : null;
+
+		return userId;
 	}
 
 	#saveUserToStorage() {
-		localStorage.setItem('user', JSON.stringify(this.#state));
+		localStorage.setItem('user', JSON.stringify(this.#state.userId));
 	}
 
-	login(userInfo) {
-		this.setState(userInfo);
-		console.log('User logged in:', this.user);
+	login({ userId }) {
+		this.setState({ userId });
+		console.log('User logged in userId:', userId);
 	}
 
 	logout() {
@@ -39,12 +44,12 @@ class AuthManager {
 		console.log('User logged out');
 	}
 
-	getUserInfo() {
-		return this.#state;
+	get userId() {
+		return this.#state?.userId;
 	}
 
-	isAuthenticated() {
-		return this.#state !== null;
+	get isAuthenticated() {
+		return this.#state.userId !== null;
 	}
 
 	subscribeListener(listener) {
@@ -58,8 +63,12 @@ class AuthManager {
 	}
 
 	#alarmListeners() {
+		// 상태변화시 이벤트 리스너 호출
 		this.#listeners.forEach((listener) => {
-			listener(this.#state);
+			listener({
+				...this.#state,
+				isAuthenticated: this.isAuthenticated,
+			});
 		});
 	}
 }
