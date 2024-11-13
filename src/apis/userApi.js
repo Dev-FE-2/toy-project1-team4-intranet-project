@@ -38,4 +38,32 @@ async function fetchUserData(userId) {
 	return response.json();
 }
 
-export { postUserData, fetchUserData };
+async function loginUser({ email, password }) {
+	const response = await fetch(`http://localhost:3000/api/login`, {
+		method: 'POST',
+		cache: 'no-cache',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify({
+			email,
+			password,
+		}),
+	});
+
+	if (!response.ok) {
+		const responseText = await response.text();
+		const error = new Error(`로그인 요청을 실패했습니다. 다시 시도해 주세요.`);
+		const newError = {
+			responseText,
+			statusCode: response.status,
+			errorMessage: error.message,
+		};
+
+		throw newError;
+	}
+
+	return response.json();
+}
+
+export { postUserData, fetchUserData, loginUser };

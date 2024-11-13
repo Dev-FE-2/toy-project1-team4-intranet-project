@@ -1,5 +1,5 @@
 import { postUserData } from '../../apis/userApi';
-import { route } from '../../router/route';
+import { route, url } from '../../router';
 import { Error503 } from '../../components/common';
 import { Form } from '../../components/common/form';
 import { FORM_FIELDS, FORM_BUTTONS } from './formFieldDatas';
@@ -28,12 +28,9 @@ export default class SignUpPage {
 		try {
 			const response = await postUserData(formData);
 
-			if (process.env.NODE_ENV === 'development') {
-				console.log('회원 가입 response: ', response);
-			}
+			if (process.env.NODE_ENV === 'development') console.log('회원 가입 response: ', response);
 
-			alert('회원가입을 완료 했습니다.');
-			route('/login');
+			route(url.login);
 		} catch (error) {
 			console.error('회원 가입 Error: ', error);
 

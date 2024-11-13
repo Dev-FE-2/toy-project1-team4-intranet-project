@@ -1,14 +1,17 @@
-import { url } from '../../../router/url';
+import { url, urlLabel } from '../../../router';
 import { IconHome, IconProfile, IconTimetable, IconNotice, IconEmployee } from '../../icon';
 import './style.css';
 
 export default class Navigation {
-	constructor() {
-		this.path = window.location.pathname;
+	#parentEl;
+	#path = window.location.pathname;
+
+	constructor(parentEl) {
+		this.#parentEl = parentEl;
 	}
 
-	styleMenu(href) {
-		return this.path === href ? 'nav-item active' : 'nav-item';
+	#styleMenu(href) {
+		return this.#path === href ? 'nav-item active' : 'nav-item';
 	}
 
 	updateActiveMenu() {
@@ -16,11 +19,11 @@ export default class Navigation {
 
 		document.querySelectorAll('.nav-item').forEach((item) => {
 			const href = item.getAttribute('href');
-			item.className = this.styleMenu(href);
+			item.className = this.#styleMenu(href);
 		});
 	}
 
-	render() {
+	get #template() {
 		const iconHome = new IconHome().render();
 		const iconProfile = new IconProfile().render();
 		const iconTimetable = new IconTimetable().render();
@@ -30,29 +33,33 @@ export default class Navigation {
 		return `<nav class="nav">
             <ul>
                 <li>
-                    <a href="${url.home}" class="${this.styleMenu(url.home)}">
+                    <a href="${url.home}" class="${this.#styleMenu(url.home)}">
                         <i>${iconHome}</i>
-                        <span class="nav-name--desktop">마이페이지</span>
+                        <span class="nav-name--desktop">${urlLabel.home}</span>
                         <span class="nav-name--mobile">MY</span>
                     </a>
                 </li>
                 <li>
-                    <a href="${url.userProfile('user123')}" class="${this.styleMenu(url.userProfile('user123'))}"><i>${iconProfile}</i> 프로필</a>
+                    <a href="${url.userProfile('user123')}" class="${this.#styleMenu(url.userProfile('user123'))}"><i>${iconProfile}</i> ${urlLabel.userProfile}</a>
                 </li>
                 <li>
-                    <a href="${url.vacation}" class="${this.styleMenu(url.vacation)}"><i>${iconTimetable}</i> 근태 신청</a>
+                    <a href="${url.vacation}" class="${this.#styleMenu(url.vacation)}"><i>${iconTimetable}</i> ${urlLabel.vacation}</a>
                 </li>
                 <li>
-                    <a href="${url.notice}" class="${this.styleMenu(url.notice)}"><i>${iconNotice}</i> 공지사항</a>
+                    <a href="${url.notice}" class="${this.#styleMenu(url.notice)}"><i>${iconNotice}</i> ${urlLabel.notice}</a>
                 </li>
                 <li>
-                    <a href="${url.employeeList}" class="${this.styleMenu(url.employeeList)}">
+                    <a href="${url.employeeList}" class="${this.#styleMenu(url.employeeList)}">
                         <i>${iconEmployee}</i>
-                        <span class="nav-name--desktop">직원 구성원</span>
+                        <span class="nav-name--desktop">${urlLabel.employeeList}</span>
                         <span class="nav-name--mobile">직원</span>
                     </a>
                 </li>
             </ul>
         </nav>`;
+	}
+
+	render() {
+		this.#parentEl.innerHTML = this.#template;
 	}
 }

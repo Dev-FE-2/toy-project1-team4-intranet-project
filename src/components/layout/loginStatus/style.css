@@ -1,0 +1,14 @@
+.avatar-img {
+    width: calc((36 / var(--root-font-size)) * 1rem);
+}
+
+.login-links{
+    display: flex;
+    gap: var(--padding-md);
+    color: var(--color-nav);
+}
+
+
+.login-links a.active{
+    color: var(--color-primary);
+}
