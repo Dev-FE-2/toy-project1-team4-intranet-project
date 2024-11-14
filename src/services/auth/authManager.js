@@ -62,7 +62,7 @@ class AuthManager {
 	logout = () => {
 		localStorage.removeItem('user');
 		this.setState({ userId: null });
-		console.log('User logged out');
+		route(url.login);
 	};
 
 	subscribeListener(listener) {

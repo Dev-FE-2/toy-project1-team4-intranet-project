@@ -16,10 +16,10 @@ import {
 } from '../pages';
 
 export const route = (path = window.location.pathname) => {
-	const navigation = new Navigation();
-	navigation.updateActiveMenu();
-
 	const contentsElement = document.querySelector('#pageContents');
+	const navigation = new Navigation();
+
+	navigation.updateActiveMenu();
 
 	switch (true) {
 		case path === url.home:
