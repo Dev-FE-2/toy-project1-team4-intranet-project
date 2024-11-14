@@ -1,4 +1,4 @@
-.avatar-img {
+.profile-img {
     width: calc((36 / var(--root-font-size)) * 1rem);
 }
 

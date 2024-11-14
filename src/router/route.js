@@ -1,5 +1,5 @@
 import { url, urlPattern } from './url';
-import Navigation from '../components/layout/navigation';
+import { Navigation } from '../components/layout';
 import {
 	NotFound404Page,
 	SamplePage,

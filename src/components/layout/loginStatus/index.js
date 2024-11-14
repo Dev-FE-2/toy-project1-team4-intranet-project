@@ -45,7 +45,7 @@ export default class LoginStatus {
 	}
 
 	get #profileTemplate() {
-		return `<img class="avatar-img" src="${this.#state.profileImage}" alt="프로필 사진" />`;
+		return `<img class="profile-img" src="${this.#state.profileImage}" alt="프로필 사진" />`;
 	}
 
 	get #template() {
@@ -54,8 +54,8 @@ export default class LoginStatus {
 		</div>`;
 	}
 
-	#logoutHandler() {
-		const element = document.querySelector('.avatar-img');
+	#logoutListener() {
+		const element = document.querySelector('.profile-img');
 
 		if (element) {
 			element.addEventListener('click', authManager.logout);
@@ -64,6 +64,6 @@ export default class LoginStatus {
 
 	render() {
 		this.#parentEl.innerHTML = this.#template;
-		this.#logoutHandler();
+		this.#logoutListener();
 	}
 }
