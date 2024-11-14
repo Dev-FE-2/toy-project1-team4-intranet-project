@@ -46,7 +46,7 @@ export default class LoginPage {
 		const { errorCode, errorMessage } = error;
 
 		if (errorCode >= 500) {
-			const element = document.querySelector('#formContainer');
+			const element = this.#formContainerEl;
 			new Error503(element).render();
 		}
 

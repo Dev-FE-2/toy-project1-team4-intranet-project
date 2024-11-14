@@ -113,6 +113,10 @@ body {
 	text-align: center;
 }
 
+.error-message{
+	color: var(--color-danger);
+}
+
 .btn-wrap {
 	display: flex;
 	gap: var(--padding-sm);

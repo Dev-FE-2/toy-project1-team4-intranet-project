@@ -10,33 +10,10 @@ export default class SignUpPage {
 	#formContainerEl;
 	#fieldDatas = FORM_FIELDS;
 	#buttonDatas = FORM_BUTTONS;
+	#formInstance;
 
 	constructor(contentsElement) {
 		this.#contentsElement = contentsElement;
-	}
-
-	async createFormData(event) {
-		event.preventDefault();
-
-		const formData = new FormData(this.#formContainerEl.querySelector('form'));
-
-		if (process.env.NODE_ENV === 'development') {
-			const requestData = Object.fromEntries(formData.entries());
-			console.log('전달 될 데이터', requestData);
-		}
-
-		try {
-			const response = await postUserData(formData);
-
-			if (process.env.NODE_ENV === 'development') console.log('회원 가입 response: ', response);
-
-			route(url.login);
-		} catch (error) {
-			console.error('회원 가입 Error: ', error);
-
-			const element = document.querySelector('#formContainer');
-			new Error503(element).render();
-		}
 	}
 
 	get #template() {
@@ -46,11 +23,42 @@ export default class SignUpPage {
 				</section>`;
 	}
 
+	async #signUp(event) {
+		event.preventDefault();
+
+		const formData = new FormData(this.#formContainerEl.querySelector('form'));
+		const requestData = Object.fromEntries(formData.entries());
+
+		if (process.env.NODE_ENV === 'development') console.log('회원가입 요청 데이터', requestData);
+
+		try {
+			await postUserData(formData);
+			alert('회원가입이 완료 됐습니다.');
+			route(url.login);
+		} catch (error) {
+			console.error('회원 가입 Error: ', error);
+
+			this.#errorHendler(error);
+		}
+	}
+
+	#errorHendler(error) {
+		const { errorCode, errorMessage } = error;
+
+		if (errorCode >= 500) {
+			const element = this.#formContainerEl;
+			new Error503(element).render();
+		}
+
+		this.#formInstance.setError({ errorMessage });
+	}
+
 	async render() {
 		this.#contentsElement.innerHTML = this.#template;
 		this.#formContainerEl = document.querySelector('#formContainer');
-		new Form(this.#formContainerEl, this.#fieldDatas, this.#buttonDatas).render();
+		this.#formInstance = new Form(this.#formContainerEl, this.#fieldDatas, this.#buttonDatas);
+		this.#formInstance.render();
 
-		this.#formContainerEl.addEventListener('submit', this.createFormData.bind(this));
+		this.#formContainerEl.addEventListener('submit', this.#signUp.bind(this));
 	}
 }
