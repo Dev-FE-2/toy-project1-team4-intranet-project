@@ -15,7 +15,12 @@ import {
 	SignUpPage,
 } from '../pages';
 
-export const route = (path = window.location.pathname) => {
+export const route = (pathParams) => {
+	if (pathParams) {
+		history.pushState(null, null, `${window.location.origin}${pathParams}`);
+	}
+
+	const path = pathParams || window.location.pathname;
 	const contentsElement = document.querySelector('#pageContents');
 	const navigation = new Navigation();
 
