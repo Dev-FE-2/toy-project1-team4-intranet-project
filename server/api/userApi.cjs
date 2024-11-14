@@ -300,28 +300,50 @@ router.post('/login', (req, res) => {
 	}
 
 	db.serialize(() => {
-		db.get(`SELECT * FROM users WHERE email = ?`, [email], (err, row) => {
-			if (err) {
-				console.error('Database error:', err.message);
-				return res.status(500).json({ error: 'Internal server error' });
-			}
+		db.get(
+			`SELECT 
+				*, 
+				i.data AS profile_image_data
+			FROM 
+				users u
+			LEFT JOIN 
+				images i ON u.image_id = i.id 
+			WHERE 
+				email = ?`,
+			[email],
+			(err, row) => {
+				if (err) {
+					console.error('Database error:', err.message);
+					return res.status(500).json({ error: 'Internal server error' });
+				}
 
-			if (!row) {
-				return res.status(401).json({ error: 'Invalid email or password' });
-			}
+				if (!row) {
+					return res.status(401).json({ error: 'Invalid email or password' });
+				}
 
-			// 비밀번호 비교 (해시된 비밀번호와 비교해야 함)
-			// 예: bcrypt.compareSync(password, row.password)
-			if (password !== row.password) {
-				return res.status(401).json({ error: 'Invalid email or password' });
-			}
+				// 비밀번호 비교 (해시된 비밀번호와 비교해야 함)
+				// 예: bcrypt.compareSync(password, row.password)
+				if (password !== row.password) {
+					return res.status(401).json({ error: 'Invalid email or password' });
+				}
 
-			// 성공 시 사용자 정보 반환 (민감한 데이터는 제외)
-			res.json({
-				user_id: row.user_id,
-				message: 'User logged in successfully',
-			});
-		});
+				// 이미지 데이터가 있을 경우 base64로 인코딩하여 클라이언트로 전달
+				if (row.profile_image_data) {
+					row.profile_image_url = `data:image/png;base64,${row.profile_image_data.toString('base64')}`;
+					delete row.profile_image_data; // raw 데이터 삭제
+				} else {
+					row.profile_image_url = '/default-avatar.png'; // 기본 이미지 URL
+				}
+
+				// 성공 시 사용자 정보 반환 (민감한 데이터는 제외)
+				res.json({
+					message: 'User logged in successfully',
+					user_id: row.user_id,
+					profile_image_url: row.profile_image_url,
+					profile_image_data: row.profile_image_data,
+				});
+			},
+		);
 	});
 });
 

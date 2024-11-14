@@ -30,9 +30,10 @@ export default class LoginPage {
 		const requestData = Object.fromEntries(formData.entries());
 
 		try {
-			const { user_id: userId } = await loginUser(requestData);
+			const response = await loginUser(requestData);
+			const { user_id: userId, profile_image_url: profileImage } = response;
 
-			authManager.login({ userId });
+			authManager.login({ userId, profileImage });
 			route(url.home);
 		} catch (error) {
 			if (process.env.NODE_ENV === 'development') console.log('로그인 데이터', requestData);

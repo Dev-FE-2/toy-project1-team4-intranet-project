@@ -1,3 +1,6 @@
+import { route, url } from '../../router';
+import defaultProfileImage from '/public/avatar.svg';
+
 class AuthManager {
 	static #instance; // class 변수 선언
 	#state;
@@ -9,15 +12,31 @@ class AuthManager {
 			return AuthManager.#instance; // 이미 인스턴스가 존재하면 기존 인스턴스를 반환
 		}
 
+		const storedUserData = this.#loadUserFromStorage();
+
 		this.#state = {
-			userId: this.#loadUserFromStorage(),
+			userId: storedUserData?.userId,
+			profileImage: storedUserData?.profileImage ?? '',
 		};
 
 		AuthManager.#instance = this; // 인스턴스가 없으면 초기화하고 static 변수에 저장
 	}
 
+	get userId() {
+		return this.#state.userId;
+	}
+
+	get isAuthenticated() {
+		return !!this.#state.userId;
+	}
+
+	get profileImage() {
+		return this.#state.profileImage || defaultProfileImage;
+	}
+
 	setState(newState) {
 		this.#state = { ...this.#state, ...newState };
+		console.log('AuthManager setState: ', this.#state);
 		this.#saveUserToStorage();
 		this.#alarmListeners();
 	}
@@ -26,17 +45,17 @@ class AuthManager {
 		const userStringData = localStorage.getItem('user');
 		const userData = JSON.parse(userStringData);
 
-		return userData ? userData.userId : null;
+		return userData && userData.userId ? userData : null;
 	}
 
 	#saveUserToStorage() {
 		if (this.#state.userId) {
-			localStorage.setItem('user', JSON.stringify(this.#state.userId));
+			localStorage.setItem('user', JSON.stringify(this.#state));
 		}
 	}
 
-	login({ userId }) {
-		this.setState({ userId });
+	login({ userId, profileImage }) {
+		this.setState({ userId, profileImage });
 		console.log('User logged in userId:', userId);
 	}
 
@@ -45,14 +64,6 @@ class AuthManager {
 		this.setState({ userId: null });
 		console.log('User logged out');
 	};
-
-	get userId() {
-		return this.#state?.userId;
-	}
-
-	get isAuthenticated() {
-		return this.#state.userId !== null;
-	}
 
 	subscribeListener(listener) {
 		// 이벤트 리스너 등록
@@ -65,11 +76,12 @@ class AuthManager {
 	}
 
 	#alarmListeners() {
-		// 상태변화시 이벤트 리스너 호출
+		// 상태변화 시 외부 이벤트 리스너 호출
 		this.#listeners.forEach((listener) => {
 			listener({
-				...this.#state,
 				isAuthenticated: this.isAuthenticated,
+				userId: this.userId,
+				profileImage: this.profileImage,
 			});
 		});
 	}
