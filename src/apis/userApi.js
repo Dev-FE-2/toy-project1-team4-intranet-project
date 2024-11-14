@@ -1,4 +1,4 @@
-import { throwResponseError } from '../utils/errorUtile';
+import { throwResponseError } from '../utils/errorUtil';
 
 async function postUserData(formData) {
 	const response = await fetch('http://localhost:3000/api/user/register', {

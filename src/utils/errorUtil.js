@@ -1,6 +1,6 @@
 import { Error503 } from '../components/common/error';
 
-export const throwResponseError = async ({ response, defaultMessage }) => {
+const throwResponseError = async ({ response, defaultMessage }) => {
 	const responseText = await response.text();
 	const parsedResponse = JSON.parse(responseText);
 	const error = new Error(defaultMessage);
@@ -13,7 +13,7 @@ export const throwResponseError = async ({ response, defaultMessage }) => {
 	throw newError;
 };
 
-export const errorHendler = (formInstance, formContainerEl, error) => {
+const errorHendler = (formInstance, formContainerEl, error) => {
 	const { errorCode, errorMessage } = error;
 
 	if (errorCode >= 500) {
@@ -23,3 +23,5 @@ export const errorHendler = (formInstance, formContainerEl, error) => {
 
 	formInstance.setError({ errorMessage });
 };
+
+export { throwResponseError, errorHendler };
