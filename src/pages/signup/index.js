@@ -1,6 +1,6 @@
 import { postUserData } from '../../apis/userApi';
 import { route, url } from '../../router';
-import { Error503 } from '../../components/common';
+import { errorHendler } from '../../utils/errorUtile';
 import { Form } from '../../components/common/form';
 import { FORM_FIELDS, FORM_BUTTONS } from './formFieldDatas';
 import AvatarImg from '/public/avatar.svg';
@@ -33,24 +33,14 @@ export default class SignUpPage {
 
 		try {
 			await postUserData(formData);
+
 			alert('회원가입이 완료 됐습니다.');
 			route(url.login);
 		} catch (error) {
 			console.error('회원 가입 Error: ', error);
 
-			this.#errorHendler(error);
+			errorHendler(this.#formInstance, this.#contentsElement, error);
 		}
-	}
-
-	#errorHendler(error) {
-		const { errorCode, errorMessage } = error;
-
-		if (errorCode >= 500) {
-			const element = this.#formContainerEl;
-			new Error503(element).render();
-		}
-
-		this.#formInstance.setError({ errorMessage });
 	}
 
 	async render() {

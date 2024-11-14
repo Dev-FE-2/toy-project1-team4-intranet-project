@@ -1,7 +1,7 @@
 import { loginUser } from '../../apis/userApi';
 import { route, url } from '../../router';
 import { authManager } from '../../services/auth';
-import { Error503 } from '../../components/common';
+import { errorHendler } from '../../utils/errorUtile';
 import { Form } from '../../components/common/form';
 import { FORM_FIELDS, FORM_BUTTONS } from './formFieldDatas';
 
@@ -38,19 +38,8 @@ export default class LoginPage {
 			if (process.env.NODE_ENV === 'development') console.log('로그인 데이터', requestData);
 			console.error('로그인 Error: ', error);
 
-			this.#errorHendler(error);
+			errorHendler(this.#formInstance, this.#contentsElement, error);
 		}
-	}
-
-	async #errorHendler(error) {
-		const { errorCode, errorMessage } = error;
-
-		if (errorCode >= 500) {
-			const element = this.#formContainerEl;
-			new Error503(element).render();
-		}
-
-		this.#formInstance.setError({ errorMessage });
 	}
 
 	async render() {
