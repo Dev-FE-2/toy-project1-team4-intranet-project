@@ -37,12 +37,12 @@ export default class Form {
 	}
 
 	get #template() {
-		return `<form id="signUpForm" method="post" class="form"></form>`;
+		return `<form id="form" method="post" class="form"></form>`;
 	}
 
 	render() {
 		this.#parentEl.innerHTML = this.#template;
-		this.#formElement = document.querySelector('#signUpForm');
+		this.#formElement = document.querySelector('#form');
 		this.#formElement.insertAdjacentHTML('beforeend', this.#fieldset);
 		this.#formElement.insertAdjacentHTML('beforeend', this.#buttons);
 	}
