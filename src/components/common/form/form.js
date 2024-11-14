@@ -4,24 +4,36 @@ import ButtonGroup from './buttonGroup';
 export default class Form {
 	#parentEl;
 	#formElement;
+	#fieldDatas;
+	#buttonDatas;
 	#state;
 
 	constructor(parentEl, fieldDatas, buttonDatas) {
 		this.#parentEl = parentEl;
+		this.#fieldDatas = fieldDatas;
+		this.#buttonDatas = buttonDatas;
 		this.#state = {
-			fieldDatas,
-			buttonDatas,
+			errorMessage: '',
 		};
 	}
 
+	setError({ errorMessage }) {
+		this.#state = { ...this.#state, errorMessage };
+		this.#formElement.insertAdjacentHTML('beforeend', this.#errorTemplate);
+	}
+
+	get #errorTemplate() {
+		return `<div class="error-message">${this.#state.errorMessage}</div>`;
+	}
+
 	get #fieldset() {
-		const html = this.#state.fieldDatas.map((fieldData) => new Input(fieldData).render());
+		const html = this.#fieldDatas.map((fieldData) => new Input(fieldData).render());
 
 		return html.join('');
 	}
 
 	get #buttons() {
-		return new ButtonGroup(this.#state.buttonDatas).render();
+		return new ButtonGroup(this.#buttonDatas).render();
 	}
 
 	get #template() {

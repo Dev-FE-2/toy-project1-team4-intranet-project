@@ -53,11 +53,12 @@ async function loginUser({ email, password }) {
 
 	if (!response.ok) {
 		const responseText = await response.text();
+		const parsedResponse = JSON.parse(responseText);
 		const error = new Error(`로그인 요청을 실패했습니다. 다시 시도해 주세요.`);
+		const message = `${error.message} ${parsedResponse.error}`;
 		const newError = {
-			responseText,
-			statusCode: response.status,
-			errorMessage: error.message,
+			errorCode: response.status,
+			errorMessage: message,
 		};
 
 		throw newError;

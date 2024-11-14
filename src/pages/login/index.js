@@ -10,6 +10,7 @@ export default class LoginPage {
 	#formContainerEl;
 	#fieldDatas = FORM_FIELDS;
 	#buttonDatas = FORM_BUTTONS;
+	#formInstance;
 
 	constructor(contentsElement) {
 		this.#contentsElement = contentsElement;
@@ -35,18 +36,28 @@ export default class LoginPage {
 			route(url.home);
 		} catch (error) {
 			if (process.env.NODE_ENV === 'development') console.log('로그인 데이터', requestData);
-
 			console.error('로그인 Error: ', error);
 
+			this.#errorHendler(error);
+		}
+	}
+
+	async #errorHendler(error) {
+		const { errorCode, errorMessage } = error;
+
+		if (errorCode >= 500) {
 			const element = document.querySelector('#formContainer');
 			new Error503(element).render();
 		}
+
+		this.#formInstance.setError({ errorMessage });
 	}
 
 	async render() {
 		this.#contentsElement.innerHTML = this.#template;
 		this.#formContainerEl = document.querySelector('#formContainer');
-		new Form(this.#formContainerEl, this.#fieldDatas, this.#buttonDatas).render();
+		this.#formInstance = new Form(this.#formContainerEl, this.#fieldDatas, this.#buttonDatas);
+		this.#formInstance.render();
 
 		this.#formContainerEl.addEventListener('submit', this.#login.bind(this));
 	}
