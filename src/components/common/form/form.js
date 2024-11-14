@@ -1,3 +1,4 @@
+import { observeFileListener, previewUploadImage } from '../../../utils/fileUtil';
 import Input from './input';
 import ButtonGroup from './buttonGroup';
 
@@ -45,5 +46,10 @@ export default class Form {
 		this.#formElement = document.querySelector('#form');
 		this.#formElement.insertAdjacentHTML('beforeend', this.#fieldset);
 		this.#formElement.insertAdjacentHTML('beforeend', this.#buttons);
+		// observeFileListener('input[type="file"]', '#previewImage');
+
+		const previewEl = document.querySelector('#previewImage');
+		const fileEl = document.querySelector('input[type="file"]');
+		fileEl.addEventListener('change', () => previewUploadImage(fileEl, previewEl));
 	}
 }

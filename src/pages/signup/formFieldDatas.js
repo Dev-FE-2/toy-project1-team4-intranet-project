@@ -14,6 +14,7 @@ export const FORM_FIELDS = [
 		inputName: 'profileImage',
 		inputValue: '',
 		required: '',
+		fileAccept: 'image/*',
 	},
 	{
 		label: '이메일',
