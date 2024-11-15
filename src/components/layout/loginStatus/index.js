@@ -19,8 +19,16 @@ export default class LoginStatus {
 	}
 
 	setState(newState) {
-		this.#state = { ...this.#state, ...newState };
-		this.render();
+		const prevState = this.#state; // 이전 상태 보존
+		this.#state = { ...prevState, ...newState }; // 새 상태로 업데이트
+
+		// 재 렌더링 시 navigate 함수를 호출하는 이벤트 리스너가 제거되는 이슈 확인 (a 링크 클릭 시 새로고침 발생)
+		// 현 상태와 이전 상태 차이가 있을 때만 해당 영역 업데이트
+		if (prevState.isAuthenticated !== this.#state.isAuthenticated) {
+			this.render();
+		} else if (prevState.path !== this.#state.path) {
+			this.#updateActiveLink();
+		}
 	}
 
 	observeAuthListenr(newStateFromAuth) {
@@ -39,15 +47,27 @@ export default class LoginStatus {
 		}
 	}
 
+	#getStyleClassName(href) {
+		return this.#state.path === href ? 'active' : '';
+	}
+
+	#updateActiveLink() {
+		this.#parentEl.querySelectorAll('a').forEach((anchorElement) => {
+			const href = anchorElement.getAttribute('href');
+			anchorElement.className = this.#getStyleClassName(href);
+		});
+	}
+
 	get #linkTemplate() {
 		const navList = ['login', 'signup'];
 
 		return `<nav class="login-links">
 			${navList
-				.map((page) => {
-					const className = this.#state.path === url[page] ? 'active' : '';
+				.map((pageName) => {
+					const href = url[pageName];
+					const className = this.#getStyleClassName(href);
 
-					return `<a href="${url[page]}" class="${className}">${urlLabel[page]}</a>`;
+					return `<a href="${href}" class="${className}">${urlLabel[pageName]}</a>`;
 				})
 				.join('')}
 		</nav>`;
@@ -72,7 +92,11 @@ export default class LoginStatus {
 	}
 
 	render() {
-		this.#parentEl.innerHTML = this.#template;
-		this.#logoutListener();
+		const dom = document.querySelector('.user-status');
+
+		if (!dom) {
+			this.#parentEl.innerHTML = this.#template;
+			this.#logoutListener();
+		}
 	}
 }
