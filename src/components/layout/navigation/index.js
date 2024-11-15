@@ -1,62 +1,81 @@
-import { url, urlLabel } from '../../../router';
-import { IconHome, IconProfile, IconTimetable, IconNotice, IconEmployee } from '../../icon';
+import { url, urlLabel, urlPattern } from '../../../router';
+import { routerManager } from '../../../store';
+import { PAGE_DATA } from './navListData';
 import './style.css';
 
 export default class Navigation {
 	#parentEl;
-	#path = window.location.pathname;
+	#state;
 
 	constructor(parentEl) {
 		this.#parentEl = parentEl;
+		this.#state = {
+			path: window.location.pathname,
+		};
+
+		routerManager.subscribeListener(this.observeRouteListenr.bind(this));
 	}
 
-	#styleMenu(href) {
-		return this.#path === href ? 'nav-item active' : 'nav-item';
+	setState(newState) {
+		const prevState = this.#state;
+		this.#state = { ...prevState, ...newState };
+
+		if (prevState.path !== this.#state.path) {
+			this.#updateActiveLink();
+
+			return;
+		}
+
+		this.render();
 	}
 
-	updateActiveMenu() {
-		this.path = window.location.pathname;
+	observeRouteListenr(newStateFromRoute) {
+		const newPath = newStateFromRoute.path;
 
-		document.querySelectorAll('.nav-item').forEach((item) => {
-			const href = item.getAttribute('href');
-			item.className = this.#styleMenu(href);
+		if (this.#state.path !== newPath) {
+			this.setState({ path: newPath });
+		}
+	}
+
+	#getHref(pageName) {
+		switch (pageName) {
+			case 'profile':
+				return url.profile('user123');
+
+			default:
+				return url[pageName];
+		}
+	}
+
+	#getStyleClassName(href) {
+		const isSamePath = this.#state.path === href;
+
+		return isSamePath ? 'nav-item active' : 'nav-item';
+	}
+
+	#updateActiveLink() {
+		this.#parentEl.querySelectorAll('a').forEach((anchorElement) => {
+			const href = anchorElement.getAttribute('href');
+			anchorElement.className = this.#getStyleClassName(href);
 		});
 	}
 
 	get #template() {
-		const iconHome = new IconHome().render();
-		const iconProfile = new IconProfile().render();
-		const iconTimetable = new IconTimetable().render();
-		const iconNotice = new IconNotice().render();
-		const iconEmployee = new IconEmployee().render();
+		const navList = PAGE_DATA;
 
-		return `<nav class="nav">
-            <ul>
-                <li>
-                    <a href="${url.home}" class="${this.#styleMenu(url.home)}">
-                        <i>${iconHome}</i>
-                        <span class="nav-name--desktop">${urlLabel.home}</span>
-                        <span class="nav-name--mobile">MY</span>
+		return `<nav id="#mainNav" class="nav"><ul>${navList
+			.map(({ pageName, icon }) => {
+				const href = this.#getHref(pageName);
+				const className = this.#getStyleClassName(href);
+
+				return `<li>
+                    <a href="${href}" class="${className}">
+                        <i>${icon}</i> ${urlLabel[pageName]}
                     </a>
-                </li>
-                <li>
-                    <a href="${url.userProfile('user123')}" class="${this.#styleMenu(url.userProfile('user123'))}"><i>${iconProfile}</i> ${urlLabel.userProfile}</a>
-                </li>
-                <li>
-                    <a href="${url.vacation}" class="${this.#styleMenu(url.vacation)}"><i>${iconTimetable}</i> ${urlLabel.vacation}</a>
-                </li>
-                <li>
-                    <a href="${url.notice}" class="${this.#styleMenu(url.notice)}"><i>${iconNotice}</i> ${urlLabel.notice}</a>
-                </li>
-                <li>
-                    <a href="${url.employeeList}" class="${this.#styleMenu(url.employeeList)}">
-                        <i>${iconEmployee}</i>
-                        <span class="nav-name--desktop">${urlLabel.employeeList}</span>
-                        <span class="nav-name--mobile">직원</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>`;
+                </li>`;
+			})
+			.join('')}
+        </ul></nav>`;
 	}
 
 	render() {

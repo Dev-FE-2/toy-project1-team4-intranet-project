@@ -16,12 +16,13 @@ class RouterManager {
 	}
 
 	get path() {
+		// 외부에 전달하는 상태
 		return this.#state.path;
 	}
 
 	setState(newState) {
 		this.#state = { ...this.#state, ...newState };
-		this.#alarmListeners(this.#state);
+		this.#alarmListeners();
 	}
 
 	subscribeListener(listener) {
@@ -32,9 +33,9 @@ class RouterManager {
 		this.#listeners.delete(listener);
 	}
 
-	#alarmListeners(newState) {
+	#alarmListeners() {
 		this.#listeners.forEach((listener) => {
-			listener(newState);
+			listener({ path: this.path });
 		});
 	}
 }

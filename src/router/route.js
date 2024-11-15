@@ -1,6 +1,5 @@
 import { url, urlPattern } from './url';
 import { routerManager } from '../store';
-import { Navigation } from '../components/layout';
 import {
 	NotFound404Page,
 	SamplePage,
@@ -23,9 +22,7 @@ export const route = (pathParams) => {
 
 	const path = pathParams || window.location.pathname;
 	const contentsElement = document.querySelector('#pageContents');
-	const navigation = new Navigation();
 
-	navigation.updateActiveMenu();
 	routerManager.setState({ path });
 
 	switch (true) {
@@ -33,10 +30,8 @@ export const route = (pathParams) => {
 			new MyPage().render();
 			break;
 
-		case urlPattern.userProfile.test(path): {
-			const userId = path.match(urlPattern.userProfile)[1];
-			console.log('userId', userId);
-
+		case urlPattern.profile.test(path): {
+			const userId = path.match(urlPattern.profile)[1];
 			contentsElement.innerHTML = new ProfilePage(userId).render();
 			break;
 		}
@@ -51,8 +46,6 @@ export const route = (pathParams) => {
 
 		case urlPattern.noticeDetail.test(path): {
 			const noticeId = path.match(urlPattern.noticeDetail)[1];
-			console.log('noticeId', noticeId);
-
 			contentsElement.innerHTML = new NoticeDetailPage(noticeId).render();
 			break;
 		}
@@ -67,8 +60,6 @@ export const route = (pathParams) => {
 
 		case urlPattern.employeeDetail.test(path): {
 			const employeeId = path.match(urlPattern.employeeDetail)[1];
-			console.log('employee userId', employeeId);
-
 			contentsElement.innerHTML = new EmployeeDetailPage(employeeId).render();
 			break;
 		}

@@ -8,12 +8,12 @@ export default class LoginStatus {
 
 	constructor(parentEl) {
 		this.#parentEl = parentEl;
-		console.log('constructor newAuthState', authManager.isAuthenticated);
 		this.#state = {
 			path: window.location.pathname,
 			isAuthenticated: authManager.isAuthenticated,
 			profileImage: authManager.profileImage,
 		};
+
 		authManager.subscribeListener(this.observeAuthListenr.bind(this));
 		routerManager.subscribeListener(this.observeRouteListenr.bind(this));
 	}
@@ -25,6 +25,7 @@ export default class LoginStatus {
 		// 현 상태와 이전 상태 차이가 있을 때만 해당 영역 업데이트
 		if (prevState.path !== this.#state.path) {
 			this.#updateActiveLink();
+
 			return;
 		}
 
