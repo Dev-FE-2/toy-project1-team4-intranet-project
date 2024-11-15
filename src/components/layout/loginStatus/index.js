@@ -22,7 +22,6 @@ export default class LoginStatus {
 		const prevState = this.#state; // 이전 상태 보존
 		this.#state = { ...prevState, ...newState }; // 새 상태로 업데이트
 
-		// 재 렌더링 시 navigate 함수를 호출하는 이벤트 리스너가 제거되는 이슈 확인 (a 링크 클릭 시 새로고침 발생)
 		// 현 상태와 이전 상태 차이가 있을 때만 해당 영역 업데이트
 		if (prevState.isAuthenticated !== this.#state.isAuthenticated) {
 			this.render();
@@ -92,11 +91,7 @@ export default class LoginStatus {
 	}
 
 	render() {
-		const dom = document.querySelector('.user-status');
-
-		if (!dom) {
-			this.#parentEl.innerHTML = this.#template;
-			this.#logoutListener();
-		}
+		this.#parentEl.innerHTML = this.#template;
+		this.#logoutListener();
 	}
 }
