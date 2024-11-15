@@ -1,5 +1,5 @@
 import { url, urlPattern } from './url';
-import Navigation from '../components/layout/navigation';
+import { Navigation } from '../components/layout';
 import {
 	NotFound404Page,
 	SamplePage,
@@ -15,11 +15,16 @@ import {
 	SignUpPage,
 } from '../pages';
 
-export const route = (path = window.location.pathname) => {
-	const navigation = new Navigation();
-	navigation.updateActiveMenu();
+export const route = (pathParams) => {
+	if (pathParams) {
+		history.pushState(null, null, `${window.location.origin}${pathParams}`);
+	}
 
+	const path = pathParams || window.location.pathname;
 	const contentsElement = document.querySelector('#pageContents');
+	const navigation = new Navigation();
+
+	navigation.updateActiveMenu();
 
 	switch (true) {
 		case path === url.home:

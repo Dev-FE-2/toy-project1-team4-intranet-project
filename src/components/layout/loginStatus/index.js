@@ -1,7 +1,6 @@
 import { url, urlLabel } from '../../../router';
 import { authManager } from '../../../services/auth';
 import './style.css';
-import Avatar from '/public/avatar.svg';
 
 export default class LoginStatus {
 	#parentEl;
@@ -13,6 +12,7 @@ export default class LoginStatus {
 		this.#state = {
 			path: window.location.pathname,
 			isLogin: authManager.isAuthenticated,
+			profileImage: authManager.profileImage,
 		};
 		authManager.subscribeListener(this.observeListenr.bind(this));
 	}
@@ -23,11 +23,7 @@ export default class LoginStatus {
 	}
 
 	observeListenr(newStateFromAuth) {
-		console.log('observeListenr newStateFromAuth', newStateFromAuth);
-
 		const newIsLogin = newStateFromAuth.isAuthenticated;
-		console.log('newIsLogin', newIsLogin);
-		console.log('this.#state.isLogin', this.#state.isLogin);
 
 		if (this.#state.isLogin !== newIsLogin) {
 			this.setState({ isLogin: newIsLogin });
@@ -49,7 +45,7 @@ export default class LoginStatus {
 	}
 
 	get #profileTemplate() {
-		return `<img class="avatar-img" src="${Avatar}" alt="프로필 사진" />`;
+		return `<img class="profile-img" src="${this.#state.profileImage}" alt="프로필 사진" />`;
 	}
 
 	get #template() {
@@ -58,8 +54,8 @@ export default class LoginStatus {
 		</div>`;
 	}
 
-	#logoutHandler() {
-		const element = document.querySelector('.avatar-img');
+	#logoutListener() {
+		const element = document.querySelector('.profile-img');
 
 		if (element) {
 			element.addEventListener('click', authManager.logout);
@@ -68,6 +64,6 @@ export default class LoginStatus {
 
 	render() {
 		this.#parentEl.innerHTML = this.#template;
-		this.#logoutHandler();
+		this.#logoutListener();
 	}
 }

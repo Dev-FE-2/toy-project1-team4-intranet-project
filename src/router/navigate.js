@@ -3,12 +3,12 @@ import { route } from './route';
 export const navigate = (event) => {
 	event.preventDefault();
 
-	// const path = event.target.getAttribute('href');
 	const anchor = event.target.closest('a');
+	const pullUrl = anchor.href;
 
-	history.pushState(null, null, anchor.href);
+	history.pushState(null, null, pullUrl);
 
-	if (anchor && anchor.href) {
+	if (anchor && pullUrl) {
 		route();
 	}
 };
