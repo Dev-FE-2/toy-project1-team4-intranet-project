@@ -1,5 +1,5 @@
 import { url, urlLabel, urlPattern } from '../../../router';
-import { routerManager } from '../../../store';
+import { routerManager, authManager } from '../../../store';
 import { PAGE_DATA } from './navListData';
 import './style.css';
 
@@ -8,12 +8,15 @@ export default class Navigation {
 	#state;
 
 	constructor(parentEl) {
+		routerManager.subscribeListener(this.observeRouteListenr.bind(this));
+		authManager.subscribeListener(this.observeAuthListenr.bind(this));
+
 		this.#parentEl = parentEl;
 		this.#state = {
 			path: window.location.pathname,
+			isAuthenticated: authManager.isAuthenticated,
+			userId: authManager.userId,
 		};
-
-		routerManager.subscribeListener(this.observeRouteListenr.bind(this));
 	}
 
 	setState(newState) {
@@ -37,10 +40,22 @@ export default class Navigation {
 		}
 	}
 
+	observeAuthListenr(newStateFromAuth) {
+		const newIsAuthenticated = newStateFromAuth.isAuthenticated;
+		const newUserId = newStateFromAuth.userId;
+
+		if (this.#state.isAuthenticated !== newIsAuthenticated) {
+			this.setState({
+				isAuthenticated: newIsAuthenticated,
+				userId: newUserId,
+			});
+		}
+	}
+
 	#getHref(pageName) {
 		switch (pageName) {
 			case 'profile':
-				return url.profile('user123');
+				return url.profile(this.#state.userId);
 
 			default:
 				return url[pageName];

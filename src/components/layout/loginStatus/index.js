@@ -7,15 +7,15 @@ export default class LoginStatus {
 	#state;
 
 	constructor(parentEl) {
+		authManager.subscribeListener(this.observeAuthListenr.bind(this));
+		routerManager.subscribeListener(this.observeRouteListenr.bind(this));
+
 		this.#parentEl = parentEl;
 		this.#state = {
 			path: window.location.pathname,
 			isAuthenticated: authManager.isAuthenticated,
 			profileImage: authManager.profileImage,
 		};
-
-		authManager.subscribeListener(this.observeAuthListenr.bind(this));
-		routerManager.subscribeListener(this.observeRouteListenr.bind(this));
 	}
 
 	setState(newState) {
