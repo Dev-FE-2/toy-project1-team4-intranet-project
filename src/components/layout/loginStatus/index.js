@@ -1,5 +1,5 @@
 import { url, urlLabel } from '../../../router';
-import { authManager } from '../../../services/auth';
+import { authManager } from '../../../store';
 import './style.css';
 
 export default class LoginStatus {
