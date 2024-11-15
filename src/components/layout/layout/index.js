@@ -1,5 +1,4 @@
 import { route, navigate, url } from '../../../router';
-import { default as routerManager } from '../../../services/routerManager';
 import Navigation from '../navigation';
 import LoginStatus from '../loginStatus';
 import './style.css';
@@ -39,12 +38,7 @@ export default class Layout {
 			navEl.addEventListener('click', navigate);
 		});
 
-		window.addEventListener('popstate', () => {
-			routerManager.setState({
-				path: window.location.pathname,
-			});
-			route();
-		});
+		window.addEventListener('popstate', route);
 		route();
 	}
 
