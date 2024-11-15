@@ -11,7 +11,7 @@ export default class LoginStatus {
 		console.log('constructor newAuthState', authManager.isAuthenticated);
 		this.#state = {
 			path: window.location.pathname,
-			isLogin: authManager.isAuthenticated,
+			isAuthenticated: authManager.isAuthenticated,
 			profileImage: authManager.profileImage,
 		};
 		authManager.subscribeListener(this.observeAuthListenr.bind(this));
@@ -23,18 +23,19 @@ export default class LoginStatus {
 		this.#state = { ...prevState, ...newState }; // 새 상태로 업데이트
 
 		// 현 상태와 이전 상태 차이가 있을 때만 해당 영역 업데이트
-		if (prevState.isAuthenticated !== this.#state.isAuthenticated) {
-			this.render();
-		} else if (prevState.path !== this.#state.path) {
+		if (prevState.path !== this.#state.path) {
 			this.#updateActiveLink();
+			return;
 		}
+
+		this.render();
 	}
 
 	observeAuthListenr(newStateFromAuth) {
-		const newIsLogin = newStateFromAuth.isAuthenticated;
+		const newIsAuthenticated = newStateFromAuth.isAuthenticated;
 
-		if (this.#state.isLogin !== newIsLogin) {
-			this.setState({ isLogin: newIsLogin });
+		if (this.#state.isAuthenticated !== newIsAuthenticated) {
+			this.setState({ isAuthenticated: newIsAuthenticated });
 		}
 	}
 
@@ -78,7 +79,7 @@ export default class LoginStatus {
 
 	get #template() {
 		return `<div class="user-status">
-			${this.#state.isLogin ? this.#profileTemplate : this.#linkTemplate}
+			${this.#state.isAuthenticated ? this.#profileTemplate : this.#linkTemplate}
 		</div>`;
 	}
 

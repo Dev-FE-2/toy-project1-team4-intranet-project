@@ -23,14 +23,17 @@ class AuthManager {
 	}
 
 	get userId() {
+		// 외부에 전달하는 상태
 		return this.#state.userId;
 	}
 
 	get isAuthenticated() {
+		// 외부에 전달하는 상태
 		return !!this.#state.userId;
 	}
 
 	get profileImage() {
+		// 외부에 전달하는 상태
 		return this.#state.profileImage || defaultProfileImage;
 	}
 
@@ -61,7 +64,15 @@ class AuthManager {
 
 	logout = () => {
 		localStorage.removeItem('user');
-		this.setState({ userId: null });
+
+		const nullState = {};
+
+		for (const key in this.#state) {
+			nullState[key] = null;
+		}
+
+		this.setState(nullState);
+
 		route(url.login);
 	};
 
