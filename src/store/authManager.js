@@ -1,4 +1,4 @@
-import { route, url } from '../../router';
+import { route, url } from '../router';
 import defaultProfileImage from '/public/avatar.svg';
 
 class AuthManager {
