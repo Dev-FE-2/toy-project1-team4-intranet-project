@@ -21,7 +21,7 @@ class RouterManager {
 
 	setState(newState) {
 		this.#state = { ...this.#state, ...newState };
-		this.#alarmListeners();
+		this.#alarmListeners(this.#state);
 	}
 
 	subscribeListener(listener) {
@@ -32,9 +32,9 @@ class RouterManager {
 		this.#listeners.delete(listener);
 	}
 
-	#alarmListeners() {
+	#alarmListeners(newState) {
 		this.#listeners.forEach((listener) => {
-			listener();
+			listener(newState);
 		});
 	}
 }

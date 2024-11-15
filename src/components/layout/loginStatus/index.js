@@ -1,5 +1,5 @@
 import { url, urlLabel } from '../../../router';
-import { authManager } from '../../../store';
+import { authManager, routerManager } from '../../../store';
 import './style.css';
 
 export default class LoginStatus {
@@ -14,7 +14,8 @@ export default class LoginStatus {
 			isLogin: authManager.isAuthenticated,
 			profileImage: authManager.profileImage,
 		};
-		authManager.subscribeListener(this.observeListenr.bind(this));
+		authManager.subscribeListener(this.observeAuthListenr.bind(this));
+		routerManager.subscribeListener(this.observeRouteListenr.bind(this));
 	}
 
 	setState(newState) {
@@ -22,11 +23,19 @@ export default class LoginStatus {
 		this.render();
 	}
 
-	observeListenr(newStateFromAuth) {
+	observeAuthListenr(newStateFromAuth) {
 		const newIsLogin = newStateFromAuth.isAuthenticated;
 
 		if (this.#state.isLogin !== newIsLogin) {
 			this.setState({ isLogin: newIsLogin });
+		}
+	}
+
+	observeRouteListenr(newStateFromRoute) {
+		const newPath = newStateFromRoute.path;
+
+		if (this.#state.path !== newPath) {
+			this.setState({ path: newPath });
 		}
 	}
 

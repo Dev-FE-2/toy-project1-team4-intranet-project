@@ -1,4 +1,5 @@
 import { url, urlPattern } from './url';
+import { routerManager } from '../store';
 import { Navigation } from '../components/layout';
 import {
 	NotFound404Page,
@@ -25,6 +26,7 @@ export const route = (pathParams) => {
 	const navigation = new Navigation();
 
 	navigation.updateActiveMenu();
+	routerManager.setState({ path });
 
 	switch (true) {
 		case path === url.home:
