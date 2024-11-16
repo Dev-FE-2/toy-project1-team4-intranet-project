@@ -50,6 +50,8 @@ export default class Form {
 
 		const previewEl = document.querySelector('#previewImage');
 		const fileEl = document.querySelector('input[type="file"]');
-		fileEl.addEventListener('change', () => previewUploadImage(fileEl, previewEl));
+		if (previewEl && fileEl) {
+			fileEl.addEventListener('change', () => previewUploadImage(fileEl, previewEl));
+		}
 	}
 }

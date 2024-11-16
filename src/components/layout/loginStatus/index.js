@@ -1,5 +1,5 @@
 import { url, urlLabel } from '../../../router';
-import { authManager } from '../../../services/auth';
+import { authManager, routerManager } from '../../../store';
 import './style.css';
 
 export default class LoginStatus {
@@ -7,27 +7,56 @@ export default class LoginStatus {
 	#state;
 
 	constructor(parentEl) {
+		authManager.subscribeListener(this.observeAuthListenr.bind(this));
+		routerManager.subscribeListener(this.observeRouteListenr.bind(this));
+
 		this.#parentEl = parentEl;
-		console.log('constructor newAuthState', authManager.isAuthenticated);
 		this.#state = {
 			path: window.location.pathname,
-			isLogin: authManager.isAuthenticated,
+			isAuthenticated: authManager.isAuthenticated,
 			profileImage: authManager.profileImage,
 		};
-		authManager.subscribeListener(this.observeListenr.bind(this));
 	}
 
 	setState(newState) {
-		this.#state = { ...this.#state, ...newState };
+		const prevState = this.#state; // 이전 상태 보존
+		this.#state = { ...prevState, ...newState }; // 새 상태로 업데이트
+
+		// 현 상태와 이전 상태 차이가 있을 때만 해당 영역 업데이트
+		if (prevState.path !== this.#state.path) {
+			this.#updateActiveLink();
+
+			return;
+		}
+
 		this.render();
 	}
 
-	observeListenr(newStateFromAuth) {
-		const newIsLogin = newStateFromAuth.isAuthenticated;
+	observeAuthListenr(newStateFromAuth) {
+		const newIsAuthenticated = newStateFromAuth.isAuthenticated;
 
-		if (this.#state.isLogin !== newIsLogin) {
-			this.setState({ isLogin: newIsLogin });
+		if (this.#state.isAuthenticated !== newIsAuthenticated) {
+			this.setState({ isAuthenticated: newIsAuthenticated });
 		}
+	}
+
+	observeRouteListenr(newStateFromRoute) {
+		const newPath = newStateFromRoute.path;
+
+		if (this.#state.path !== newPath) {
+			this.setState({ path: newPath });
+		}
+	}
+
+	#getStyleClassName(href) {
+		return this.#state.path === href ? 'active' : '';
+	}
+
+	#updateActiveLink() {
+		this.#parentEl.querySelectorAll('a').forEach((anchorElement) => {
+			const href = anchorElement.getAttribute('href');
+			anchorElement.className = this.#getStyleClassName(href);
+		});
 	}
 
 	get #linkTemplate() {
@@ -35,10 +64,11 @@ export default class LoginStatus {
 
 		return `<nav class="login-links">
 			${navList
-				.map((page) => {
-					const className = this.#state.path === url[page] ? 'active' : '';
+				.map((pageName) => {
+					const href = url[pageName];
+					const className = this.#getStyleClassName(href);
 
-					return `<a href="${url[page]}" class="${className}">${urlLabel[page]}</a>`;
+					return `<a href="${href}" class="${className}">${urlLabel[pageName]}</a>`;
 				})
 				.join('')}
 		</nav>`;
@@ -50,7 +80,7 @@ export default class LoginStatus {
 
 	get #template() {
 		return `<div class="user-status">
-			${this.#state.isLogin ? this.#profileTemplate : this.#linkTemplate}
+			${this.#state.isAuthenticated ? this.#profileTemplate : this.#linkTemplate}
 		</div>`;
 	}
 

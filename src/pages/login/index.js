@@ -1,6 +1,6 @@
 import { loginUser } from '../../apis/userApi';
 import { route, url } from '../../router';
-import { authManager } from '../../services/auth';
+import { authManager } from '../../store';
 import { errorHendler } from '../../utils/errorUtil';
 import { Form } from '../../components/common/form';
 import { FORM_FIELDS, FORM_BUTTONS } from './formFieldDatas';

@@ -1,4 +1,4 @@
-import { route, url } from '../../router';
+import { route, url } from '../router';
 import defaultProfileImage from '/public/avatar.svg';
 
 class AuthManager {
@@ -23,20 +23,22 @@ class AuthManager {
 	}
 
 	get userId() {
+		// 외부에 전달하는 상태
 		return this.#state.userId;
 	}
 
 	get isAuthenticated() {
+		// 외부에 전달하는 상태
 		return !!this.#state.userId;
 	}
 
 	get profileImage() {
+		// 외부에 전달하는 상태
 		return this.#state.profileImage || defaultProfileImage;
 	}
 
 	setState(newState) {
 		this.#state = { ...this.#state, ...newState };
-		console.log('AuthManager setState: ', this.#state);
 		this.#saveUserToStorage();
 		this.#alarmListeners();
 	}
@@ -61,7 +63,15 @@ class AuthManager {
 
 	logout = () => {
 		localStorage.removeItem('user');
-		this.setState({ userId: null });
+
+		const nullState = {};
+
+		for (const key in this.#state) {
+			nullState[key] = null;
+		}
+
+		this.setState(nullState);
+
 		route(url.login);
 	};
 

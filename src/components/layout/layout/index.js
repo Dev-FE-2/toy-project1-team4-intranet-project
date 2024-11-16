@@ -33,11 +33,7 @@ export default class Layout {
 	}
 
 	#routeHandler() {
-		const navElements = document.querySelectorAll('nav');
-		navElements.forEach((navEl) => {
-			navEl.addEventListener('click', navigate);
-		});
-
+		document.body.addEventListener('click', navigate); // 기준이 되는 요소인 DOM이 제거되면 이벤트 리스너가 삭제되므로 최상단 DOM에 이벤트를 위임
 		window.addEventListener('popstate', route);
 		route();
 	}
